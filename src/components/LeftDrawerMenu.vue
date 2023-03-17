@@ -6,12 +6,12 @@
                     <img src="/src/assets/mee-face.png" class="mee-face-logo" />
                 </div>
                 <div class="col-6 d-flex align-items-center">
-                    <p>Alejandro</p>
+                    <p class="username">Alejandro</p>
                 </div>
             </div>
             <div class="row p-4">
                 <div class="col-12 menu-item d-flex align-items-center">
-                    <img src="/src/assets/note-icon.png" class="me-2">
+                    <img src="/src/assets/note-icon.png" class="me-2" />
                     <router-link to="/">Home</router-link>
                 </div>
             </div>
@@ -20,30 +20,55 @@
 
             <div class="row p-4">
                 <div class="col-12 menu-item d-flex align-items-center">
-                    <img src="/src/assets/note-icon.png" class="me-2">
-                    <router-link to="/">Home</router-link>
+                    <img src="/src/assets/note-icon.png" class="me-2" />
+                    <router-link to="/todolist">TODO List</router-link>
                 </div>
                 <div class="col-12 menu-item d-flex align-items-center">
-                    <img src="/src/assets/note-icon.png" class="me-2">
+                    <img src="/src/assets/note-icon.png" class="me-2" />
                     <router-link to="/notes">Notes</router-link>
+                </div>
+                <div class="col-12 menu-item d-flex align-items-center">
+                    <img src="/src/assets/note-icon.png" class="me-2" />
+                    <router-link to="/buyList">Buy List</router-link>
+                </div>
+                <div class="col-12 menu-item d-flex align-items-center">
+                    <img src="/src/assets/note-icon.png" class="me-2" />
+                    <router-link to="/maps">Map Gallery</router-link>
+                </div>
+            </div>
+
+            <div class="separator"></div>
+
+            <div class="row p-4">
+                <div class="col-12 menu-item d-flex align-items-center">
+                    <img src="/src/assets/note-icon.png" class="me-2" />
+                    <router-link to="/weather">Weather</router-link>
+                </div>
+                <div class="col-12 menu-item d-flex align-items-center">
+                    <img src="/src/assets/note-icon.png" class="me-2" />
+                    <router-link to="/news">News</router-link>
+                </div>
+                <div class="col-12 menu-item d-flex align-items-center">
+                    <img src="/src/assets/note-icon.png" class="me-2" />
+                    <router-link to="/words">Words</router-link>
                 </div>
             </div>
         </div>
     </transition>
 </template>
-  
+
 <script>
 export default {
-    name: "LeftDrawerMenu",
+    name: 'LeftDrawerMenu',
     props: {
         isOpen: {
             type: Boolean,
-            default: false
-        }
-    }
+            default: false,
+        },
+    },
 };
 </script>
-  
+
 <style scoped>
 .left-drawer-menu {
     position: absolute;
@@ -98,5 +123,10 @@ a:active {
     background-color: gray;
     opacity: 0.5;
 }
+
+.username {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bolder;
+    font-size: 18px;
+}
 </style>
-  
