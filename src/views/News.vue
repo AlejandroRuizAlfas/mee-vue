@@ -10,14 +10,19 @@ export default {
         };
     },
     methods: {
-        loadNews() {
+        loadNews(category) {
+            this.news = [];
+            let url = 'https://newsapi.org/v2/top-headlines?language=en&pageSize=100';
+            if (category) {
+                url = url + '&category=' + category;
+            }
             axios
-                .get('https://newsapi.org/v2/top-headlines?country=us&apiKey=c279ca20e57f4c47a810032b6b52a48f')
-                .then((response) => (this.news = response.data.articles))
+                .get(url + '&apiKey=c279ca20e57f4c47a810032b6b52a48f')
+                .then((response) => {
+                    this.news = response.data.articles;
+                    console.log(this.news);
+                })
                 .catch((err) => alert(err));
-        },
-        showNews() {
-            // this.$router.push();
         },
         calculateDay(date) {
             const fecha = new Date(date);
@@ -27,10 +32,29 @@ export default {
             const fecha = new Date(date);
             return fecha.toLocaleString('en-US', { month: 'short' });
         },
+        changeCategory(cat) {
+            this.loadNews(cat);
+            if (document.getElementsByClassName('bg-primary')[0]) {
+                document.getElementsByClassName('bg-primary')[0].classList.remove('bg-primary');
+            }
+            event.currentTarget.classList.add('bg-primary');
+        },
+        imageUrl(imageSrc) {
+            return imageSrc ? imageSrc : '/src/assets/noimage.jpg';
+        },
+        showNews(url) {
+            window.open(url, '_blank').focus();
+        },
     },
     computed: {},
     mounted() {
         this.loadNews();
+        // if (this.$route.params.category) {
+        //     this.loadNews(this.$route.params.category);
+        //     this.$router.go(0);
+        // } else {
+        //     this.loadNews();
+        // }
     },
 };
 </script>
@@ -39,20 +63,20 @@ export default {
     <div class="container justify-content-center" style="padding-top: 20px">
         <div class="row">
             <div class="md-chips text-center">
-                <div class="md-chip md-chip-clickable">General</div>
-                <div class="md-chip md-chip-clickable">Sports</div>
-                <div class="md-chip md-chip-clickable">Technology</div>
-                <div class="md-chip md-chip-clickable">Science</div>
-                <div class="md-chip md-chip-clickable">Health</div>
-                <div class="md-chip md-chip-clickable">Bussiness</div>
-                <div class="md-chip md-chip-clickable">Entertainment</div>
+                <div class="md-chip md-chip-clickable" @click="changeCategory('general')">General</div>
+                <div class="md-chip md-chip-clickable" @click="changeCategory('sports')">Sports</div>
+                <div class="md-chip md-chip-clickable" @click="changeCategory('technology')">Technology</div>
+                <div class="md-chip md-chip-clickable" @click="changeCategory('science')">Science</div>
+                <div class="md-chip md-chip-clickable" @click="changeCategory('health')">Health</div>
+                <div class="md-chip md-chip-clickable" @click="changeCategory('bussiness')">Bussiness</div>
+                <div class="md-chip md-chip-clickable" @click="changeCategory('entertainment')">Entertainment</div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-12 mx-auto news-feed" v-for="item in news" :key="news.id">
                 <figure class="snip1237">
                     <div class="image">
-                        <img :src="item.urlToImage" alt="sample74" /><i class="ion-ios-clock-outline"></i>
+                        <img :src="imageUrl(item.urlToImage)" alt="sample74" /><i class="ion-ios-clock-outline"></i>
                         <div class="date">
                             <span class="day">{{ calculateDay(item.publishedAt) }}</span
                             ><span class="month">{{ calculateMonth(item.publishedAt) }}</span>
@@ -61,7 +85,7 @@ export default {
                     <figcaption>
                         <h3>{{ item.title }}</h3>
                         <p>{{ item.description }}</p>
-                        <a @click="showNews" class="read-more">Read More</a>
+                        <a @click="showNews(item.url)" class="read-more">Read More</a>
                     </figcaption>
                 </figure>
             </div>
@@ -70,7 +94,6 @@ export default {
 </template>
 
 <style scoped>
-/* Icon set - http://ionicons.com */
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,500);
 figure.snip1237 {

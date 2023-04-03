@@ -1,21 +1,21 @@
 <template>
-    <div id="note-board">
-        <button class="add-note" type="button" @click="addNote">+</button>
-        <textarea v-for="note in notes" :key="note.id" class="note" :style="{ backgroundColor: note.color }"
-            :value="note.content" placeholder="Empty Sticky Note" @change="updateNote(note.id, $event.target.value)"
-            @dblclick="showNote(note.id)">                                                        </textarea>
-        <div v-if="showDialog" class="backdrop">
-            <div class="dialog-wrapper">
-                <teleport to="body">
-                    <NoteShow />
-                </teleport>
+    <div class="container-fluid" style="padding-top: 20px">
+        <div id="note-board">
+            <button class="add-note" type="button" @click="addNote">+</button>
+            <textarea v-for="note in notes" :key="note.id" class="note" :style="{ backgroundColor: note.color }" :value="note.content" placeholder="Empty Sticky Note" @change="updateNote(note.id, $event.target.value)" @dblclick="showNote(note)"> </textarea>
+            <div v-if="showDialog" class="backdrop">
+                <div class="dialog-wrapper">
+                    <teleport to="body">
+                        <NoteShow :note="currentNote" />
+                    </teleport>
+                </div>
             </div>
         </div>
     </div>
 </template>
-  
+
 <script>
-import NoteShow from "../components/NoteShow.vue";
+import NoteShow from '../components/NoteShow.vue';
 
 export default {
     components: {
@@ -24,34 +24,56 @@ export default {
     data() {
         return {
             showDialog: false,
+            currentNote: {},
             notes: [
                 {
                     id: 1,
-                    title: "Meeting Notes",
-                    content: "Discussed Q1 sales strategy",
-                    date: "2022-02-28",
-                    color: "#af3",
+                    title: 'Meeting Notes',
+                    content: 'Discussed Q1 sales strategy',
+                    date: '2022-02-28',
+                    color: '#af3',
                 },
                 {
                     id: 2,
-                    title: "Shopping List",
-                    content: "Milk, eggs, bread, cheese",
-                    date: "2022-03-01",
-                    color: "#435656",
+                    title: 'Shopping List',
+                    content: 'Milk, eggs, bread, cheese',
+                    date: '2022-03-01',
+                    color: '#435656',
                 },
                 {
                     id: 3,
-                    title: "To-Do List",
-                    content: "Finish project proposal, send email to boss",
-                    date: "2022-02-27",
-                    color: "#243574",
+                    title: 'To-Do List',
+                    content: 'Finish project proposal, send email to boss',
+                    date: '2022-02-27',
+                    color: '#243574',
                 },
                 {
                     id: 4,
-                    title: "Recipe",
-                    content: "Ingredients:\n- 1 cup flour\n- 1 egg\n- 1 tsp salt\n...",
-                    date: "2022-02-26",
-                    color: "#357865",
+                    title: 'Recipe',
+                    content: 'Ingredients:\n- 1 cup flour\n- 1 egg\n- 1 tsp salt\n...',
+                    date: '2022-02-26',
+                    color: '#357865',
+                },
+                {
+                    id: 5,
+                    title: 'Recipe',
+                    content: 'Ingredients:\n- 1 cup flour\n- 1 egg\n- 1 tsp salt\n...',
+                    date: '2022-02-26',
+                    color: '#357865',
+                },
+                {
+                    id: 6,
+                    title: 'Recipe',
+                    content: 'Ingredients:\n- 1 cup flour\n- 1 egg\n- 1 tsp salt\n...',
+                    date: '2022-02-26',
+                    color: '#357865',
+                },
+                {
+                    id: 7,
+                    title: 'Recipe',
+                    content: 'Ingredients:\n- 1 cup flour\n- 1 egg\n- 1 tsp salt\n...',
+                    date: '2022-02-26',
+                    color: '#357865',
                 },
             ],
         };
@@ -71,13 +93,13 @@ export default {
         createNoteElement(id, content) {
             return {
                 id: id,
-                content: content
+                content: content,
             };
         },
         addNote() {
             const noteObject = {
                 id: Math.floor(Math.random() * 100000),
-                content: ""
+                content: '',
             };
 
             this.notes.push(noteObject);
@@ -92,21 +114,24 @@ export default {
             this.notes = this.notes.filter((note) => note.id != id);
             this.saveNotes(this.notes);
         },
-        showNote() {
+        showNote(note) {
+            this.currentNote = note;
             this.showDialog = true;
         },
-    }
+    },
 };
 </script>
-  
+
 <style scoped>
+.container-fluid {
+    background-color: #233d4d;
+    height: 100vh;
+}
 #note-board {
     display: grid;
     grid-template-columns: repeat(auto-fill, 200px);
     padding: 24px;
     gap: 24px;
-    background: #009578;
-
 }
 
 .note {
@@ -157,4 +182,3 @@ export default {
     z-index: 10;
 }
 </style>
-  

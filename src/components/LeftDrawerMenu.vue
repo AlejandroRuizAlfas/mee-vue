@@ -1,56 +1,58 @@
 <template>
     <transition name="slide">
-        <div class="left-drawer-menu" v-if="isOpen">
-            <div class="row p-4">
-                <div class="col-6">
-                    <img src="/src/assets/mee-face.png" class="mee-face-logo" />
+        <div class="left-drawer-menu pt-5" v-if="isOpen">
+            <div class="drawer-content">
+                <div class="row p-4">
+                    <div class="col-6">
+                        <img src="/src/assets/mee-face.png" class="mee-face-logo" />
+                    </div>
+                    <div class="col-6 d-flex align-items-center">
+                        <p class="username">Alejandro</p>
+                    </div>
                 </div>
-                <div class="col-6 d-flex align-items-center">
-                    <p class="username">Alejandro</p>
+                <div class="row p-4">
+                    <div class="col-12 menu-item d-flex align-items-center">
+                        <img src="/src/assets/sidemenu/house.png" class="me-2 menu-icon" />
+                        <router-link @click="closeDrawer" to="/">Home</router-link>
+                    </div>
                 </div>
-            </div>
-            <div class="row p-4">
-                <div class="col-12 menu-item d-flex align-items-center">
-                    <img src="/src/assets/note-icon.png" class="me-2" />
-                    <router-link to="/">Home</router-link>
-                </div>
-            </div>
 
-            <div class="separator"></div>
+                <div class="separator"></div>
 
-            <div class="row p-4">
-                <div class="col-12 menu-item d-flex align-items-center">
-                    <img src="/src/assets/note-icon.png" class="me-2" />
-                    <router-link to="/todolist">TODO List</router-link>
+                <div class="row p-4">
+                    <div class="col-12 menu-item d-flex align-items-center">
+                        <img src="/src/assets/sidemenu/to-do-list.png" class="me-2 menu-icon" />
+                        <router-link @click="closeDrawer" to="/todolist">TODO List</router-link>
+                    </div>
+                    <div class="col-12 menu-item d-flex align-items-center">
+                        <img src="/src/assets/sidemenu/note-icon.png" class="me-2 menu-icon" />
+                        <router-link @click="closeDrawer" to="/notes">Notes</router-link>
+                    </div>
+                    <div class="col-12 menu-item d-flex align-items-center">
+                        <img src="/src/assets/sidemenu/shopping-list.png" class="me-2 menu-icon" />
+                        <router-link @click="closeDrawer" to="/buyList">Buy List</router-link>
+                    </div>
+                    <div class="col-12 menu-item d-flex align-items-center">
+                        <img src="/src/assets/sidemenu/map.png" class="me-2 menu-icon" />
+                        <router-link @click="closeDrawer" to="/maps">Map Gallery</router-link>
+                    </div>
                 </div>
-                <div class="col-12 menu-item d-flex align-items-center">
-                    <img src="/src/assets/note-icon.png" class="me-2" />
-                    <router-link to="/notes">Notes</router-link>
-                </div>
-                <div class="col-12 menu-item d-flex align-items-center">
-                    <img src="/src/assets/note-icon.png" class="me-2" />
-                    <router-link to="/buyList">Buy List</router-link>
-                </div>
-                <div class="col-12 menu-item d-flex align-items-center">
-                    <img src="/src/assets/note-icon.png" class="me-2" />
-                    <router-link to="/maps">Map Gallery</router-link>
-                </div>
-            </div>
 
-            <div class="separator"></div>
+                <div class="separator"></div>
 
-            <div class="row p-4">
-                <div class="col-12 menu-item d-flex align-items-center">
-                    <img src="/src/assets/note-icon.png" class="me-2" />
-                    <router-link to="/weather">Weather</router-link>
-                </div>
-                <div class="col-12 menu-item d-flex align-items-center">
-                    <img src="/src/assets/note-icon.png" class="me-2" />
-                    <router-link to="/news">News</router-link>
-                </div>
-                <div class="col-12 menu-item d-flex align-items-center">
-                    <img src="/src/assets/note-icon.png" class="me-2" />
-                    <router-link to="/words">Words</router-link>
+                <div class="row p-4">
+                    <div class="col-12 menu-item d-flex align-items-center">
+                        <img src="/src/assets/sidemenu/weather-app.png" class="me-2 menu-icon" />
+                        <router-link @click="closeDrawer" to="/weather">Weather</router-link>
+                    </div>
+                    <div class="col-12 menu-item d-flex align-items-center">
+                        <img src="/src/assets/sidemenu/newspaper.png" class="me-2 menu-icon" />
+                        <router-link @click="closeDrawer" to="/news">News</router-link>
+                    </div>
+                    <div class="col-12 menu-item d-flex align-items-center">
+                        <img src="/src/assets/sidemenu/puzzle.png" class="me-2 menu-icon" />
+                        <router-link @click="closeDrawer" to="/words">Words</router-link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,6 +60,8 @@
 </template>
 
 <script>
+import { useStore } from '../stores/store.js';
+import { mapState, mapActions } from 'pinia';
 export default {
     name: 'LeftDrawerMenu',
     props: {
@@ -66,13 +70,19 @@ export default {
             default: false,
         },
     },
+    methods: {
+        ...mapActions(useStore, ['toggleMenu']),
+        closeDrawer() {
+            this.toggleMenu();
+        },
+    },
 };
 </script>
 
 <style scoped>
 .left-drawer-menu {
     position: absolute;
-    top: 50px;
+    top: 0;
     left: 0;
     bottom: 0;
     width: 300px;
@@ -128,5 +138,15 @@ a:active {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: bolder;
     font-size: 18px;
+}
+
+.menu-icon {
+    widows: 30px;
+    height: 30px;
+}
+
+.drawer-content {
+    height: calc(100vh - 50px);
+    overflow-y: auto;
 }
 </style>

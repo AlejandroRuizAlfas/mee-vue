@@ -1,14 +1,10 @@
 <template>
-    <div class="dialog p-4">
+    <div class="dialog p-4" v-if="note">
         <h4>Title</h4>
-        <p ref="editable" @click="makeEditable">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae earum
-            animi pariatur, sint consectetur
-            assumenda nemo incidunt, sit rem repudiandae doloremque veniam fugit voluptatibus quidem asperiores magni,
-            perferendis officiis recusandae!</p>
+        <p ref="editable" @click="makeEditable">{{ note.title }}!</p>
 
         <h4>Content</h4>
-        <textarea
-            value="Lorem impssdahasufh wuefhwue hfwufh weufhwuhfweuhf wuhfuwhefui wfehfi< hfveiukrjhgfv euirhgfyuih" />
+        <textarea :value="note.content" />
     </div>
 </template>
 
@@ -17,12 +13,13 @@ export default {
     props: {
         title: String,
         message: String,
+        note: Object,
     },
     methods: {
         makeEditable() {
             editable.value.contentEditable = true;
             editable.value.focus();
-        }
+        },
     },
 };
 </script>

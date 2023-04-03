@@ -13,6 +13,7 @@
     "pinia": "^2.0.28",
     "vee-validate": "^4.7.4",
     "vue": "^3.2.45",
+    "vue-country-flag-next": "^2.3.2",
     "vue-drawer-layout": "^1.3.0",
     "vue-router": "^4.1.6",
     "yup": "^1.0.0"

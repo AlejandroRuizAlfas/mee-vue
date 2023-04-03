@@ -1,6 +1,6 @@
 <script>
-import { useStore } from "../stores/store.js";
-import { mapState, mapActions } from "pinia";
+import { useStore } from '../stores/store.js';
+import { mapState, mapActions } from 'pinia';
 export default {
     props: {
         titulo: String,
@@ -9,20 +9,23 @@ export default {
         return {};
     },
     methods: {
-        ...mapActions(useStore, ["toggleMenu"])
+        ...mapActions(useStore, ['toggleMenu']),
     },
     computed: {
-        ...mapState(useStore, ["isOpen"])
+        ...mapState(useStore, ['isOpen']),
     },
 };
 </script>
 
 <template>
-    <div class="container-fluid top-bar pt-1">
+    <!-- <div class="container-fluid top-bar pt-1">
         <span class="navbar-brand">
             <i class="bi bi-list h2" @click="toggleMenu"></i>
         </span>
-    </div>
+    </div> -->
+    <button class="open-list-btn" @click="toggleMenu">
+        <i class="bi bi-list" style="font-size: 2rem"></i>
+    </button>
 </template>
 
 <style scoped>
@@ -38,8 +41,6 @@ a {
     color: white;
 }
 
-
-
 a:link,
 a:visited,
 a:active {
@@ -49,5 +50,15 @@ a:active {
 
 a:hover {
     color: aqua;
+}
+
+.open-list-btn {
+    background-color: black;
+    color: white;
+    border: none;
+    outline: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 0 0 20px 0;
 }
 </style>

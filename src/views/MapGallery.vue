@@ -36,15 +36,26 @@ export default {
 <template>
     <div class="container" style="padding-top: 20px">
         <button class="btn btn-primary w-100" @click="initGeolocation">Save location</button>
-        <div class="row m-4 map-card" v-for="item in locations" :key="item.id">
-            <div class="col-4">
+        <!-- <div class="row m-4 map-card" v-for="item in locations" :key="item.id">
+            <div class="col-md-4 col-12 map-view">
                 <iframe :src="'https://maps.google.com/maps?q=' + item.latitude + ',' + item.longitude + '&hl=es;z=14&amp;output=embed'" width="400" height="300" frameborder="0" style="border: 0" allowfullscreen="" aria-hidden="false" tabindex="0"> </iframe>
             </div>
-            <div class="col-8 map-item p-4">
+            <div class="col-md-8 col-12 map-item p-4">
                 <h4>{{ item.title }}</h4>
                 <span class="text-span"><i class="bi bi-geo-alt-fill icon-text"></i>Alicante</span><br />
                 <span class="text-span"><i class="bi bi-flag-fill icon-text"></i>Spain</span><br />
                 <span class="text-span"><i class="bi bi-clock icon-text"></i>Location added on {{ new Date().toLocaleDateString() }} at {{ new Date().toLocaleTimeString() }}</span>
+            </div>
+        </div> -->
+        <div class="card-container m-4">
+            <div class="card" v-for="item in locations" :key="item.id">
+                <iframe :src="'https://maps.google.com/maps?q=' + 25 + ',' + 7 + '&hl=es;z=14&amp;output=embed'" width="400" height="300" frameborder="0" style="border: 0" allowfullscreen="" aria-hidden="false" tabindex="0"> </iframe>
+                <div class="card-data p-4">
+                    <h4>{{ item.title }}</h4>
+                    <span class="text-span"><i class="bi bi-geo-alt-fill icon-text"></i>Alicante</span><br />
+                    <span class="text-span"><i class="bi bi-flag-fill icon-text"></i>Spain</span><br />
+                    <span class="text-span"><i class="bi bi-clock icon-text"></i>Added on {{ new Date().toLocaleDateString() }} at {{ new Date().toLocaleTimeString() }}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -69,4 +80,26 @@ export default {
     font-weight: bold;
     color: rgb(61, 61, 61);
 }
+
+.card {
+    width: 400px;
+}
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+}
+
+/* @media only screen and (max-width: 600px) {
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+@media only screen and (min-width: 768px) {
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+} */
 </style>
