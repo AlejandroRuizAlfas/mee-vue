@@ -27,18 +27,20 @@ export default {
 
 <template>
     <div class="container-fluid justify-content-center" style="padding-top: 20px">
-        <WordOfTheDay />
-        <div class="row justify-content-center">
-            <div class="translator-card p-4">
-                <div class="translator-inner mx-auto pt-3" @click="openTranslator">
-                    <img src="/src/assets/sidemenu/translate.png" class="menu-img" />
-                    <h3>Translator</h3>
+        <div class="words-content">
+            <WordOfTheDay />
+            <div class="row justify-content-center">
+                <div class="translator-card p-4">
+                    <div class="translator-inner mx-auto pt-3" @click="openTranslator">
+                        <img src="/src/assets/sidemenu/translate.png" class="menu-img" />
+                        <h3>Translator</h3>
+                    </div>
                 </div>
-            </div>
-            <div class="dictionary-card p-4">
-                <div class="dictionary-inner mx-auto pt-3" @click="openDictionary">
-                    <img src="/src/assets/sidemenu/dictionary.png" class="menu-img" />
-                    <h3>Dictionary</h3>
+                <div class="dictionary-card p-4">
+                    <div class="dictionary-inner mx-auto pt-3" @click="openDictionary">
+                        <img src="/src/assets/sidemenu/dictionary.png" class="menu-img" />
+                        <h3>Dictionary</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,6 +51,9 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
 .container-fluid {
     background-color: #233d4d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
     overflow: auto;
 }

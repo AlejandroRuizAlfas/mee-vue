@@ -1,10 +1,24 @@
 <template>
-    <div class="dialog p-4" v-if="note">
-        <h4>Title</h4>
-        <p ref="editable" @click="makeEditable">{{ note.title }}!</p>
+    <div id="dialog" class="dialog p-4" v-if="note">
+        <div class="dialog-content">
+            <h4>Title</h4>
+            <p ref="editable" @click="makeEditable">{{ note.title }}!</p>
 
-        <h4>Content</h4>
-        <textarea :value="note.content" />
+            <h4>Content</h4>
+            <div contenteditable="true">{{ note.content }}.</div>
+
+            <div class="button-group">
+                <button class="button">
+                    <i class="bi bi-save">Save</i>
+                </button>
+                <button class="button">
+                    <i class="icon"></i>
+                </button>
+                <button class="button">
+                    <i class="icon"></i>
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -16,10 +30,14 @@ export default {
         note: Object,
     },
     methods: {
-        makeEditable() {
-            editable.value.contentEditable = true;
-            editable.value.focus();
-        },
+        // makeEditable() {
+        //     editable.value.contentEditable = true;
+        //     editable.value.focus();
+        // },
+    },
+    mounted() {
+        console.log(this.note.color);
+        document.getElementById('dialog').style.backgroundColor = this.note.color;
     },
 };
 </script>
@@ -30,7 +48,6 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
     padding: 4 0px;
     border-radius: 20px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
@@ -48,5 +65,39 @@ textarea {
     height: auto;
     display: inline-block;
     word-break: break-all;
+}
+
+textarea {
+    border: none;
+    overflow: auto;
+    outline: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    resize: none; /*remove the resize handle on the bottom right*/
+}
+
+.button-group {
+    position: absolute;
+    right: -70px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 </style>

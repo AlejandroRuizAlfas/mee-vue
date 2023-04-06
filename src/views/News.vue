@@ -96,6 +96,7 @@ export default {
 <style scoped>
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,500);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 figure.snip1237 {
     font-family: 'Raleway', Arial, sans-serif;
     position: relative;
@@ -204,6 +205,7 @@ figure.snip1237 .read-more {
     font-weight: 800;
     font-size: 0.9em;
     text-transform: uppercase;
+    cursor: pointer;
 }
 figure.snip1237 .read-more:hover {
     background-color: #20638f;
@@ -249,8 +251,6 @@ figure.snip1237.hover:after {
     -webkit-transform: skew(-45deg) translateX(-75%);
     transform: skew(-45deg) translateX(-75%);
 }
-
-@import url(https://fonts.googleapis.com/css?family=Roboto);
 .md-chip {
     display: inline-block;
     background: #e0e0e0;

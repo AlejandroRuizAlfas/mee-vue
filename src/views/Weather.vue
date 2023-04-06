@@ -14,6 +14,7 @@ export default {
             currentWeather: [],
             forecast: [],
             forecast3days: [],
+            filteredHours: [],
             citiesArray: [],
             cityString: '',
             showDialog: false,
@@ -28,7 +29,14 @@ export default {
                     this.forecast = response.data.forecast.forecastday[0];
                     this.currentWeather = response.data.current;
                     this.forecast3days = response.data.forecast.forecastday;
-                    console.log(this.forecast3days[0]);
+                    this.filteredHours = [];
+                    const now = new Date().getHours();
+                    this.forecast.hour.forEach((e) => {
+                        if (new Date(e.time) > new Date() || new Date(e.time).getHours() == now) {
+                            this.filteredHours.push(e);
+                        }
+                    });
+                    console.log(this.filteredHours);
                 })
                 .catch((err) => alert(err));
         },
@@ -65,6 +73,17 @@ export default {
             this.place = loc;
             this.getTodayForecast(loc.latitude, loc.longitude);
         },
+        getAmPmFormat(dateString) {
+            const dateObj = new Date(dateString);
+            const timeString = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }).format(dateObj);
+            return timeString;
+        },
+        getWeekDay(date) {
+            console.log(date);
+            let weekday = new Date(date);
+            const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            return weekdays[weekday.getDay()];
+        },
     },
     computed: {
         today() {
@@ -80,19 +99,6 @@ export default {
 
 <template>
     <div class="container-fluid" style="padding-top: 20px">
-        <!-- <div class="row justify-content-center">
-            <div class="weather-card p-4">
-                <h5>{{ today }}</h5>
-                <div class="row">
-                    <div class="col-4">
-                        <img class="weather-card-image" src="/src/assets/compraEmpty.png" />
-                    </div>
-                    <div class="col-8">
-                        <p>Weather</p>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="row justify-content-center">
             <div class="search-bar">
                 <input id="searchInput" type="text" v-model="cityString" placeholder="Search for the name of a city..." />
@@ -101,21 +107,21 @@ export default {
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-9">
+            <div class="col-9" id="main-info">
                 <div class="today-forecast m-4 p-4">
                     <h1 class="display-1 place-name px-4">{{ place.name }}</h1>
                     <div class="row">
                         <div class="col-2">
                             <h3 class="display-2 place-temp px-4">{{ currentWeather.temp_c }}ºC</h3>
                         </div>
-                        <div class="col-8"></div>
-                        <div class="col-2" v-if="forecast3days[0]">
+                        <div class="col-9"></div>
+                        <!-- <div class="col-2" v-if="forecast3days[0]">
                             <img :src="currentWeather.condition.icon" class="current-big-icon" />
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-3" id="aside-info">
                 <div class="week-forecast justify-content-center text-center m-4 p-4">
                     <h4>3-DAY FORECAST</h4>
                     <div class="row mt-4 align-items-center">
@@ -137,7 +143,7 @@ export default {
                     </div>
                     <div class="row mt-4 align-items-center">
                         <div class="col-4 mx-auto">
-                            <div>Today</div>
+                            <div v-if="forecast3days[1]">{{ getWeekDay(forecast3days[1].date) }}</div>
                         </div>
                         <div class="col-4">
                             <div v-if="forecast3days[1]">
@@ -155,7 +161,7 @@ export default {
 
                     <div class="row mt-4 align-items-center">
                         <div class="col-4 mx-auto">
-                            <div>Today</div>
+                            <div v-if="forecast3days[2]">{{ getWeekDay(forecast3days[2].date) }}</div>
                         </div>
                         <div class="col-4">
                             <div v-if="forecast3days[2]">
@@ -174,6 +180,22 @@ export default {
             </div>
         </div>
 
+        <div class="row justify-content-center">
+            <div class="col-9">
+                <div class="hourly-panel m-4 p-4">
+                    <h3 class="mx-3 py-2" style="margin-bottom: 16px">Today's forecast</h3>
+                    <div class="hourly-forecast-container mt-2">
+                        <div v-for="item in filteredHours" class="text-center hourly-forecast w-20">
+                            <p>{{ getAmPmFormat(item.time) }}</p>
+                            <img :src="item.condition.icon" />
+                            <h3>{{ Math.round(item.temp_c) }}º</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3"></div>
+        </div>
+
         <div v-if="showDialog" class="backdrop">
             <div class="dialog-wrapper">
                 <teleport to="body">
@@ -185,6 +207,8 @@ export default {
 </template>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&family=Rubik:wght@600&display=swap');
+
 .container-fluid {
     background-color: #0b131e;
     height: 100vh;
@@ -268,7 +292,8 @@ export default {
 }
 
 .today-forecast,
-.week-forecast {
+.week-forecast,
+.hourly-panel {
     background-color: #202b3b;
     border-radius: 20px;
     height: auto;
@@ -276,10 +301,60 @@ export default {
 }
 .place-name,
 .place-temp {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Rubik', sans-serif;
     font-weight: bolder;
 }
-.current-big-icon {
-    transform: scale(4);
+
+/* .hourly-forecast {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.hourly-forecast:hover {
+    overflow-x: auto;
+}
+
+.hourly-forecast > div {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    margin-left: 20px;
+} */
+
+.hourly-forecast-container {
+    display: flex;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+.hourly-forecast-container:hover {
+    overflow-x: auto;
+}
+
+.hourly-forecast {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #ccc;
+    padding: 0 10px;
+    min-width: 150px;
+}
+
+.hourly-forecast:last-child {
+    border-right: none;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div {
+    font-family: 'Rubik', sans-serif;
+    color: #c4cad3;
 }
 </style>
