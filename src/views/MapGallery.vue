@@ -5,12 +5,7 @@ import { mapState, mapActions } from 'pinia';
 export default {
     data() {
         return {
-            locations: [
-                { id: 0, title: 'Map 1', longitude: 32, latitude: 34 },
-                { id: 1, title: 'Map 2', longitude: 124, latitude: 12 },
-                { id: 2, title: 'Map 3', longitude: 22, latitude: 17 },
-                { id: 3, title: 'Map 4', longitude: 56, latitude: 4 },
-            ],
+            locations: [],
         };
     },
     methods: {
@@ -31,16 +26,21 @@ export default {
             console.log('Failed');
         },
     },
-    computed: {},
+    computed: {
+        ...mapState(useStore, ['getAllMaps']),
+    },
+    async mounted() {
+        this.locations = await this.getAllMaps();
+    },
 };
 </script>
 
 <template>
     <div class="container" style="padding-top: 20px">
-        <button class="btn btn-primary w-100" @click="initGeolocation">Save location</button>
+        <button class="btn btn-primary w-100" @click="initGeolocation">Save my current location</button>
         <div class="card-container m-4">
             <div class="card" v-for="item in locations" :key="item.id">
-                <iframe :src="'https://maps.google.com/maps?q=' + 25 + ',' + 7 + '&hl=es;z=14&amp;output=embed'" width="400" height="300" frameborder="0" style="border: 0" allowfullscreen="" aria-hidden="false" tabindex="0"> </iframe>
+                <iframe :src="'https://maps.google.com/maps?q=' + item.latitude + ',' + item.longitude + '&hl=es;z=14&amp;output=embed'" width="400" height="300" frameborder="0" style="border: 0" allowfullscreen="" aria-hidden="false" tabindex="0"> </iframe>
                 <div class="card-data p-4">
                     <h4>{{ item.title }}</h4>
                     <span class="text-span"><i class="bi bi-geo-alt-fill icon-text"></i>Alicante</span><br />

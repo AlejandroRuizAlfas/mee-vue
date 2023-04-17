@@ -8,6 +8,8 @@ import BuyListID from '../views/BuyListID.vue';
 import Dictionary from '../views/Dictionary.vue';
 import Words from '../views/Words.vue';
 import Translator from '../views/Translator.vue';
+import Auth from '../views/Auth.vue';
+import TodoList from '../views/TodoList.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,7 +18,12 @@ const router = createRouter({
         //     path: "/",
         //     name: "home",
         //     component: ShowList,
-        // },
+        // },ç
+        {
+            path: '/auth',
+            name: 'auth',
+            component: Auth,
+        },
         {
             path: '/notes',
             name: 'notes',
@@ -66,6 +73,11 @@ const router = createRouter({
             path: '/words',
             name: 'words',
             component: Words,
+        },
+        {
+            path: '/todoList',
+            name: 'todoList',
+            component: TodoList,
         },
     ],
 });

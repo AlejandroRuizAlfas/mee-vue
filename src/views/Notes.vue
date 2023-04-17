@@ -2,7 +2,7 @@
     <div class="container-fluid" style="padding-top: 20px">
         <div id="note-board">
             <button class="add-note" type="button" @click="addNote">+</button>
-            <textarea v-for="note in notes" :key="note.id" class="note" :style="{ backgroundColor: note.color }" :value="note.content" placeholder="Empty Sticky Note" @change="updateNote(note.id, $event.target.value)" @dblclick="showNote(note)"> </textarea>
+            <textarea v-for="note in notes" :key="note.note_id" spellcheck="false" class="note" :style="{ backgroundColor: note.color }" :value="note.content" placeholder="Empty Sticky Note" @change="updateNote(note, $event.target.value)" @dblclick="showNote(note)"> </textarea>
             <div v-if="showDialog" class="backdrop">
                 <div class="dialog-wrapper">
                     <teleport to="body">
@@ -16,7 +16,8 @@
 
 <script>
 import NoteShow from '../components/NoteShow.vue';
-
+import { useStore } from '../stores/store.js';
+import { mapState, mapActions } from 'pinia';
 export default {
     components: {
         NoteShow,
@@ -25,68 +26,15 @@ export default {
         return {
             showDialog: false,
             currentNote: {},
-            notes: [
-                {
-                    id: 1,
-                    title: 'Meeting Notes',
-                    content: 'Discussed Q1 sales strategy',
-                    date: '2022-02-28',
-                    color: '#af3',
-                },
-                {
-                    id: 2,
-                    title: 'Shopping List',
-                    content: 'Milk, eggs, bread, cheese',
-                    date: '2022-03-01',
-                    color: '#435656',
-                },
-                {
-                    id: 3,
-                    title: 'To-Do List',
-                    content: 'Finish project proposal, send email to boss',
-                    date: '2022-02-27',
-                    color: '#243574',
-                },
-                {
-                    id: 4,
-                    title: 'Recipe',
-                    content: 'Ingredients:\n- 1 cup flour\n- 1 egg\n- 1 tsp salt\n...',
-                    date: '2022-02-26',
-                    color: '#357865',
-                },
-                {
-                    id: 5,
-                    title: 'Recipe',
-                    content: 'Ingredients:\n- 1 cup flour\n- 1 egg\n- 1 tsp salt\n...',
-                    date: '2022-02-26',
-                    color: '#357865',
-                },
-                {
-                    id: 6,
-                    title: 'Recipe',
-                    content: 'Ingredients:\n- 1 cup flour\n- 1 egg\n- 1 tsp salt\n...',
-                    date: '2022-02-26',
-                    color: '#357865',
-                },
-                {
-                    id: 7,
-                    title: 'Recipe',
-                    content: 'Ingredients:\n- 1 cup flour\n- 1 egg\n- 1 tsp salt\n...',
-                    date: '2022-02-26',
-                    color: '#357865',
-                },
-            ],
+            colors: ['#ffffff', '#dcedc1', '#a8e6cf', '#ffaaa5', '#cbdadb', '#ffdbac', '#e3f0ff', '#e4dcf1'],
+            notes: [],
         };
     },
-
-    mounted() {
-        this.notes = this.getNotes();
+    async mounted() {
+        this.notes = await this.getAllNotes();
     },
     methods: {
-        getNotes() {
-            // return JSON.parse(localStorage.getItem("stickynotes-notes") || "[]");
-            return this.notes;
-        },
+        ...mapActions(useStore, ['addNoteStore', 'editNoteStore']),
         saveNotes(notes) {
             // localStorage.setItem("stickynotes-notes", JSON.stringify(notes));
         },
@@ -96,19 +44,14 @@ export default {
                 content: content,
             };
         },
-        addNote() {
-            const noteObject = {
-                id: Math.floor(Math.random() * 100000),
-                content: '',
-            };
-
-            this.notes.push(noteObject);
-            this.saveNotes(this.notes);
+        async addNote() {
+            let response = await this.addNoteStore();
+            this.notes.push(response);
         },
-        updateNote(id, newContent) {
-            const targetNote = this.notes.filter((note) => note.id == id)[0];
-            targetNote.content = newContent;
-            this.saveNotes(this.notes);
+        async updateNote(note, newContent) {
+            note.content = newContent;
+            let response = await this.editNoteStore(note);
+            this.notes.push(response);
         },
         deleteNote(id) {
             this.notes = this.notes.filter((note) => note.id != id);
@@ -118,6 +61,13 @@ export default {
             this.currentNote = note;
             this.showDialog = true;
         },
+        randomColor() {
+            // return this.colors[Math.floor(Math.random() * colors.length)];
+            console.log(this.colors);
+        },
+    },
+    computed: {
+        ...mapState(useStore, ['getAllNotes']),
     },
 };
 </script>
@@ -144,6 +94,10 @@ export default {
     resize: none;
     font-family: sans-serif;
     font-size: 16px;
+    overflow: hidden;
+}
+.note:hover {
+    overflow: auto;
 }
 
 .add-note {

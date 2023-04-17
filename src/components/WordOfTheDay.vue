@@ -1,18 +1,33 @@
 <script>
 import { useStore } from '../stores/store.js';
 import { mapState, mapActions } from 'pinia';
+import axios from 'axios';
 
 export default {
     data() {
-        return {};
+        return {
+            url: 'https://api.wordnik.com/v4/words.json/wordOfTheDay?api_key=i56xfcop7yir1r2zfrewswoef3wux7iwm3in1myx9weeoswg4',
+            wotd: { definitions: [{ partOfSpeech: '', text: '' }], word: '' },
+        };
     },
     methods: {
         flipCard() {
             let card = document.querySelector('.flip-card');
             card.classList.toggle('clicked');
         },
+        loadWotd() {
+            axios
+                .get(this.url + '&apiKey=c279ca20e57f4c47a810032b6b52a48f')
+                .then((response) => {
+                    this.wotd = response.data;
+                })
+                .catch((err) => alert(err));
+        },
     },
     computed: {},
+    mounted() {
+        this.loadWotd();
+    },
 };
 </script>
 
@@ -27,9 +42,9 @@ export default {
                     </div>
                     <div class="flip-card-back p-4">
                         <p>Word Of The Day</p>
-                        <h4 class="word mt-2">Oneiromancy</h4>
-                        <h5 class="mb-3">noun</h5>
-                        <p>Divination through dreams. the art of taking omens from dreams</p>
+                        <h4 class="word mt-2">{{ wotd.word }}</h4>
+                        <h5 class="mb-3">{{ wotd.definitions[0].partOfSpeech }}</h5>
+                        <p>{{ wotd.definitions[0].text }}</p>
                     </div>
                 </div>
             </div>

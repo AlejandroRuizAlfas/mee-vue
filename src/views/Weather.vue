@@ -30,6 +30,7 @@ export default {
                     this.currentWeather = response.data.current;
                     this.forecast3days = response.data.forecast.forecastday;
                     this.filteredHours = [];
+                    console.log(response.data);
                     const now = new Date().getHours();
                     this.forecast.hour.forEach((e) => {
                         if (new Date(e.time) > new Date() || new Date(e.time).getHours() == now) {
@@ -291,7 +292,6 @@ export default {
     z-index: 10;
 }
 
-.today-forecast,
 .week-forecast,
 .hourly-panel {
     background-color: #202b3b;
