@@ -1,18 +1,16 @@
 <script>
 import { useStore } from '../stores/store.js';
 import { mapState, mapActions } from 'pinia';
+import Loading from '../components/Loading.vue';
 
 export default {
+    components: {
+        Loading,
+    },
     data() {
         return {
-            lists: [
-                { id: 0, name: 'Lista 1', elements: 32, count: 34 },
-                { id: 1, name: 'Lista 2', elements: 12, count: 12 },
-                { id: 2, name: 'Lista 3', elements: 22, count: 17 },
-                { id: 3, name: 'Lista 4', elements: 56, count: 4 },
-                { id: 4, name: 'Lista 5', elements: 22, count: 17 },
-                { id: 5, name: 'Lista 6', elements: 56, count: 4 },
-            ],
+            lists: [],
+            isLoading: false,
         };
     },
     methods: {
@@ -20,22 +18,36 @@ export default {
             this.$router.push('buyList/' + id);
         },
     },
-    computed: {},
+    computed: {
+        ...mapState(useStore, ['getAllBuylist']),
+    },
+    async mounted() {
+        this.isLoading = true;
+        setTimeout(async () => {
+            this.lists = await this.getAllBuylist();
+            this.isLoading = false;
+        }, 2000); // TODO QUITAR SET TIMEOUT
+    },
 };
 </script>
 
 <template>
     <div class="container-fluid" style="padding-top: 20px">
-        <div class="buycard p-4" @click="handleShowList(2)" v-for="item in lists">
-            <div class="row">
-                <div class="col-10 p-3">
-                    <h4>{{ item.name }}</h4>
-                    <div class="item-chip p-2 text-center">
-                        <p>{{ item.count }} items</p>
+        <div v-if="isLoading">
+            <Loading />
+        </div>
+        <div v-else>
+            <div class="buycard p-4" @click="handleShowList(item.buylist_id)" v-for="item in lists">
+                <div class="row">
+                    <div class="col-10 p-3">
+                        <h4>{{ item.name }}</h4>
+                        <div class="item-chip p-2 text-center">
+                            <p>{{ item.count }} items</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-2">
-                    <img class="buy-image-right" src="/src/assets/compraEmpty.png" />
+                    <div class="col-2">
+                        <img class="buy-image-right" src="/src/assets/compraEmpty.png" />
+                    </div>
                 </div>
             </div>
         </div>

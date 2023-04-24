@@ -1,41 +1,107 @@
 <script>
 import { useStore } from '../stores/store.js';
 import { mapState, mapActions } from 'pinia';
+import Loading from '../components/Loading.vue';
+import AddProduct from '../components/AddProduct.vue';
 
 export default {
+    components: {
+        Loading,
+        AddProduct,
+    },
     data() {
         return {
-            products: [
-                { id: 1, name: 'Product 1', quantity: 32, icon: '', bought: false },
-                { id: 2, title: 'Product 2', quantity: 124, icon: '', bought: true },
-                { id: 3, title: 'Product 3', quantity: 12, icon: '', bought: false },
-            ],
+            products: [],
+            currentList: [{ name: '' }],
+            isLoading: false,
+            showDialog: false,
         };
     },
-    methods: {},
-    computed: {},
+    methods: {
+        ...mapActions(useStore, ['addBuylistStore', 'editBuylistStore']),
+        sortByBought(array) {
+            array.sort((a, b) => {
+                if (a.bought === b.bought) {
+                    return 0;
+                }
+                if (a.bought) {
+                    return 1;
+                }
+                return -1;
+            });
+            return array;
+        },
+        showAddProd() {
+            this.showDialog = true;
+        },
+        saveData(prod) {
+            this.showDialog = false;
+            this.products.products.push(prod);
+            this.currentList[0].elements = JSON.stringify(this.products);
+            this.currentList[0].count = this.products.products.length;
+            this.editBuylistStore(this.currentList[0]);
+        },
+        deleteItemFromList(product) {
+            const itemIndex = this.products.products.findIndex((item) => item.name === product.name);
+            if (itemIndex !== -1) {
+                this.products.products.splice(itemIndex, 1);
+                console.log(`The item with name was removed from the array.`);
+            }
+        },
+    },
+    computed: {
+        ...mapState(useStore, ['getBuylistID']),
+    },
+    async mounted() {
+        this.isLoading = true;
+        setTimeout(async () => {
+            this.currentList = await this.getBuylistID(this.$route.params.id);
+            this.products = JSON.parse(this.currentList[0].elements);
+            this.isLoading = false;
+        }, 2000); // TODO QUITAR SET TIMEOUT
+    },
 };
 </script>
 
 <template>
     <div class="container-fluid" style="padding-top: 20px">
-        <div class="buyList py-4">
-            <h2 class="mx-4 px-4">Lista X</h2>
-            <hr class="hr" />
-            <div class="product-row" v-for="product in products">
-                <div class="row p-2">
-                    <div class="col-1 text-center">
-                        <input type="checkbox" />
+        <div v-if="isLoading">
+            <Loading />
+        </div>
+        <div v-else>
+            <div class="buyList py-4">
+                <div class="row">
+                    <div class="col-6">
+                        <h2 class="mx-4 px-4">{{ currentList[0].name }}</h2>
                     </div>
-                    <div class="col-8">
-                        <p class="mb-0">Producto 1</p>
+                    <div class="col-6">
+                        <button class="btn btn-primary mx-4" @click="showAddProd" style="float: right"><i class="bi bi-plus-circle-fill"></i> Add product</button>
                     </div>
-                    <div class="col-2 text-center">
-                        <p class="m-0">Quantity: {{ product.quantity }}</p>
+                </div>
+                <hr class="hr" />
+                <div class="product-row" v-for="product in sortByBought(products.products)" v-if="products.products">
+                    <div class="row p-2">
+                        <div class="col-1 text-center">
+                            <input type="checkbox" :checked="product.bought" />
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-0" contenteditable="true" spellcheck="false">{{ product.name }}</div>
+                        </div>
+                        <div class="col-3 text-center">
+                            <div class="m-0" contenteditable="true" spellcheck="false">Quantity: {{ product.quantity }}</div>
+                        </div>
+                        <div class="col-2 text-center">
+                            <img src="/src/assets/buylist/meat.png" class="mx-2" style="display: inline-block" />
+                            <img src="/src/assets/buylist/delete.png" class="mx-2" style="display: inline-block" @click="deleteItemFromList(product)" />
+                        </div>
                     </div>
-                    <div class="col-1 text-center">
-                        <input type="checkbox" />
-                    </div>
+                </div>
+            </div>
+            <div v-if="showDialog" class="backdrop">
+                <div class="dialog-wrapper">
+                    <teleport to="body">
+                        <AddProduct @finishAdd="saveData" />
+                    </teleport>
                 </div>
             </div>
         </div>
@@ -46,6 +112,25 @@ export default {
 .container-fluid {
     background-color: #233d4d;
     height: 100vh;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 5;
+}
+
+.dialog-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
 }
 .buyList {
     background-color: white;

@@ -10,15 +10,16 @@ import Words from '../views/Words.vue';
 import Translator from '../views/Translator.vue';
 import Auth from '../views/Auth.vue';
 import TodoList from '../views/TodoList.vue';
+import Home from '../views/Home.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-        // {
-        //     path: "/",
-        //     name: "home",
-        //     component: ShowList,
-        // },ç
+        {
+            path: '/',
+            name: 'home',
+            component: Home,
+        },
         {
             path: '/auth',
             name: 'auth',

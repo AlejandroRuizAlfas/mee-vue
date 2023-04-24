@@ -2,11 +2,16 @@
 import { useStore } from '../stores/store.js';
 import { mapState, mapActions } from 'pinia';
 import axios from 'axios';
+import Loading from '../components/Loading.vue';
 
 export default {
+    components: {
+        Loading,
+    },
     data() {
         return {
             news: [],
+            isLoading: false,
         };
     },
     methods: {
@@ -48,7 +53,12 @@ export default {
     },
     computed: {},
     mounted() {
-        this.loadNews();
+        this.isLoading = true;
+        setTimeout(async () => {
+            this.loadNews();
+            this.isLoading = false;
+        }, 1000); // TODO QUITAR SET TIMEOUT
+
         // if (this.$route.params.category) {
         //     this.loadNews(this.$route.params.category);
         //     this.$router.go(0);
@@ -72,22 +82,27 @@ export default {
                 <div class="md-chip md-chip-clickable" @click="changeCategory('entertainment')">Entertainment</div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-12 mx-auto news-feed" v-for="item in news" :key="news.id">
-                <figure class="snip1237">
-                    <div class="image">
-                        <img :src="imageUrl(item.urlToImage)" alt="sample74" /><i class="ion-ios-clock-outline"></i>
-                        <div class="date">
-                            <span class="day">{{ calculateDay(item.publishedAt) }}</span
-                            ><span class="month">{{ calculateMonth(item.publishedAt) }}</span>
+        <div v-if="isLoading">
+            <Loading />
+        </div>
+        <div v-else>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-12 mx-auto news-feed" v-for="item in news" :key="news.id">
+                    <figure class="snip1237">
+                        <div class="image">
+                            <img :src="imageUrl(item.urlToImage)" alt="sample74" /><i class="ion-ios-clock-outline"></i>
+                            <div class="date">
+                                <span class="day">{{ calculateDay(item.publishedAt) }}</span
+                                ><span class="month">{{ calculateMonth(item.publishedAt) }}</span>
+                            </div>
                         </div>
-                    </div>
-                    <figcaption>
-                        <h3>{{ item.title }}</h3>
-                        <p>{{ item.description }}</p>
-                        <a @click="showNews(item.url)" class="read-more">Read More</a>
-                    </figcaption>
-                </figure>
+                        <figcaption>
+                            <h3>{{ item.title }}</h3>
+                            <p>{{ item.description }}</p>
+                            <a @click="showNews(item.url)" class="read-more">Read More</a>
+                        </figcaption>
+                    </figure>
+                </div>
             </div>
         </div>
     </div>

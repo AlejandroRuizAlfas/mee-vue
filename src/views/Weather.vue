@@ -10,7 +10,7 @@ export default {
     },
     data() {
         return {
-            place: 'Alicante, España',
+            place: { name: 'Madrid', country: 'ES', latitude: '40.417975083297925', longitude: '-3.6980873676940718' },
             currentWeather: [],
             forecast: [],
             forecast3days: [],
@@ -30,14 +30,12 @@ export default {
                     this.currentWeather = response.data.current;
                     this.forecast3days = response.data.forecast.forecastday;
                     this.filteredHours = [];
-                    console.log(response.data);
                     const now = new Date().getHours();
                     this.forecast.hour.forEach((e) => {
                         if (new Date(e.time) > new Date() || new Date(e.time).getHours() == now) {
                             this.filteredHours.push(e);
                         }
                     });
-                    console.log(this.filteredHours);
                 })
                 .catch((err) => alert(err));
         },
@@ -85,6 +83,14 @@ export default {
             const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             return weekdays[weekday.getDay()];
         },
+        printCurrentDateString() {
+            const today = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
+            const dateStr = today.toLocaleDateString('en-US', options);
+            const hour24 = today.getHours().toString().padStart(2, '0');
+            const dateStr24 = dateStr.replace(/(\d{1,2}):(\d{2}):(\d{2})/, hour24 + ':$2:$3');
+            return dateStr24;
+        },
     },
     computed: {
         today() {
@@ -93,7 +99,7 @@ export default {
     },
     async mounted() {
         this.getAllCities();
-        await this.getTodayForecast('0', '0');
+        await this.getTodayForecast('40.417975083297925', '-3.6980873676940718');
     },
 };
 </script>
@@ -110,12 +116,16 @@ export default {
         <div class="row justify-content-center">
             <div class="col-9" id="main-info">
                 <div class="today-forecast m-4 p-4">
-                    <h1 class="display-1 place-name px-4">{{ place.name }}</h1>
-                    <div class="row">
-                        <div class="col-2">
+                    <h3 class="display-5 px-4">{{ printCurrentDateString() }}</h3>
+
+                    <div class="row mt-5">
+                        <div class="col-8 mx-4">
+                            <h1 class="display-1 place-name px-4">{{ place.name }}</h1>
                             <h3 class="display-2 place-temp px-4">{{ currentWeather.temp_c }}ºC</h3>
                         </div>
-                        <div class="col-9"></div>
+                        <div class="col-3">
+                            <img v-if="currentWeather.condition" :src="currentWeather.condition.icon" class="current-big-icon" />
+                        </div>
                         <!-- <div class="col-2" v-if="forecast3days[0]">
                             <img :src="currentWeather.condition.icon" class="current-big-icon" />
                         </div> -->
@@ -190,6 +200,37 @@ export default {
                             <p>{{ getAmPmFormat(item.time) }}</p>
                             <img :src="item.condition.icon" />
                             <h3>{{ Math.round(item.temp_c) }}º</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3"></div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-9">
+                <div class="conditions-panel m-4 p-4">
+                    <h3 class="mx-3 py-2" style="margin-bottom: 16px">Air conditions</h3>
+                    <div class="air-conditions-container mt-2 mb-4">
+                        <div class="row mx-5">
+                            <div class="col-6">
+                                <p class="mb-0 air-conditions-container-title"><span class="bi bi-thermometer-half"> Real feel</span></p>
+                                <div class="air-conditions-container-values">{{ currentWeather.feelslike_c }}</div>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-0 air-conditions-container-title"><span class="bi bi-wind"> Wind</span></p>
+                                <div class="air-conditions-container-values">{{ currentWeather.gust_kph }} km/h</div>
+                            </div>
+                        </div>
+                        <div class="row mx-5 mt-2">
+                            <div class="col-6">
+                                <p class="mb-0 air-conditions-container-title"><span class="bi bi-droplet-fill"> Rain</span></p>
+                                <div class="air-conditions-container-values">{{ currentWeather.precip_mm }} mm</div>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-0 air-conditions-container-title"><span class="bi bi-sun-fill"> UV Index</span></p>
+                                <div class="air-conditions-container-values">{{ currentWeather.uv }}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -293,7 +334,8 @@ export default {
 }
 
 .week-forecast,
-.hourly-panel {
+.hourly-panel,
+.conditions-panel {
     background-color: #202b3b;
     border-radius: 20px;
     height: auto;
@@ -344,6 +386,18 @@ export default {
 
 .hourly-forecast:last-child {
     border-right: none;
+}
+
+.air-conditions-container-title {
+    font-family: 'Rubik', sans-serif;
+    font-weight: bolder;
+    font-size: 20px;
+}
+.air-conditions-container-values {
+    font-family: 'Rubik', sans-serif;
+    font-weight: bolder;
+    font-size: 36px;
+    color: white;
 }
 
 p,

@@ -1,13 +1,18 @@
 <template>
     <div class="container-fluid" style="padding-top: 20px">
-        <div id="note-board">
-            <button class="add-note" type="button" @click="addNote">+</button>
-            <textarea v-for="note in notes" :key="note.note_id" spellcheck="false" class="note" :style="{ backgroundColor: note.color }" :value="note.content" placeholder="Empty Sticky Note" @change="updateNote(note, $event.target.value)" @dblclick="showNote(note)"> </textarea>
-            <div v-if="showDialog" class="backdrop">
-                <div class="dialog-wrapper">
-                    <teleport to="body">
-                        <NoteShow :note="currentNote" />
-                    </teleport>
+        <div v-if="isLoading">
+            <Loading />
+        </div>
+        <div v-else>
+            <div id="note-board">
+                <button class="add-note" type="button" @click="addNote">+</button>
+                <textarea v-for="note in notes" :key="note.note_id" spellcheck="false" class="note" :style="{ backgroundColor: note.color }" :value="note.content" placeholder="Empty Sticky Note" @change="updateNote(note, $event.target.value)" @dblclick="showNote(note)"> </textarea>
+                <div v-if="showDialog" class="backdrop">
+                    <div class="dialog-wrapper">
+                        <teleport to="body">
+                            <NoteShow :note="currentNote" />
+                        </teleport>
+                    </div>
                 </div>
             </div>
         </div>
@@ -16,11 +21,13 @@
 
 <script>
 import NoteShow from '../components/NoteShow.vue';
+import Loading from '../components/Loading.vue';
 import { useStore } from '../stores/store.js';
 import { mapState, mapActions } from 'pinia';
 export default {
     components: {
         NoteShow,
+        Loading,
     },
     data() {
         return {
@@ -28,10 +35,18 @@ export default {
             currentNote: {},
             colors: ['#ffffff', '#dcedc1', '#a8e6cf', '#ffaaa5', '#cbdadb', '#ffdbac', '#e3f0ff', '#e4dcf1'],
             notes: [],
+            isLoading: false,
         };
     },
     async mounted() {
-        this.notes = await this.getAllNotes();
+        // this.isLoading = true;
+        // this.notes = await this.getAllNotes();
+        // this.isLoading = false;
+        this.isLoading = true;
+        setTimeout(async () => {
+            this.notes = await this.getAllNotes();
+            this.isLoading = false;
+        }, 2000); // TODO QUITAR SET TIMEOUT
     },
     methods: {
         ...mapActions(useStore, ['addNoteStore', 'editNoteStore']),

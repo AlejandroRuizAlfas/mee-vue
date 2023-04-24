@@ -4,15 +4,17 @@ import { mapState, mapActions } from 'pinia';
 import axios from 'axios';
 
 import DictionaryWord from '../components/DictionaryWord.vue';
-
+import Loading from '../components/Loading.vue';
 export default {
     components: {
         DictionaryWord,
+        Loading,
     },
     data() {
         return {
             word: '',
             showComponent: false,
+            isLoading: false,
         };
     },
     methods: {
@@ -24,9 +26,13 @@ export default {
             container.classList.add('open');
             setTimeout(this.displayWord, 1000);
         },
-        displayWord() {
-            this.setWord(this.word);
-            this.showComponent = true;
+        async displayWord() {
+            this.isLoading = true;
+            setTimeout(async () => {
+                this.setWord(this.word);
+                this.showComponent = true;
+                this.isLoading = false;
+            }, 1000);
         },
     },
     computed: {},
@@ -49,7 +55,10 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="word-component">
+        <div v-if="isLoading">
+            <Loading />
+        </div>
+        <div v-else class="word-component">
             <DictionaryWord v-if="showComponent" />
         </div>
     </div>

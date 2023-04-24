@@ -2,6 +2,7 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 
 const url = 'https://meedb.000webhostapp.com/api';
+// const url = import.meta.env.VITE_URL;
 
 export const useStore = defineStore('store', {
     state() {
@@ -51,6 +52,17 @@ export const useStore = defineStore('store', {
             });
             return response.data;
         },
+
+        async addBuylistStore(list) {
+            let response = await axios.post(url + '/buylist/add', JSON.stringify(list));
+            return response.data;
+        },
+        async editBuylistStore(list) {
+            console.log(list);
+            let response = await axios.post(url + '/buylist/edit', JSON.stringify(list));
+            console.log(response.data);
+            return response.data;
+        },
     },
     getters: {
         getAllNotes: (state) => async () => {
@@ -63,6 +75,14 @@ export const useStore = defineStore('store', {
         },
         getAllTodos: (state) => async () => {
             let response = await axios.get(url + '/todos/get?user_id=' + state.user.user_id);
+            return response.data;
+        },
+        getAllBuylist: (state) => async () => {
+            let response = await axios.get(url + '/buylist/get?user_id=' + state.user.user_id);
+            return response.data;
+        },
+        getBuylistID: (state) => async (id) => {
+            let response = await axios.get(url + '/buylist/get?user_id=' + state.user.user_id + '&buylist_id=' + id);
             return response.data;
         },
     },

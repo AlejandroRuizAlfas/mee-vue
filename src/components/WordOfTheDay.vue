@@ -38,7 +38,7 @@ export default {
                 <div class="flip-card-inner">
                     <div class="flip-card-front p-3">
                         <h3>Word Of The Day<br />Tap to reveal!</h3>
-                        <img src="/src/assets/mee/main.png" width="150px" height="auto" />
+                        <img class="mee-img-front" src="/src/assets/mee/main.png" />
                     </div>
                     <div class="flip-card-back p-4">
                         <p>Word Of The Day</p>
@@ -114,6 +114,11 @@ h3 {
     height: 100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    overflow: hidden;
+}
+
+.flip-card-back:hover {
+    overflow: auto;
 }
 
 .flip-card-front {
@@ -127,5 +132,10 @@ h3 {
     color: white;
     transform: rotateY(180deg);
     border-radius: 20px;
+}
+
+.mee-img-front {
+    width: 150px;
+    height: auto;
 }
 </style>
