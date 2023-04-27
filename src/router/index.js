@@ -8,7 +8,8 @@ import BuyListID from '../views/BuyListID.vue';
 import Dictionary from '../views/Dictionary.vue';
 import Words from '../views/Words.vue';
 import Translator from '../views/Translator.vue';
-import Auth from '../views/Auth.vue';
+import Login from '../views/Login.vue';
+import Register from '../views/Register.vue';
 import TodoList from '../views/TodoList.vue';
 import Home from '../views/Home.vue';
 
@@ -21,9 +22,14 @@ const router = createRouter({
             component: Home,
         },
         {
-            path: '/auth',
-            name: 'auth',
-            component: Auth,
+            path: '/login',
+            name: 'login',
+            component: Login,
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: Register,
         },
         {
             path: '/notes',

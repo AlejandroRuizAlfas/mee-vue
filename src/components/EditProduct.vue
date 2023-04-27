@@ -9,19 +9,19 @@
             <!-- <form> -->
             <div class="form-group">
                 <label for="prodName">Name:</label>
-                <input type="text" class="form-control" placeholder="Enter product name..." name="prodName" id="prodName" />
+                <input type="text" class="form-control" placeholder="Enter product name..." v-model="product.name" name="prodName" id="prodName" />
             </div>
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
                         <label for="prodQty">Quantity:</label>
-                        <input type="number" class="form-control" value="1" name="prodQty" id="prodQty" />
+                        <input type="number" class="form-control" v-model="product.quantity" name="prodQty" id="prodQty" />
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="form-group">
                         <label for="prodCat">Category:</label>
-                        <select class="form-select" name="prodCat" id="prodCat">
+                        <select class="form-select" name="prodCat" id="prodCat" v-model="product.category">
                             <option value="default" selected disabled>Select a category...</option>
                             <option value="food">General Food</option>
                             <option value="health">Health & Care</option>
@@ -34,9 +34,12 @@
                 </div>
             </div>
             <div class="footer-dialog">
-                <div class="actions mt-3" style="float: right">
-                    <button type="cancel" class="btn btn-danger mx-2" @click="handleClose">Cancel</button>
-                    <button type="submit" class="btn btn-success" @click="handleFinishAdd">Add</button>
+                <div class="actions mt-3">
+                    <button class="btn btn-danger"><i class="bi bi-trash"></i> Delete?</button>
+                    <div style="float: right">
+                        <button type="cancel" class="btn btn-danger mx-2" @click="handleClose">Cancel</button>
+                        <button type="submit" class="btn btn-warning" @click="handleFinishEdit">Edit</button>
+                    </div>
                 </div>
             </div>
             <!-- </form> -->
@@ -51,24 +54,30 @@ export default {
     props: {
         title: String,
         message: String,
+        prod: Object,
     },
     data() {
-        return {};
+        return {
+            product: { name: '', quantity: 0, category: 'default', icon: 'default', bought: false },
+        };
     },
     methods: {
-        handleFinishAdd() {
+        handleFinishEdit() {
             let prod = {
                 name: document.getElementById('prodName').value,
                 quantity: document.getElementById('prodQty').value,
                 category: document.getElementById('prodCat').value,
                 icon: document.getElementById('prodCat').value + '.png',
-                bought: false,
+                bought: prod.bought,
             };
-            this.$emit('finishAdd', prod);
+            // this.$emit('finishEdit', prod); //TODO CAMBIAR PARA QUE EDITE POR ID
         },
         handleClose() {
             this.$emit('closeDialog');
         },
+    },
+    mounted() {
+        this.product = this.prod;
     },
 };
 </script>
@@ -86,7 +95,6 @@ export default {
     width: 512px;
     height: auto;
 }
-
 .close-dialog {
     position: absolute;
     top: 0.5rem;

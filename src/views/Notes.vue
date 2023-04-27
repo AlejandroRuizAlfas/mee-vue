@@ -10,7 +10,7 @@
                 <div v-if="showDialog" class="backdrop">
                     <div class="dialog-wrapper">
                         <teleport to="body">
-                            <NoteShow :note="currentNote" />
+                            <NoteShow @closeDialog="handleCloseDialog" :note="currentNote" />
                         </teleport>
                     </div>
                 </div>
@@ -79,6 +79,9 @@ export default {
         randomColor() {
             // return this.colors[Math.floor(Math.random() * colors.length)];
             console.log(this.colors);
+        },
+        handleCloseDialog() {
+            this.showDialog = false;
         },
     },
     computed: {

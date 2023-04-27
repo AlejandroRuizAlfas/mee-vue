@@ -1,5 +1,10 @@
 <template>
     <div id="dialog" class="dialog p-4" v-if="note">
+        <div class="close-btn-container" style="height: 20px">
+            <button class="btn btn-sm btn-outline-secondary close-dialog" @click="handleClose">
+                <i class="bi bi-x"></i>
+            </button>
+        </div>
         <div class="dialog-content">
             <h4>Title</h4>
             <p id="noteTitle" ref="editable">{{ note.title }}</p>
@@ -60,6 +65,9 @@ export default {
         async deleteNote(note) {
             let response = await this.deleteNoteStore(this.note);
             this.$router.push('/notes');
+        },
+        handleClose() {
+            this.$emit('closeDialog');
         },
     },
     mounted() {
@@ -182,5 +190,29 @@ textarea {
 .note-body {
     max-height: 300px;
     overflow-y: auto;
+}
+
+.close-dialog {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    font-size: 2rem;
+    line-height: 1;
+    color: #6c757d;
+    border-radius: 20px;
+}
+
+.close-dialog:hover {
+    color: white;
+    border-radius: 20px;
+    background-color: rgb(253, 99, 99);
+}
+
+.close-dialog:focus {
+    box-shadow: none;
 }
 </style>

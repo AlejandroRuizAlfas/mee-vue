@@ -28,12 +28,18 @@ export const useStore = defineStore('store', {
             this.word = userWord;
             let response = await axios.get('https://api.dictionaryapi.dev/api/v2/entries/en/' + this.word);
             this.meanings = response.data;
-            console.log(this.meanings);
+        },
+        async registerUser(user) {
+            let response = await axios.post(url + '/auth/register', JSON.stringify(user));
+            return response.data;
+        },
+        async loginUser(user) {
+            let response = await axios.post(url + '/auth/login', JSON.stringify(user));
+            return response.data;
         },
         async addNoteStore() {
             let date = new Date().toISOString().replace('T', ' ').slice(0, -5);
             let newNote = { title: 'Empty note', content: '', date: date, color: '#fff', owner: this.user.user_id };
-            console.log(JSON.stringify(newNote));
             let response = await axios.post(url + '/notes/add', JSON.stringify(newNote));
             return response.data;
         },
@@ -58,14 +64,13 @@ export const useStore = defineStore('store', {
             return response.data;
         },
         async editBuylistStore(list) {
-            console.log(list);
             let response = await axios.post(url + '/buylist/edit', JSON.stringify(list));
-            console.log(response.data);
             return response.data;
         },
     },
     getters: {
         getAllNotes: (state) => async () => {
+            console.log('Store user: ' + state.user);
             let response = await axios.get(url + '/notes/get?user_id=' + state.user.user_id);
             return response.data;
         },

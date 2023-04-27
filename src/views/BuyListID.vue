@@ -3,18 +3,23 @@ import { useStore } from '../stores/store.js';
 import { mapState, mapActions } from 'pinia';
 import Loading from '../components/Loading.vue';
 import AddProduct from '../components/AddProduct.vue';
+import EditProduct from '../components/EditProduct.vue';
 
 export default {
     components: {
         Loading,
         AddProduct,
+        EditProduct,
     },
     data() {
         return {
             products: [],
             currentList: [{ name: '' }],
+            currentProd: {},
             isLoading: false,
             showDialog: false,
+            showDialogEdit: false,
+            imgSrc: '/src/assets/buylist/',
         };
     },
     methods: {
@@ -34,6 +39,10 @@ export default {
         showAddProd() {
             this.showDialog = true;
         },
+        showEditProd(product) {
+            this.currentProd = product;
+            this.showDialogEdit = true;
+        },
         saveData(prod) {
             this.showDialog = false;
             this.products.products.push(prod);
@@ -41,12 +50,17 @@ export default {
             this.currentList[0].count = this.products.products.length;
             this.editBuylistStore(this.currentList[0]);
         },
+        editData(prod) {},
         deleteItemFromList(product) {
             const itemIndex = this.products.products.findIndex((item) => item.name === product.name);
             if (itemIndex !== -1) {
                 this.products.products.splice(itemIndex, 1);
                 console.log(`The item with name was removed from the array.`);
             }
+        },
+        handleCloseDialog() {
+            this.showDialog = false;
+            this.showDialogEdit = false;
         },
     },
     computed: {
@@ -79,20 +93,22 @@ export default {
                     </div>
                 </div>
                 <hr class="hr" />
-                <div class="product-row" v-for="product in sortByBought(products.products)" v-if="products.products">
+                <div class="product-row" @click="showEditProd(product)" v-for="product in sortByBought(products.products)" v-if="products.products">
                     <div class="row p-2">
                         <div class="col-1 text-center">
                             <input type="checkbox" :checked="product.bought" />
                         </div>
                         <div class="col-6">
-                            <div class="mb-0" contenteditable="true" spellcheck="false">{{ product.name }}</div>
+                            <div class="mb-0">{{ product.name }}</div>
                         </div>
                         <div class="col-3 text-center">
-                            <div class="m-0" contenteditable="true" spellcheck="false">Quantity: {{ product.quantity }}</div>
+                            <div class="m-0">Quantity: {{ product.quantity }}</div>
                         </div>
-                        <div class="col-2 text-center">
-                            <img src="/src/assets/buylist/meat.png" class="mx-2" style="display: inline-block" />
-                            <img src="/src/assets/buylist/delete.png" class="mx-2" style="display: inline-block" @click="deleteItemFromList(product)" />
+                        <div class="col-2 text-center row-icons">
+                            <img :src="imgSrc + product.icon" class="mx-2" style="display: inline-block" />
+                            <span><i class="bi bi-pencil-fill"></i></span>
+                            <!-- <img src="/src/assets/buylist/delete.png" class="mx-2" style="display: inline-block" @click="deleteItemFromList(product)" /> -->
+                            <!-- <img src="/src/assets/buylist/edit.png" class="mx-2" style="display: inline-block" /> -->
                         </div>
                     </div>
                 </div>
@@ -100,7 +116,14 @@ export default {
             <div v-if="showDialog" class="backdrop">
                 <div class="dialog-wrapper">
                     <teleport to="body">
-                        <AddProduct @finishAdd="saveData" />
+                        <AddProduct @closeDialog="handleCloseDialog" @finishAdd="saveData" />
+                    </teleport>
+                </div>
+            </div>
+            <div v-if="showDialogEdit" class="backdrop">
+                <div class="dialog-wrapper">
+                    <teleport to="body">
+                        <EditProduct @closeDialog="handleCloseDialog" :prod="currentProd" @finishEdit="editData" />
                     </teleport>
                 </div>
             </div>
@@ -136,5 +159,11 @@ export default {
     background-color: white;
     border-radius: 40px;
     margin: 0px 20%;
+}
+
+.row-icons {
+    display: flex;
+    align-items: center;
+    padding-left: 5%;
 }
 </style>
