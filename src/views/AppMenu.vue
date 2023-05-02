@@ -10,6 +10,9 @@ export default {
     },
     methods: {
         ...mapActions(useStore, ['toggleMenu']),
+        getUser() {
+            return localStorage.getItem('mee_user');
+        },
     },
     computed: {
         ...mapState(useStore, ['isOpen']),

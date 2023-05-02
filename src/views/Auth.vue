@@ -46,6 +46,7 @@ export default {
                 this.user.username = meeUser.username;
                 this.user.email = meeUser.email;
                 console.log(this.user);
+                document.getElementsByClassName('fixed-menu')[0].style.visibility = 'visible';
                 this.$router.push('/');
             } else {
                 alert('Invalid credentials');
@@ -71,7 +72,9 @@ export default {
             this.userLogin = {};
         },
     },
-    mounted() {},
+    mounted() {
+        document.getElementsByClassName('fixed-menu')[0].style.visibility = 'hidden';
+    },
 };
 </script>
 
@@ -81,6 +84,7 @@ export default {
             <div class="container" id="container">
                 <div class="form-container sign-up-container">
                     <Form :initial-values="newUser" @submit="onSubmitReg" :validation-schema="mySchemaReg" style="padding-top: 20px">
+                        <h3 class="mb-2">Create Account</h3>
                         <fieldset>
                             <div class="">
                                 <Field name="username" type="text" placeholder="Username" />
@@ -126,8 +130,8 @@ export default {
                             <button class="ghost" id="signIn" @click="changeToLogin">Sign In</button>
                         </div>
                         <div class="overlay-panel overlay-right">
-                            <h1>Hello, Friend!</h1>
-                            <p>Enter your personal details and start journey with us</p>
+                            <h1>Hey, friend!</h1>
+                            <p>Nice to Mee-t you! Register first to start journey with mee</p>
                             <button class="ghost" id="signUp" @click="changeToRegister">Sign Up</button>
                         </div>
                     </div>

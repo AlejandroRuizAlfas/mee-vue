@@ -6,8 +6,9 @@
                     <div class="col-6">
                         <img src="/src/assets/mee-face.png" class="mee-face-logo" />
                     </div>
-                    <div class="col-6 d-flex align-items-center">
-                        <p class="username">Alejandro</p>
+                    <div class="col-6 align-items-center user-data">
+                        <p class="username">{{ getUsername() }}</p>
+                        <button class="btn btn-danger" @click="logout">Logout</button>
                     </div>
                 </div>
                 <div class="row p-4">
@@ -74,6 +75,14 @@ export default {
         ...mapActions(useStore, ['toggleMenu']),
         closeDrawer() {
             this.toggleMenu();
+        },
+        logout() {
+            localStorage.removeItem('mee_user');
+            this.closeDrawer();
+            this.$router.push('/auth');
+        },
+        getUsername() {
+            return JSON.parse(localStorage.getItem('mee_user')).username;
         },
     },
 };
@@ -148,5 +157,10 @@ a:active {
 .drawer-content {
     height: calc(100vh - 50px);
     overflow-y: auto;
+}
+
+.user-data {
+    display: grid;
+    place-items: center;
 }
 </style>

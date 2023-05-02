@@ -11,7 +11,6 @@ export default {
     methods: {
         ...mapActions(useStore, []),
         showList() {
-            console.log('List button clicked');
             // Add logic to show the list here
         },
     },
