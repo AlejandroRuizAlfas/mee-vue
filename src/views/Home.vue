@@ -18,7 +18,11 @@ export default {
     methods: {
         ...mapActions(useStore, []),
     },
-    mounted() {},
+    mounted() {
+        if (!localStorage.mee_user) {
+            this.$router.push('/auth');
+        }
+    },
 };
 </script>
 
