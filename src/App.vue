@@ -15,9 +15,10 @@ export default {
             // Add logic to show the list here
         },
     },
-    mounted() {
-        // this.loadData();
+    computed: {
+        ...mapState(useStore, ['user']),
     },
+    mounted() {},
 };
 </script>
 

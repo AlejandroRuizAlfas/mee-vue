@@ -7,7 +7,7 @@ const url = 'https://meedb.000webhostapp.com/api';
 export const useStore = defineStore('store', {
     state() {
         return {
-            user: { user_id: 1, username: 'aruizalfas', email: 'aruizalfas@gmail.com' },
+            user: JSON.parse(localStorage.getItem('mee_user')) || null,
             isOpen: false,
             word: '',
             meanings: [],

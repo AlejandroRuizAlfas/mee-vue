@@ -64,6 +64,8 @@ export default {
             this.notes.push(response);
         },
         async updateNote(note, newContent) {
+            console.log(note);
+            console.log(typeof note);
             note.content = newContent;
             let response = await this.editNoteStore(note);
             this.notes.push(response);
