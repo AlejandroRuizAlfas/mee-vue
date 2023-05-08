@@ -59,12 +59,30 @@ export const useStore = defineStore('store', {
             return response.data;
         },
 
-        async addBuylistStore(list) {
+        async addBuylistStore() {
+            let prods = `{"products": []}`;
+            let list = { name: 'New list', elements: prods, count: 0, owner: this.user.user_id };
             let response = await axios.post(url + '/buylist/add', JSON.stringify(list));
+            console.log(response.data);
             return response.data;
         },
         async editBuylistStore(list) {
             let response = await axios.post(url + '/buylist/edit', JSON.stringify(list));
+            return response.data;
+        },
+
+        async addMapStore(loc) {
+            loc.owner = this.user.user_id;
+            let response = await axios.post(url + '/maps/add', JSON.stringify(loc));
+            console.log(response.data);
+            return response.data;
+        },
+        async editMapStore(map) {
+            let response = await axios.post(url + '/maps/edit', JSON.stringify(map));
+            return response.data;
+        },
+        async deleteMapStore(map) {
+            let response = await axios.delete(url + '/maps/delete?id=' + map.map_id);
             return response.data;
         },
     },

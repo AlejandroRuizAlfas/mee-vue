@@ -23,7 +23,7 @@
                         <label for="prodCat">Category:</label>
                         <select class="form-select" name="prodCat" id="prodCat" v-model="product.category">
                             <option value="default" selected disabled>Select a category...</option>
-                            <option value="food">General Food</option>
+                            <option value="food">General</option>
                             <option value="health">Health & Care</option>
                             <option value="fruits">Fruits and Vegetables</option>
                             <option value="drinks">Drinks</option>
@@ -68,9 +68,9 @@ export default {
                 quantity: document.getElementById('prodQty').value,
                 category: document.getElementById('prodCat').value,
                 icon: document.getElementById('prodCat').value + '.png',
-                bought: prod.bought,
+                bought: this.product.bought,
             };
-            // this.$emit('finishEdit', prod); //TODO CAMBIAR PARA QUE EDITE POR ID
+            this.$emit('finishEdit', prod);
         },
         handleClose() {
             this.$emit('closeDialog');

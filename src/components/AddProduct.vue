@@ -23,7 +23,7 @@
                         <label for="prodCat">Category:</label>
                         <select class="form-select" name="prodCat" id="prodCat">
                             <option value="default" selected disabled>Select a category...</option>
-                            <option value="food">General Food</option>
+                            <option value="food">General</option>
                             <option value="health">Health & Care</option>
                             <option value="fruits">Fruits and Vegetables</option>
                             <option value="drinks">Drinks</option>

@@ -64,11 +64,9 @@ export default {
             this.notes.push(response);
         },
         async updateNote(note, newContent) {
-            console.log(note);
-            console.log(typeof note);
             note.content = newContent;
             let response = await this.editNoteStore(note);
-            this.notes.push(response);
+            // this.notes.push(response);
         },
         deleteNote(id) {
             this.notes = this.notes.filter((note) => note.id != id);

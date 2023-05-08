@@ -7,7 +7,7 @@
         </div>
         <div class="dialog-content">
             <h4>Title</h4>
-            <p id="noteTitle" ref="editable">{{ note.title }}</p>
+            <p id="noteTitle" ref="editable" contenteditable="true" spellcheck="false">{{ note.title }}</p>
 
             <h4>Content</h4>
             <div id="noteBody" class="note-body" contenteditable="true" spellcheck="false">{{ note.content }}</div>

@@ -1,6 +1,7 @@
 <script>
 import { useStore } from '../stores/store.js';
 import { mapState, mapActions } from 'pinia';
+import { debounce } from 'lodash';
 import Loading from '../components/Loading.vue';
 import AddProduct from '../components/AddProduct.vue';
 import EditProduct from '../components/EditProduct.vue';
@@ -50,17 +51,50 @@ export default {
             this.currentList[0].count = this.products.products.length;
             this.editBuylistStore(this.currentList[0]);
         },
-        editData(prod) {},
+        checkOrUncheck: debounce(function (prod) {
+            prod.bought = !prod.bought;
+            const itemIndex = this.products.products.findIndex((item) => item.name === prod.name);
+            this.currentList[0].elements = JSON.stringify(this.products);
+            this.currentList[0].count = this.products.products.length;
+            this.editBuylistStore(this.currentList[0]);
+        }, 100),
+
+        editData(prod) {
+            console.log(prod);
+            const itemIndex = this.products.products.findIndex((item) => item.name === prod.name);
+            if (itemIndex != -1) {
+                this.products.products[itemIndex] = prod;
+            }
+            this.currentList[0].elements = JSON.stringify(this.products);
+            this.currentList[0].count = this.products.products.length;
+            this.editBuylistStore(this.currentList[0]);
+            this.showDialogEdit = false;
+        },
         deleteItemFromList(product) {
             const itemIndex = this.products.products.findIndex((item) => item.name === product.name);
             if (itemIndex !== -1) {
                 this.products.products.splice(itemIndex, 1);
-                console.log(`The item with name was removed from the array.`);
             }
         },
         handleCloseDialog() {
             this.showDialog = false;
             this.showDialogEdit = false;
+        },
+        checkaAll() {
+            this.products.products.forEach((element) => {
+                element.bought = true;
+            });
+            this.currentList[0].elements = JSON.stringify(this.products);
+            this.currentList[0].count = this.products.products.length;
+            this.editBuylistStore(this.currentList[0]);
+        },
+        uncheckaAll() {
+            this.products.products.forEach((element) => {
+                element.bought = false;
+            });
+            this.currentList[0].elements = JSON.stringify(this.products);
+            this.currentList[0].count = this.products.products.length;
+            this.editBuylistStore(this.currentList[0]);
         },
     },
     computed: {
@@ -72,7 +106,7 @@ export default {
             this.currentList = await this.getBuylistID(this.$route.params.id);
             this.products = JSON.parse(this.currentList[0].elements);
             this.isLoading = false;
-        }, 2000); // TODO QUITAR SET TIMEOUT
+        }, 1000); // TODO QUITAR SET TIMEOUT
     },
 };
 </script>
@@ -90,13 +124,15 @@ export default {
                     </div>
                     <div class="col-6">
                         <button class="btn btn-primary mx-4" @click="showAddProd" style="float: right"><i class="bi bi-plus-circle-fill"></i> Add product</button>
+                        <button class="btn btn-success mx-1" @click="checkaAll" style="float: right"><i class="bi bi-check2-square"></i> Check all</button>
+                        <button class="btn btn-danger mx-1" @click="uncheckaAll" style="float: right"><i class="bi bi-square"></i> Uncheck all</button>
                     </div>
                 </div>
                 <hr class="hr" />
-                <div class="product-row" @click="showEditProd(product)" v-for="product in sortByBought(products.products)" v-if="products.products">
+                <div class="product-row" v-for="product in products.products" v-if="products.products">
                     <div class="row p-2">
                         <div class="col-1 text-center">
-                            <input type="checkbox" :checked="product.bought" />
+                            <input type="checkbox" :checked="product.bought" @click="checkOrUncheck(product)" />
                         </div>
                         <div class="col-6">
                             <div class="mb-0">{{ product.name }}</div>
@@ -106,7 +142,7 @@ export default {
                         </div>
                         <div class="col-2 text-center row-icons">
                             <img :src="imgSrc + product.icon" class="mx-2" style="display: inline-block" />
-                            <span><i class="bi bi-pencil-fill"></i></span>
+                            <span><i class="bi bi-pencil-fill" @click="showEditProd(product)"></i></span>
                             <!-- <img src="/src/assets/buylist/delete.png" class="mx-2" style="display: inline-block" @click="deleteItemFromList(product)" /> -->
                             <!-- <img src="/src/assets/buylist/edit.png" class="mx-2" style="display: inline-block" /> -->
                         </div>
