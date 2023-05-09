@@ -17,12 +17,16 @@ export default {
     methods: {
         loadNews(category) {
             this.news = [];
-            let url = 'https://newsapi.org/v2/top-headlines?language=en&pageSize=100';
+            // let url = 'https://newsapi.org/v2/top-headlines?language=en&pageSize=100';
+            let url = 'https://gnews.io/api/v4/top-headlines?lang=en&country=us&max=10';
             if (category) {
                 url = url + '&category=' + category;
+            } else {
+                url = url + '&category=general';
             }
             axios
-                .get(url + '&apiKey=c279ca20e57f4c47a810032b6b52a48f')
+                // .get(url + '&apiKey=c279ca20e57f4c47a810032b6b52a48f')
+                .get(url + '&apikey=9116e08db9f993e7094071a2c1da334b')
                 .then((response) => {
                     this.news = response.data.articles;
                     console.log(this.news);
@@ -58,13 +62,6 @@ export default {
             this.loadNews();
             this.isLoading = false;
         }, 1000); // TODO QUITAR SET TIMEOUT
-
-        // if (this.$route.params.category) {
-        //     this.loadNews(this.$route.params.category);
-        //     this.$router.go(0);
-        // } else {
-        //     this.loadNews();
-        // }
     },
 };
 </script>
@@ -90,7 +87,8 @@ export default {
                 <div class="col-lg-3 col-md-6 col-12 mx-auto news-feed" v-for="item in news" :key="news.id">
                     <figure class="snip1237">
                         <div class="image">
-                            <img :src="imageUrl(item.urlToImage)" alt="sample74" /><i class="ion-ios-clock-outline"></i>
+                            <!-- <img :src="imageUrl(item.urlToImage)" alt="sample74" /><i class="ion-ios-clock-outline"></i> -->
+                            <img :src="imageUrl(item.url)" alt="sample74" /><i class="ion-ios-clock-outline"></i>
                             <div class="date">
                                 <span class="day">{{ calculateDay(item.publishedAt) }}</span
                                 ><span class="month">{{ calculateMonth(item.publishedAt) }}</span>

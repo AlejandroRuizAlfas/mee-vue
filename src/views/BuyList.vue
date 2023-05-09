@@ -14,19 +14,21 @@ export default {
         };
     },
     methods: {
-        ...mapActions(useStore, ['addBuylistStore', 'editBuylistStore', 'deleteListStore']),
+        ...mapActions(useStore, ['addBuylistStore', 'editBuylistStore', 'deleteBuylisStore']),
         handleShowList(id) {
             this.$router.push('buyList/' + id);
         },
         async handleCreateList() {
             let lista = await this.addBuylistStore();
-            console.log(lista);
+            !this.lists ? (this.lists = []) : '';
             this.lists.push(lista);
         },
         async handleChangeTitle(item, content) {
             item.name = content;
             let response = await this.editBuylistStore(item);
-            response ? this.$notify({ type: 'success', text: 'Buylist name changed!' }) : '';
+        },
+        async handleDeleteList(item) {
+            await this.deleteBuylisStore(item);
         },
     },
     computed: {
@@ -51,7 +53,7 @@ export default {
             <div class="button-wrapper text-center">
                 <button class="btn btn-success w-100" @click="handleCreateList">Create new list!</button>
             </div>
-            <div class="buycard p-4" @click="handleShowList(item.buylist_id)" v-for="item in lists">
+            <div class="buycard p-4" @click="handleShowList(item.buylist_id)" v-for="item in lists" v-if="lists.length > 0">
                 <div class="row">
                     <div class="col-7 p-3">
                         <div class="list-name" contenteditable="true" spellcheck="false" @click.stop @blur="handleChangeTitle(item, $event.target.textContent)">{{ item.name }}</div>
@@ -63,8 +65,16 @@ export default {
                         <img class="buy-image-right" src="/src/assets/compraEmpty.png" />
                     </div>
                     <div class="col-1">
-                        <span><i class="bi bi-trash" @click="handleDeleteList(item)" style="color: #dc3545; font-size: 24px; float: right"></i></span>
+                        <span><i class="bi bi-trash" @click="handleDeleteList(item)" @click.stop style="color: #dc3545; font-size: 24px; float: right"></i></span>
                     </div>
+                </div>
+            </div>
+            <div v-else>
+                <div class="row empty-wrapper">
+                    <img class="empty-img" src="/src/assets/empty/compraempty.png" />
+                </div>
+                <div class="row text-center">
+                    <p class="empty-text">Organize your purchases by creating new lists!</p>
                 </div>
             </div>
         </div>
@@ -116,5 +126,22 @@ button {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 32px;
     font-weight: bold;
+}
+
+.empty-img {
+    width: 20rem;
+    height: auto;
+}
+
+.empty-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.empty-text {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
 }
 </style>

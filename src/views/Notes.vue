@@ -16,6 +16,15 @@
                 </div>
             </div>
         </div>
+        <div v-if="!notes">
+            <div class="row empty-wrapper">
+                <img class="empty-img" src="/src/assets/empty/notesempty.png" />
+            </div>
+            <div class="row text-center">
+                <p class="empty-text">Do you usually forget things?</p>
+                <p class="empty-text">Write it on a note!</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -46,13 +55,11 @@ export default {
         setTimeout(async () => {
             this.notes = await this.getAllNotes();
             this.isLoading = false;
-        }, 2000); // TODO QUITAR SET TIMEOUT
+        }, 1000); // TODO QUITAR SET TIMEOUT
     },
     methods: {
         ...mapActions(useStore, ['addNoteStore', 'editNoteStore']),
-        saveNotes(notes) {
-            // localStorage.setItem("stickynotes-notes", JSON.stringify(notes));
-        },
+        saveNotes(notes) {},
         createNoteElement(id, content) {
             return {
                 id: id,
@@ -61,12 +68,12 @@ export default {
         },
         async addNote() {
             let response = await this.addNoteStore();
+            !this.notes ? (this.notes = []) : '';
             this.notes.push(response);
         },
         async updateNote(note, newContent) {
             note.content = newContent;
             let response = await this.editNoteStore(note);
-            // this.notes.push(response);
         },
         deleteNote(id) {
             this.notes = this.notes.filter((note) => note.id != id);
@@ -152,5 +159,22 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
+}
+
+.empty-img {
+    width: 20rem;
+    height: auto;
+}
+
+.empty-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.empty-text {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
 }
 </style>

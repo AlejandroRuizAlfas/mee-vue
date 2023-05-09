@@ -60,7 +60,6 @@ export default {
         }, 100),
 
         editData(prod) {
-            console.log(prod);
             const itemIndex = this.products.products.findIndex((item) => item.name === prod.name);
             if (itemIndex != -1) {
                 this.products.products[itemIndex] = prod;
@@ -148,6 +147,15 @@ export default {
                         </div>
                     </div>
                 </div>
+                <div v-if="products.products && products.products.length <= 0">
+                    <div class="row empty-wrapper">
+                        <img class="empty-img" src="/src/assets/empty/prodempty.png" />
+                    </div>
+                    <div class="row text-center">
+                        <p class="empty-text">Let's fill the basket with</p>
+                        <p class="empty-text">a few fresh products!</p>
+                    </div>
+                </div>
             </div>
             <div v-if="showDialog" class="backdrop">
                 <div class="dialog-wrapper">
@@ -201,5 +209,22 @@ export default {
     display: flex;
     align-items: center;
     padding-left: 5%;
+}
+
+.empty-img {
+    width: 20rem;
+    height: auto;
+}
+
+.empty-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.empty-text {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
 }
 </style>

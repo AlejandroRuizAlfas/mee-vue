@@ -2,18 +2,34 @@
 import { useStore } from '../stores/store.js';
 import { mapState, mapActions } from 'pinia';
 import Loading from '../components/Loading.vue';
+import AddTodo from '../components/AddTodo.vue';
 export default {
     components: {
         Loading,
+        AddTodo,
     },
     data() {
         return {
             todos: [],
             isLoading: false,
+            showDialog: false,
         };
     },
     methods: {
-        ...mapActions(useStore, ['']),
+        ...mapActions(useStore, ['addTodoStore', 'editTodoStore', 'deleteTodoStore']),
+        handleCreateTodo() {
+            this.showDialog = true;
+        },
+        handleCloseDialog() {
+            this.showDialog = false;
+        },
+        async saveData(newTodo) {
+            // let newTodo = { name: 'New todo', completed: 0, desc: 'Empty description', alarmActivated: 0, notifActivated: 0, limitDate: new Date().toLocaleString().replaceAll('PM', ' ').replaceAll(' ', '').replace(',', ' ').replaceAll('/', '-'), priority: 1, earlyNotif: 0 };
+            let response = await this.addTodoStore(newTodo);
+            !this.todos ? (this.todos = []) : '';
+            this.todos.push(response);
+            this.showDialog = false;
+        },
     },
     computed: {
         ...mapState(useStore, ['getAllTodos']),
@@ -23,6 +39,7 @@ export default {
         setTimeout(async () => {
             this.todos = await this.getAllTodos();
             this.isLoading = false;
+            console.log(this.todos);
         }, 1000); // TODO QUITAR SET TIMEOUT
     },
 };
@@ -36,9 +53,9 @@ export default {
         <div v-else>
             <div class="todo-bg p-2">
                 <div class="btn-wrapper m-3">
-                    <button class="btn btn-primary btn-add-todo">New To-Do</button>
+                    <button class="btn btn-primary btn-add-todo" @click="handleCreateTodo">New To-Do</button>
                 </div>
-                <div class="item-list">
+                <div class="item-list" v-if="todos.length > 0">
                     <div class="todo-item m-3" v-for="item in todos" :key="item.todo_id">
                         <div class="col-1 todo-prior-bar m-1 mx-2"></div>
                         <div class="col-9 todo-content">
@@ -56,6 +73,21 @@ export default {
                         </div>
                     </div>
                 </div>
+                <div v-else>
+                    <div class="row empty-wrapper">
+                        <img class="empty-img" src="/src/assets/empty/alltodoempty.png" />
+                    </div>
+                    <div class="row text-center">
+                        <p class="empty-text">This board looks so empty!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="showDialog" class="backdrop">
+            <div class="dialog-wrapper">
+                <teleport to="body">
+                    <AddTodo @closeDialog="handleCloseDialog" @finishAdd="saveData" />
+                </teleport>
             </div>
         </div>
     </div>
@@ -68,12 +100,21 @@ export default {
     background-color: #233d4d;
     height: 100vh;
 }
+.item-list {
+}
 
 .todo-bg {
-    background-color: bisque;
-    height: 500px;
-    width: 400px;
+    background-color: #353640;
+    height: 550px;
+    width: 450px;
     border-radius: 40px;
+    border: 5px solid #966f33;
+    overflow-x: hidden;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.todo-bg::-webkit-scrollbar {
+    display: none;
 }
 
 .todo-item {
@@ -99,6 +140,39 @@ export default {
     border-radius: 20px;
     width: 100%;
 }
-.item-list {
+.empty-img {
+    width: 20rem;
+    height: auto;
+}
+
+.empty-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.empty-text {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 5;
+}
+
+.dialog-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
 }
 </style>

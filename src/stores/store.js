@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { defineStore } from 'pinia';
-
+import { notify } from '@kyvg/vue3-notification';
 const url = 'https://meedb.000webhostapp.com/api';
 // const url = import.meta.env.VITE_URL;
 
@@ -41,21 +41,25 @@ export const useStore = defineStore('store', {
             let date = new Date().toISOString().replace('T', ' ').slice(0, -5);
             let newNote = { title: 'Empty note', content: '', date: date, color: '#fff', owner: this.user.user_id };
             let response = await axios.post(url + '/notes/add', JSON.stringify(newNote));
+            response ? notify({ type: 'success', text: 'New note created!' }) : '';
             return response.data;
         },
         async editNoteStore(note) {
             let response = await axios.post(url + '/notes/edit', JSON.stringify(note));
+            response ? notify({ type: 'success', text: 'Note updated!' }) : '';
             return response.data;
         },
         async deleteNoteStore(note) {
             let response = await axios.delete(url + '/notes/delete', {
                 headers: {
+                    'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/json',
                 },
-                data: {
+                params: {
                     id: note.note_id,
                 },
             });
+            response ? notify({ type: 'danger', text: 'Note deleted!' }) : '';
             return response.data;
         },
 
@@ -63,26 +67,52 @@ export const useStore = defineStore('store', {
             let prods = `{"products": []}`;
             let list = { name: 'New list', elements: prods, count: 0, owner: this.user.user_id };
             let response = await axios.post(url + '/buylist/add', JSON.stringify(list));
-            console.log(response.data);
+            response ? notify({ type: 'success', text: 'New buylist created!' }) : '';
             return response.data;
         },
         async editBuylistStore(list) {
             let response = await axios.post(url + '/buylist/edit', JSON.stringify(list));
+            response ? notify({ type: 'success', text: 'Buylist updated!' }) : '';
+            return response.data;
+        },
+        async deleteBuylisStore(list) {
+            let response = await axios.delete(url + '/buylist/delete?id=' + list.buylist_id);
+            console.log(response.data);
+            response ? notify({ type: 'danger', text: 'Map location deleted!' }) : '';
             return response.data;
         },
 
         async addMapStore(loc) {
             loc.owner = this.user.user_id;
             let response = await axios.post(url + '/maps/add', JSON.stringify(loc));
-            console.log(response.data);
+            response ? notify({ type: 'success', text: 'New map location added!' }) : '';
             return response.data;
         },
         async editMapStore(map) {
             let response = await axios.post(url + '/maps/edit', JSON.stringify(map));
+            response ? notify({ type: 'success', text: 'Map location updated!' }) : '';
             return response.data;
         },
         async deleteMapStore(map) {
             let response = await axios.delete(url + '/maps/delete?id=' + map.map_id);
+            response ? notify({ type: 'danger', text: 'Map location deleted!' }) : '';
+            return response.data;
+        },
+
+        async addTodoStore(todo) {
+            todo.owner = this.user.user_id;
+            let response = await axios.post(url + '/todos/add', JSON.stringify(todo));
+            response ? notify({ type: 'success', text: 'New todo added!' }) : '';
+            return response.data;
+        },
+        async editTodoStore(todo) {
+            let response = await axios.post(url + '/todos/edit', JSON.stringify(todo));
+            response ? notify({ type: 'success', text: 'Todo updated!' }) : '';
+            return response.data;
+        },
+        async deleteTodoStore(todo) {
+            let response = await axios.delete(url + '/todos/delete?id=' + todo.todo_id);
+            response ? notify({ type: 'danger', text: 'Todo deleted!' }) : '';
             return response.data;
         },
     },

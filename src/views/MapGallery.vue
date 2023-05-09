@@ -24,8 +24,6 @@ export default {
             }
         },
         success(position) {
-            // let location = { id: 3, title: 'Map 1', longitude: position.coords.longitude, latitude: position.coords.latitude };
-            // this.locations.push(location);
             let url = 'https://nominatim.openstreetmap.org/reverse.php?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude + '&zoom=13&format=jsonv2&accept-language=en';
             axios
                 .get(url)
@@ -35,6 +33,7 @@ export default {
                     let address = names[0] + ', ' + names[3];
                     let created = 'Created on ' + new Date().toLocaleDateString() + ' at ' + new Date().toLocaleTimeString();
                     let location = { title: 'Name your location...', address: address, latitude: position.coords.latitude, longitude: position.coords.longitude, info: names[4], createdAt: created };
+                    !this.locations ? (this.locations = []) : '';
                     this.locations.push(location);
                     this.addMapStore(location);
                 })
@@ -65,29 +64,40 @@ export default {
 </script>
 
 <template>
-    <div class="container" style="padding-top: 20px">
+    <div class="container-fluid" style="padding-top: 20px">
         <div v-if="isLoading">
             <Loading />
         </div>
         <div v-else>
-            <button class="btn btn-primary w-100" @click="initGeolocation">Save my current location</button>
-            <div class="card-container m-4">
-                <div class="card" v-for="item in locations" :key="item.id">
-                    <iframe :src="'https://maps.google.com/maps?q=' + item.latitude + ',' + item.longitude + '&hl=es;z=14&amp;output=embed'" width="400" height="300" frameborder="0" style="border: 0" allowfullscreen="" aria-hidden="false" tabindex="0"> </iframe>
-                    <div class="card-data p-4">
-                        <div class="row">
-                            <div class="col-10">
-                                <div id="loc-title" class="location-title" contenteditable="true" spellcheck="false" @blur="handleChangeTitle(item, $event.target.textContent)">{{ item.title }}</div>
+            <div class="outer-wrapper">
+                <button class="btn btn-primary w-100" @click="initGeolocation">Save my current location</button>
+                <div class="card-container m-4" v-if="locations.length > 0">
+                    <div class="card" v-for="item in locations" :key="item.id">
+                        <iframe :src="'https://maps.google.com/maps?q=' + item.latitude + ',' + item.longitude + '&hl=es;z=14&amp;output=embed'" width="400" height="300" frameborder="0" style="border: 0" allowfullscreen="" aria-hidden="false" tabindex="0"> </iframe>
+                        <div class="card-data p-4">
+                            <div class="row">
+                                <div class="col-10">
+                                    <div id="loc-title" class="location-title" contenteditable="true" spellcheck="false" @blur="handleChangeTitle(item, $event.target.textContent)">{{ item.title }}</div>
+                                </div>
+                                <div class="col-2">
+                                    <span><i class="bi bi-trash" @click="handleDeleteMap(item)" style="color: #dc3545; font-size: 24px; float: right"></i></span>
+                                </div>
                             </div>
-                            <div class="col-2">
-                                <span><i class="bi bi-trash" @click="handleDeleteMap(item)" style="color: #dc3545; font-size: 24px; float: right"></i></span>
-                            </div>
+                            <span class="text-span"><i class="bi bi-geo-alt-fill icon-text"></i>{{ item.address }}</span
+                            ><br />
+                            <span class="text-span"><i class="bi bi-flag-fill icon-text"></i>{{ item.info }}</span
+                            ><br />
+                            <span class="text-span"><i class="bi bi-clock icon-text"></i>{{ item.createdAt }}</span>
                         </div>
-                        <span class="text-span"><i class="bi bi-geo-alt-fill icon-text"></i>{{ item.address }}</span
-                        ><br />
-                        <span class="text-span"><i class="bi bi-flag-fill icon-text"></i>{{ item.info }}</span
-                        ><br />
-                        <span class="text-span"><i class="bi bi-clock icon-text"></i>{{ item.createdAt }}</span>
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="row empty-wrapper">
+                        <img class="empty-img" src="/src/assets/empty/mapsempty.png" />
+                    </div>
+                    <div class="row text-center">
+                        <p class="empty-text">You haven't traveled too much recently...</p>
+                        <p class="empty-text">Always rembember to save the best places!</p>
                     </div>
                 </div>
             </div>
@@ -96,8 +106,14 @@ export default {
 </template>
 
 <style scoped>
-.container {
-    background-color: white;
+.container-fluid {
+    background-color: #233d4d;
+    height: 100vh;
+}
+
+.outer-wrapper {
+    margin-left: 15%;
+    margin-right: 15%;
 }
 .map-item {
     background-color: white;
@@ -133,6 +149,23 @@ export default {
     font-weight: bold;
     line-height: 1.1em;
     padding-bottom: 10px;
+}
+
+.empty-img {
+    width: 20rem;
+    height: auto;
+}
+
+.empty-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.empty-text {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
 }
 
 /* @media only screen and (max-width: 600px) {

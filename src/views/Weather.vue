@@ -24,7 +24,7 @@ export default {
     methods: {
         getTodayForecast(lat, lng) {
             axios
-                .get('http://api.weatherapi.com/v1/forecast.json?key=fcd6ef5129334e7eba2133208221205&q=' + lat + ',' + lng + '&days=7&aqi=yes&alerts=no%22')
+                .get('https://api.weatherapi.com/v1/forecast.json?key=fcd6ef5129334e7eba2133208221205&q=' + lat + ',' + lng + '&days=7&aqi=yes&alerts=no%22')
                 .then((response) => {
                     this.forecast = response.data.forecast.forecastday[0];
                     this.currentWeather = response.data.current;
@@ -78,7 +78,6 @@ export default {
             return timeString;
         },
         getWeekDay(date) {
-            console.log(date);
             let weekday = new Date(date);
             const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             return weekdays[weekday.getDay()];
@@ -132,7 +131,7 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="col-3" id="aside-info">
+            <div class="col-md-3 col-sm-12" id="aside-info">
                 <div class="week-forecast justify-content-center text-center m-4 p-4">
                     <h4>3-DAY FORECAST</h4>
                     <div class="row mt-4 align-items-center">
