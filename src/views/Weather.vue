@@ -3,10 +3,12 @@ import { useStore } from '../stores/store.js';
 import { mapState, mapActions } from 'pinia';
 import axios from 'axios';
 import WeatherLocation from '../components/WeatherLocation.vue';
+import Loading from '../components/Loading.vue';
 
 export default {
     components: {
         WeatherLocation,
+        Loading,
     },
     data() {
         return {
@@ -19,6 +21,7 @@ export default {
             cityString: '',
             showDialog: false,
             locations: [],
+            isLoading: false,
         };
     },
     methods: {
@@ -97,144 +100,166 @@ export default {
         },
     },
     async mounted() {
-        this.getAllCities();
-        await this.getTodayForecast('40.417975083297925', '-3.6980873676940718');
+        this.isLoading = true;
+        setTimeout(async () => {
+            this.getAllCities();
+            await this.getTodayForecast('40.417975083297925', '-3.6980873676940718');
+            this.isLoading = false;
+        }, 1000); // TODO QUITAR SET TIMEOUT
     },
 };
 </script>
 
 <template>
-    <div class="container-fluid" style="padding-top: 20px">
-        <div class="row justify-content-center">
-            <div class="search-bar">
-                <input id="searchInput" type="text" v-model="cityString" placeholder="Search for the name of a city..." />
-                <datalist id="citiesList"></datalist>
-                <button type="submit" @click="searchCityInArray()"><i class="bi bi-search"></i></button>
+    <div v-if="isLoading">
+        <Loading />
+    </div>
+    <div class="weather-wrapper" v-else>
+        <div class="container-fluid" style="padding-top: 20px">
+            <div class="row justify-content-center">
+                <div class="search-bar">
+                    <input id="searchInput" type="text" v-model="cityString" placeholder="Search for the name of a city..." />
+                    <datalist id="citiesList"></datalist>
+                    <button type="submit" @click="searchCityInArray()"><i class="bi bi-search"></i></button>
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-9" id="main-info">
-                <div class="today-forecast m-4 p-4">
-                    <h3 class="display-5 px-4">{{ printCurrentDateString() }}</h3>
+            <div class="row justify-content-center">
+                <div class="col-9" id="main-info">
+                    <div class="today-forecast m-4 p-4">
+                        <h3 class="display-5 px-4">{{ printCurrentDateString() }}</h3>
 
-                    <div class="row mt-5">
-                        <div class="col-8 mx-4">
-                            <h1 class="display-1 place-name px-4">{{ place.name }}</h1>
-                            <h3 class="display-2 place-temp px-4">{{ currentWeather.temp_c }}ºC</h3>
-                        </div>
-                        <div class="col-3">
-                            <img v-if="currentWeather.condition" :src="currentWeather.condition.icon" class="current-big-icon" />
-                        </div>
-                        <!-- <div class="col-2" v-if="forecast3days[0]">
+                        <div class="row mt-5">
+                            <div class="col-8 mx-4">
+                                <h1 class="display-1 place-name px-4">{{ place.name }}</h1>
+                                <h3 class="display-2 place-temp px-4">{{ currentWeather.temp_c }}ºC</h3>
+                            </div>
+                            <div class="col-3">
+                                <img v-if="currentWeather.condition" :src="currentWeather.condition.icon" class="current-big-icon" />
+                            </div>
+                            <!-- <div class="col-2" v-if="forecast3days[0]">
                             <img :src="currentWeather.condition.icon" class="current-big-icon" />
                         </div> -->
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-sm-12" id="aside-info">
-                <div class="week-forecast justify-content-center text-center m-4 p-4">
-                    <h4>3-DAY FORECAST</h4>
-                    <div class="row mt-4 align-items-center">
-                        <div class="col-4 mx-auto">
-                            <div>Today</div>
-                        </div>
-                        <div class="col-4">
-                            <div v-if="forecast3days[0]">
-                                <img :src="forecast3days[0].day.condition.icon" />
-                                {{ forecast3days[0].day.condition.text }}
+                <div class="col-md-3 col-sm-12" id="aside-info">
+                    <div class="week-forecast justify-content-center text-center m-4 p-4">
+                        <h4>3-DAY FORECAST</h4>
+                        <div class="row mt-4 align-items-center">
+                            <div class="col-4 mx-auto">
+                                <div>Today</div>
+                            </div>
+                            <div class="col-4">
+                                <div v-if="forecast3days[0]">
+                                    <img :src="forecast3days[0].day.condition.icon" />
+                                    {{ forecast3days[0].day.condition.text }}
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div v-if="forecast3days[0]">
+                                    Min: {{ forecast3days[0].day.mintemp_c }}ºC <br />
+                                    Max: {{ forecast3days[0].day.maxtemp_c }}ºC
+                                </div>
                             </div>
                         </div>
-                        <div class="col-4">
-                            <div v-if="forecast3days[0]">
-                                Min: {{ forecast3days[0].day.mintemp_c }}ºC <br />
-                                Max: {{ forecast3days[0].day.maxtemp_c }}ºC
+                        <div class="row mt-4 align-items-center">
+                            <div class="col-4 mx-auto">
+                                <div v-if="forecast3days[1]">{{ getWeekDay(forecast3days[1].date) }}</div>
+                            </div>
+                            <div class="col-4">
+                                <div v-if="forecast3days[1]">
+                                    <img :src="forecast3days[1].day.condition.icon" />
+                                    {{ forecast3days[1].day.condition.text }}
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div v-if="forecast3days[1]">
+                                    Min: {{ forecast3days[1].day.mintemp_c }}ºC <br />
+                                    Max: {{ forecast3days[1].day.maxtemp_c }}ºC
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mt-4 align-items-center">
-                        <div class="col-4 mx-auto">
-                            <div v-if="forecast3days[1]">{{ getWeekDay(forecast3days[1].date) }}</div>
-                        </div>
-                        <div class="col-4">
-                            <div v-if="forecast3days[1]">
-                                <img :src="forecast3days[1].day.condition.icon" />
-                                {{ forecast3days[1].day.condition.text }}
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div v-if="forecast3days[1]">
-                                Min: {{ forecast3days[1].day.mintemp_c }}ºC <br />
-                                Max: {{ forecast3days[1].day.maxtemp_c }}ºC
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="row mt-4 align-items-center">
-                        <div class="col-4 mx-auto">
-                            <div v-if="forecast3days[2]">{{ getWeekDay(forecast3days[2].date) }}</div>
-                        </div>
-                        <div class="col-4">
-                            <div v-if="forecast3days[2]">
-                                <img :src="forecast3days[2].day.condition.icon" />
-                                {{ forecast3days[2].day.condition.text }}
+                        <div class="row mt-4 align-items-center">
+                            <div class="col-4 mx-auto">
+                                <div v-if="forecast3days[2]">{{ getWeekDay(forecast3days[2].date) }}</div>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div v-if="forecast3days[2]">
-                                Min: {{ forecast3days[2].day.mintemp_c }}ºC <br />
-                                Max: {{ forecast3days[2].day.maxtemp_c }}ºC
+                            <div class="col-4">
+                                <div v-if="forecast3days[2]">
+                                    <img :src="forecast3days[2].day.condition.icon" />
+                                    {{ forecast3days[2].day.condition.text }}
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div v-if="forecast3days[2]">
+                                    Min: {{ forecast3days[2].day.mintemp_c }}ºC <br />
+                                    Max: {{ forecast3days[2].day.maxtemp_c }}ºC
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row justify-content-center">
-            <div class="col-9">
-                <div class="hourly-panel m-4 p-4">
-                    <h3 class="mx-3 py-2" style="margin-bottom: 16px">Today's forecast</h3>
-                    <div class="hourly-forecast-container mt-2">
-                        <div v-for="item in filteredHours" class="text-center hourly-forecast w-20">
-                            <p>{{ getAmPmFormat(item.time) }}</p>
-                            <img :src="item.condition.icon" />
-                            <h3>{{ Math.round(item.temp_c) }}º</h3>
+            <div class="row justify-content-center">
+                <div class="col-9">
+                    <div class="hourly-panel m-4 p-4">
+                        <h3 class="mx-3 py-2" style="margin-bottom: 16px">Today's forecast</h3>
+                        <div class="hourly-forecast-container mt-2">
+                            <div v-for="item in filteredHours" class="text-center hourly-forecast w-20">
+                                <p>{{ getAmPmFormat(item.time) }}</p>
+                                <img :src="item.condition.icon" />
+                                <h3>{{ Math.round(item.temp_c) }}º</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="hourly-panel m-4 p-4">
+                        <h3 class="mx-3 py-2" style="margin-bottom: 16px">Astro information</h3>
+                        <div class="astro-info-container mt-2">
+                            <div v-if="forecast.astro" class="w-100">Sunrise: {{ forecast.astro.sunrise }}</div>
+                            <div v-if="forecast.astro" class="w-100">Sunset: {{ forecast.astro.sunset }}</div>
+                            <hr class="hr" />
+                            <div v-if="forecast.astro" class="w-100">Moonrise: {{ forecast.astro.moonrise }}</div>
+                            <div v-if="forecast.astro" class="w-100">Moonset: {{ forecast.astro.moonset }}</div>
+                            <div v-if="forecast.astro" class="w-100">Moon Phase: {{ forecast.astro.moon_phase }}</div>
+                            <div v-if="forecast.astro" class="w-100">Moon Illumination: {{ forecast.astro.moon_illumination }}%</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-3"></div>
-        </div>
 
-        <div class="row justify-content-center">
-            <div class="col-9">
-                <div class="conditions-panel m-4 p-4">
-                    <h3 class="mx-3 py-2" style="margin-bottom: 16px">Air conditions</h3>
-                    <div class="air-conditions-container mt-2 mb-4">
-                        <div class="row mx-5">
-                            <div class="col-6">
-                                <p class="mb-0 air-conditions-container-title"><span class="bi bi-thermometer-half"> Real feel</span></p>
-                                <div class="air-conditions-container-values">{{ currentWeather.feelslike_c }}</div>
+            <div class="row justify-content-center">
+                <div class="col-9">
+                    <div class="conditions-panel m-4 p-4">
+                        <h3 class="mx-3 py-2" style="margin-bottom: 16px">Air conditions</h3>
+                        <div class="air-conditions-container mt-2 mb-4">
+                            <div class="row mx-5">
+                                <div class="col-6">
+                                    <p class="mb-0 air-conditions-container-title"><span class="bi bi-thermometer-half"> Real feel</span></p>
+                                    <div class="air-conditions-container-values">{{ currentWeather.feelslike_c }}º</div>
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-0 air-conditions-container-title"><span class="bi bi-wind"> Wind</span></p>
+                                    <div class="air-conditions-container-values">{{ currentWeather.gust_kph }} km/h</div>
+                                </div>
                             </div>
-                            <div class="col-6">
-                                <p class="mb-0 air-conditions-container-title"><span class="bi bi-wind"> Wind</span></p>
-                                <div class="air-conditions-container-values">{{ currentWeather.gust_kph }} km/h</div>
-                            </div>
-                        </div>
-                        <div class="row mx-5 mt-2">
-                            <div class="col-6">
-                                <p class="mb-0 air-conditions-container-title"><span class="bi bi-droplet-fill"> Rain</span></p>
-                                <div class="air-conditions-container-values">{{ currentWeather.precip_mm }} mm</div>
-                            </div>
-                            <div class="col-6">
-                                <p class="mb-0 air-conditions-container-title"><span class="bi bi-sun-fill"> UV Index</span></p>
-                                <div class="air-conditions-container-values">{{ currentWeather.uv }}</div>
+                            <div class="row mx-5 mt-2">
+                                <div class="col-6">
+                                    <p class="mb-0 air-conditions-container-title"><span class="bi bi-droplet-fill"> Rain</span></p>
+                                    <div class="air-conditions-container-values">{{ currentWeather.precip_mm }} mm</div>
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-0 air-conditions-container-title"><span class="bi bi-sun-fill"> UV Index</span></p>
+                                    <div class="air-conditions-container-values">{{ currentWeather.uv }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-3"></div>
             </div>
-            <div class="col-3"></div>
         </div>
 
         <div v-if="showDialog" class="backdrop">
@@ -249,10 +274,9 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&family=Rubik:wght@600&display=swap');
-
 .container-fluid {
     background-color: #0b131e;
-    height: 100vh;
+    /* height: 100vh; */
 }
 .weather-card {
     background-color: azure;
@@ -397,6 +421,9 @@ export default {
     font-weight: bolder;
     font-size: 36px;
     color: white;
+}
+
+.astro-info-container {
 }
 
 p,

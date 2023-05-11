@@ -45,15 +45,15 @@ export default {
 </script>
 
 <template>
-    <div class="container-fluid" style="padding-top: 20px">
+    <div class="container" style="padding-top: 20px">
         <div v-if="isLoading">
             <Loading />
         </div>
         <div v-else>
-            <div class="button-wrapper text-center">
+            <div class="button-wrapper text-center m-4">
                 <button class="btn btn-success w-100" @click="handleCreateList">Create new list!</button>
             </div>
-            <div class="buycard p-4" @click="handleShowList(item.buylist_id)" v-for="item in lists" v-if="lists.length > 0">
+            <div class="buycard p-4 m-4" @click="handleShowList(item.buylist_id)" v-for="item in lists" v-if="lists.length > 0">
                 <div class="row">
                     <div class="col-7 p-3">
                         <div class="list-name" contenteditable="true" spellcheck="false" @click.stop @blur="handleChangeTitle(item, $event.target.textContent)">{{ item.name }}</div>
@@ -82,14 +82,13 @@ export default {
 </template>
 
 <style scoped>
-.container-fluid {
-    background-color: #233d4d;
-    height: 100vh;
+.container {
+    /* background-color: #233d4d;
+    height: 100vh; */
 }
 .buycard {
     background-color: antiquewhite;
     border-radius: 20px;
-    margin: 30px 20%;
 }
 
 .buycard:hover {
@@ -112,7 +111,6 @@ export default {
 }
 
 .button-wrapper {
-    margin: 30px 20%;
 }
 
 button {

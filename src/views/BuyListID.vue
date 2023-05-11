@@ -177,8 +177,8 @@ export default {
 
 <style scoped>
 .container-fluid {
-    background-color: #233d4d;
-    height: 100vh;
+    /* background-color: #233d4d;
+    height: 100vh; */
 }
 
 .backdrop {

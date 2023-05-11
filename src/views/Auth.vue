@@ -39,6 +39,7 @@ export default {
         ...mapActions(useStore, ['loginUser', 'registerUser']),
         async onSubmit(values) {
             this.credentials = values;
+            console.log('Loginin');
             let meeUser = await this.loginUser(this.credentials);
             if (meeUser) {
                 localStorage.setItem('mee_user', JSON.stringify(meeUser));
@@ -47,9 +48,10 @@ export default {
                 this.user.email = meeUser.email;
                 console.log(this.user);
                 document.getElementsByClassName('fixed-menu')[0].style.visibility = 'visible';
+                this.$notify({ type: 'success', text: 'Welcome, ' + this.user.username });
                 this.$router.push('/');
             } else {
-                alert('Invalid credentials');
+                this.$notify({ type: 'error', text: 'Invalid credentials' });
             }
         },
         async onSubmitReg(values) {
@@ -102,7 +104,7 @@ export default {
                                 <Field name="passwordCopy" type="password" placeholder="Re-type password" />
                                 <ErrorMessage class="error-msg" name="passwordCopy" />
                             </div>
-                            <button type="submit" class="btn btn-default btn-dark">Register</button>
+                            <button type="submit" class="btn btn-default btn-dark mt-2">Register</button>
                         </fieldset>
                     </Form>
                 </div>
@@ -118,7 +120,7 @@ export default {
                                 <Field name="password" type="password" placeholder="Password" />
                                 <ErrorMessage class="error-msg" name="password" />
                             </div>
-                            <button type="submit" class="btn btn-default btn-dark">Login</button>
+                            <button type="submit" class="btn btn-default btn-dark mt-2">Login</button>
                         </fieldset>
                     </Form>
                 </div>
@@ -130,8 +132,8 @@ export default {
                             <button class="ghost" id="signIn" @click="changeToLogin">Sign In</button>
                         </div>
                         <div class="overlay-panel overlay-right">
-                            <h1>Hey, friend!</h1>
-                            <p>Nice to Mee-t you! Register first to start journey with mee</p>
+                            <h1>Nice to Mee-t you!</h1>
+                            <p>Register first to start journey with mee or log-in with your account!</p>
                             <button class="ghost" id="signUp" @click="changeToRegister">Sign Up</button>
                         </div>
                     </div>
@@ -191,8 +193,8 @@ a {
 
 button {
     border-radius: 20px;
-    border: 1px solid #ff4b2b;
-    background-color: #ff4b2b;
+    border: 1px solid #0b131e;
+    background-color: #0b131e;
     color: #ffffff;
     font-size: 12px;
     font-weight: bold;
@@ -308,8 +310,8 @@ input {
 
 .overlay {
     background: #ff416c;
-    background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
-    background: linear-gradient(to right, #ff4b2b, #ff416c);
+    background: -webkit-linear-gradient(to right, #0b131e, #111d2e);
+    background: linear-gradient(to right, #0b131e, #111d2e);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
@@ -371,5 +373,20 @@ input {
     margin: 0 5px;
     height: 40px;
     width: 40px;
+}
+
+@media (max-width: 575.98px) {
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+@media (min-width: 1200px) {
 }
 </style>

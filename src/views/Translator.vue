@@ -9,10 +9,20 @@ export default {
             langs: '',
             langFrom: '',
             langTo: '',
+            mode: 0,
         };
     },
     methods: {
-        swap() {},
+        swap() {
+            const wrapper = document.querySelector('.translate-wrapper');
+            if (this.mode == 0) {
+                wrapper.style.flexDirection = 'row-reverse';
+                this.mode = 1;
+            } else {
+                wrapper.style.flexDirection = 'row';
+                this.mode = 0;
+            }
+        },
         getLanguages() {
             axios
                 .get('/src/assets/languages.json')
@@ -174,9 +184,22 @@ export default {
 
 .translate-wrapper {
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     height: 90vh;
+}
+
+.translate-to {
+    order: 3;
+}
+
+button {
+    order: 2;
+}
+
+.translate-from {
+    order: 1;
 }
 
 .translate-from,

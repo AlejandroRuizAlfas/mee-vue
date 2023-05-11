@@ -28,8 +28,8 @@ export default {
 
 <style scoped>
 .home-page {
-    height: 100vh;
-    background-color: #233d4d;
+    /* height: 100vh;
+    background-color: #233d4d; */
     color: white;
     display: grid;
     place-items: center;

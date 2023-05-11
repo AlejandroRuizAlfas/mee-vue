@@ -28,7 +28,9 @@ export default {
                 // .get(url + '&apiKey=c279ca20e57f4c47a810032b6b52a48f')
                 .get(url + '&apikey=9116e08db9f993e7094071a2c1da334b')
                 .then((response) => {
-                    this.news = response.data.articles;
+                    let notic = response.data.articles;
+                    this.news = notic;
+                    notic.forEach((e) => this.news.push(e));
                     console.log(this.news);
                 })
                 .catch((err) => alert(err));
@@ -45,8 +47,10 @@ export default {
             this.loadNews(cat);
             if (document.getElementsByClassName('bg-primary')[0]) {
                 document.getElementsByClassName('bg-primary')[0].classList.remove('bg-primary');
+                document.getElementsByClassName('text-white')[0].classList.remove('text-white');
             }
             event.currentTarget.classList.add('bg-primary');
+            event.currentTarget.classList.add('text-white');
         },
         imageUrl(imageSrc) {
             return imageSrc ? imageSrc : '/src/assets/noimage.jpg';
@@ -70,7 +74,7 @@ export default {
     <div class="container justify-content-center" style="padding-top: 20px">
         <div class="row">
             <div class="md-chips text-center">
-                <div class="md-chip md-chip-clickable" @click="changeCategory('general')">General</div>
+                <div class="md-chip md-chip-clickable bg-primary text-white" @click="changeCategory('general')">General</div>
                 <div class="md-chip md-chip-clickable" @click="changeCategory('sports')">Sports</div>
                 <div class="md-chip md-chip-clickable" @click="changeCategory('technology')">Technology</div>
                 <div class="md-chip md-chip-clickable" @click="changeCategory('science')">Science</div>
@@ -88,7 +92,7 @@ export default {
                     <figure class="snip1237">
                         <div class="image">
                             <!-- <img :src="imageUrl(item.urlToImage)" alt="sample74" /><i class="ion-ios-clock-outline"></i> -->
-                            <img :src="imageUrl(item.url)" alt="sample74" /><i class="ion-ios-clock-outline"></i>
+                            <img :src="imageUrl(item.image)" alt="No image available" /><i class="ion-ios-clock-outline"></i>
                             <div class="date">
                                 <span class="day">{{ calculateDay(item.publishedAt) }}</span
                                 ><span class="month">{{ calculateMonth(item.publishedAt) }}</span>
@@ -266,7 +270,7 @@ figure.snip1237.hover:after {
 }
 .md-chip {
     display: inline-block;
-    background: #e0e0e0;
+    background: white;
     padding: 0 20px;
     border-radius: 32px;
     font-size: 20px;

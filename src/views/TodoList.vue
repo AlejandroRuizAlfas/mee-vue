@@ -3,16 +3,20 @@ import { useStore } from '../stores/store.js';
 import { mapState, mapActions } from 'pinia';
 import Loading from '../components/Loading.vue';
 import AddTodo from '../components/AddTodo.vue';
+import EditTodo from '../components/EditTodo.vue';
 export default {
     components: {
         Loading,
         AddTodo,
+        EditTodo,
     },
     data() {
         return {
             todos: [],
             isLoading: false,
             showDialog: false,
+            editDialog: false,
+            currentTodo: {},
         };
     },
     methods: {
@@ -22,6 +26,11 @@ export default {
         },
         handleCloseDialog() {
             this.showDialog = false;
+            this.editDialog = false;
+        },
+        handleEditTodo(item) {
+            this.currentTodo = item;
+            this.editDialog = true;
         },
         async saveData(newTodo) {
             // let newTodo = { name: 'New todo', completed: 0, desc: 'Empty description', alarmActivated: 0, notifActivated: 0, limitDate: new Date().toLocaleString().replaceAll('PM', ' ').replaceAll(' ', '').replace(',', ' ').replaceAll('/', '-'), priority: 1, earlyNotif: 0 };
@@ -29,6 +38,12 @@ export default {
             !this.todos ? (this.todos = []) : '';
             this.todos.push(response);
             this.showDialog = false;
+        },
+        async editData(edited) {
+            let response = await this.editTodoStore(edited);
+            const itemIndex = this.todos.findIndex((item) => item.todo_id === edited.todo_id);
+            this.todos[itemIndex] = edited;
+            this.editDialog = false;
         },
     },
     computed: {
@@ -39,7 +54,6 @@ export default {
         setTimeout(async () => {
             this.todos = await this.getAllTodos();
             this.isLoading = false;
-            console.log(this.todos);
         }, 1000); // TODO QUITAR SET TIMEOUT
     },
 };
@@ -56,8 +70,11 @@ export default {
                     <button class="btn btn-primary btn-add-todo" @click="handleCreateTodo">New To-Do</button>
                 </div>
                 <div class="item-list" v-if="todos.length > 0">
-                    <div class="todo-item m-3" v-for="item in todos" :key="item.todo_id">
-                        <div class="col-1 todo-prior-bar m-1 mx-2"></div>
+                    <div class="todo-item m-3" v-for="item in todos" :key="item.todo_id" @click="handleEditTodo(item)">
+                        <div v-if="item.priority == 3" class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-high"></div>
+                        <div v-else-if="item.priority == 2" class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-medium"></div>
+                        <div v-else-if="item.priority == 1" class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-low"></div>
+                        <div v-else class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-nothing"></div>
                         <div class="col-9 todo-content">
                             <div class="row">
                                 <h5 class="my-0 mb-1">{{ item.name }}</h5>
@@ -67,9 +84,7 @@ export default {
                             </div>
                         </div>
                         <div class="col-2 todo-controls">
-                            <div class="row my-2">
-                                <input type="checkbox" :checked="item.completed == 1" style="transform: scale(1.6)" />
-                            </div>
+                            <input type="checkbox" :checked="item.completed == 1" style="transform: scale(1.6)" />
                         </div>
                     </div>
                 </div>
@@ -90,6 +105,13 @@ export default {
                 </teleport>
             </div>
         </div>
+        <div v-if="editDialog" class="backdrop">
+            <div class="dialog-wrapper">
+                <teleport to="body">
+                    <EditTodo @closeDialog="handleCloseDialog" @finishEdit="editData" :todo="currentTodo" />
+                </teleport>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -97,7 +119,7 @@ export default {
 .container-fluid {
     display: grid;
     place-items: center;
-    background-color: #233d4d;
+    /* background-color: #233d4d; */
     height: 100vh;
 }
 .item-list {
@@ -127,9 +149,24 @@ export default {
 
 .todo-prior-bar {
     border-radius: 40px;
-    background-color: red;
     height: 85%;
     width: 10px;
+}
+
+.todo-prior-bar-high {
+    background-color: #dc3545;
+}
+
+.todo-prior-bar-medium {
+    background-color: #ffc107;
+}
+
+.todo-prior-bar-low {
+    background-color: #198754;
+}
+
+.todo-prior-bar-nothing {
+    background-color: rgb(77, 77, 77);
 }
 
 .todo-content {
@@ -174,5 +211,30 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
+}
+
+@media (max-width: 575.98px) {
+    .todo-bg {
+        background-color: #353640;
+        height: 550px;
+        width: 350px;
+        border-radius: 40px;
+        border: 5px solid #966f33;
+        overflow-x: hidden;
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+@media (min-width: 1200px) {
 }
 </style>

@@ -59,7 +59,7 @@ export const useStore = defineStore('store', {
                     id: note.note_id,
                 },
             });
-            response ? notify({ type: 'danger', text: 'Note deleted!' }) : '';
+            response ? notify({ type: 'error', text: 'Note deleted!' }) : '';
             return response.data;
         },
 
@@ -78,7 +78,7 @@ export const useStore = defineStore('store', {
         async deleteBuylisStore(list) {
             let response = await axios.delete(url + '/buylist/delete?id=' + list.buylist_id);
             console.log(response.data);
-            response ? notify({ type: 'danger', text: 'Map location deleted!' }) : '';
+            response ? notify({ type: 'error', text: 'Map location deleted!' }) : '';
             return response.data;
         },
 
@@ -95,7 +95,7 @@ export const useStore = defineStore('store', {
         },
         async deleteMapStore(map) {
             let response = await axios.delete(url + '/maps/delete?id=' + map.map_id);
-            response ? notify({ type: 'danger', text: 'Map location deleted!' }) : '';
+            response ? notify({ type: 'error', text: 'Map location deleted!' }) : '';
             return response.data;
         },
 
@@ -112,13 +112,12 @@ export const useStore = defineStore('store', {
         },
         async deleteTodoStore(todo) {
             let response = await axios.delete(url + '/todos/delete?id=' + todo.todo_id);
-            response ? notify({ type: 'danger', text: 'Todo deleted!' }) : '';
+            response ? notify({ type: 'error', text: 'Todo deleted!' }) : '';
             return response.data;
         },
     },
     getters: {
         getAllNotes: (state) => async () => {
-            console.log('Store user: ' + state.user);
             let response = await axios.get(url + '/notes/get?user_id=' + state.user.user_id);
             return response.data;
         },

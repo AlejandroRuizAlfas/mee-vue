@@ -5,7 +5,7 @@
         </div>
         <div v-else>
             <div id="note-board">
-                <button class="add-note" type="button" @click="addNote">+</button>
+                <div class="add-note text-center" type="button" @click="addNote">+</div>
                 <textarea v-for="note in notes" :key="note.note_id" spellcheck="false" class="note" :style="{ backgroundColor: note.color }" :value="note.content" placeholder="Empty Sticky Note" @change="updateNote(note, $event.target.value)" @dblclick="showNote(note)"> </textarea>
                 <div v-if="showDialog" class="backdrop">
                     <div class="dialog-wrapper">
@@ -48,9 +48,6 @@ export default {
         };
     },
     async mounted() {
-        // this.isLoading = true;
-        // this.notes = await this.getAllNotes();
-        // this.isLoading = false;
         this.isLoading = true;
         setTimeout(async () => {
             this.notes = await this.getAllNotes();
@@ -99,8 +96,8 @@ export default {
 
 <style scoped>
 .container-fluid {
-    background-color: #233d4d;
-    height: 100vh;
+    /* background-color: #233d4d;
+    height: 100vh; */
 }
 #note-board {
     display: grid;
@@ -129,17 +126,16 @@ export default {
     height: 200px;
     border: none;
     outline: none;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     font-size: 120px;
-    color: rgba(0, 0, 0, 0.5);
+    color: white;
     cursor: pointer;
     transition: background 0.2s;
-    padding-top: -100px;
 }
 
 .add-note:hover {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.4);
 }
 
 .backdrop {

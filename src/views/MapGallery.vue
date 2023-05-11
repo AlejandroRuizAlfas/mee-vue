@@ -64,7 +64,7 @@ export default {
 </script>
 
 <template>
-    <div class="container-fluid" style="padding-top: 20px">
+    <div class="container" style="padding-top: 20px">
         <div v-if="isLoading">
             <Loading />
         </div>
@@ -107,14 +107,10 @@ export default {
 
 <style scoped>
 .container-fluid {
-    background-color: #233d4d;
-    height: 100vh;
+    /* background-color: #233d4d;
+    height: 100vh; */
 }
 
-.outer-wrapper {
-    margin-left: 15%;
-    margin-right: 15%;
-}
 .map-item {
     background-color: white;
 }
