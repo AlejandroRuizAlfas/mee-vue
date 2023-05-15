@@ -142,7 +142,7 @@ export default {
     </div>
 </template>
 
-<style>
+<style scoped>
 .error-msg {
     color: red;
 }

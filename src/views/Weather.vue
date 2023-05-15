@@ -57,8 +57,10 @@ export default {
         },
         searchCityInArray() {
             const resultPromise = new Promise((resolve) => {
-                const result = this.citiesArray.filter((obj) => obj.name.toLocaleLowerCase().includes(this.cityString.toLocaleLowerCase()));
-                resolve(result);
+                if (this.cityString.length > 1) {
+                    const result = this.citiesArray.filter((obj) => obj.name.toLocaleLowerCase().includes(this.cityString.toLocaleLowerCase()));
+                    resolve(result);
+                }
             });
 
             resultPromise.then((result) => {
@@ -68,6 +70,10 @@ export default {
         },
         showLocationDialog() {
             this.showDialog = true;
+        },
+        handleCloseDialog() {
+            this.showDialog = false;
+            this.cityString = '';
         },
         onLocationChosen(loc) {
             this.showDialog = false;
@@ -134,7 +140,7 @@ export default {
                                 <h3 class="display-2 place-temp px-4">{{ currentWeather.temp_c }}ºC</h3>
                             </div>
                             <div class="col-3">
-                                <img v-if="currentWeather.condition" :src="currentWeather.condition.icon" class="current-big-icon" />
+                                <img v-if="currentWeather.condition" src="/src/assets/weather/sun.png" class="current-big-icon" width="250" height="250" />
                             </div>
                             <!-- <div class="col-2" v-if="forecast3days[0]">
                             <img :src="currentWeather.condition.icon" class="current-big-icon" />
@@ -218,13 +224,28 @@ export default {
                     <div class="hourly-panel m-4 p-4">
                         <h3 class="mx-3 py-2" style="margin-bottom: 16px">Astro information</h3>
                         <div class="astro-info-container mt-2">
-                            <div v-if="forecast.astro" class="w-100">Sunrise: {{ forecast.astro.sunrise }}</div>
-                            <div v-if="forecast.astro" class="w-100">Sunset: {{ forecast.astro.sunset }}</div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <img v-if="currentWeather.condition" src="/src/assets/weather/sun.png" class="current-big-icon" width="100" height="100" style="float: left" />
+                                </div>
+                                <div class="col-8">
+                                    <div v-if="forecast.astro" class="w-100">Sunrise: {{ forecast.astro.sunrise }}</div>
+                                    <div v-if="forecast.astro" class="w-100">Sunset: {{ forecast.astro.sunset }}</div>
+                                </div>
+                            </div>
+
                             <hr class="hr" />
-                            <div v-if="forecast.astro" class="w-100">Moonrise: {{ forecast.astro.moonrise }}</div>
-                            <div v-if="forecast.astro" class="w-100">Moonset: {{ forecast.astro.moonset }}</div>
-                            <div v-if="forecast.astro" class="w-100">Moon Phase: {{ forecast.astro.moon_phase }}</div>
-                            <div v-if="forecast.astro" class="w-100">Moon Illumination: {{ forecast.astro.moon_illumination }}%</div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <div v-if="forecast.astro" class="w-100">Moonrise: {{ forecast.astro.moonrise }}</div>
+                                    <div v-if="forecast.astro" class="w-100">Moonset: {{ forecast.astro.moonset }}</div>
+                                    <div v-if="forecast.astro" class="w-100">Moon Phase: {{ forecast.astro.moon_phase }}</div>
+                                    <div v-if="forecast.astro" class="w-100">Moon Illumination: {{ forecast.astro.moon_illumination }}%</div>
+                                </div>
+                                <div class="col-4">
+                                    <img v-if="currentWeather.condition" src="/src/assets/weather/moon.png" class="current-big-icon" width="100" height="100" style="float: left" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -265,7 +286,7 @@ export default {
         <div v-if="showDialog" class="backdrop">
             <div class="dialog-wrapper">
                 <teleport to="body">
-                    <WeatherLocation :locations="locations" @done="onLocationChosen" />
+                    <WeatherLocation :locations="locations" @done="onLocationChosen" @closeDialog="handleCloseDialog" />
                 </teleport>
             </div>
         </div>
@@ -274,6 +295,7 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&family=Rubik:wght@600&display=swap');
+
 .container-fluid {
     background-color: #0b131e;
     /* height: 100vh; */
@@ -288,12 +310,6 @@ export default {
     width: 200px;
     height: auto;
 }
-/* .search-bar {
-    background-color: white;
-    height: 50px;
-    width: 70%;
-    border-radius: 40px;
-} */
 
 .search-bar {
     display: flex;
@@ -424,6 +440,8 @@ export default {
 }
 
 .astro-info-container {
+    display: grid;
+    place-items: center;
 }
 
 p,

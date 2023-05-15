@@ -1,6 +1,7 @@
 <script>
 import { useStore } from '../stores/store.js';
 import { mapState, mapActions } from 'pinia';
+import { debounce } from 'lodash';
 import Loading from '../components/Loading.vue';
 import AddTodo from '../components/AddTodo.vue';
 import EditTodo from '../components/EditTodo.vue';
@@ -45,6 +46,13 @@ export default {
             this.todos[itemIndex] = edited;
             this.editDialog = false;
         },
+        checkOrUncheck: debounce(function (item) {
+            item.completed == '1' ? (item.completed = '0') : (item.completed = '1');
+            const itemIndex = this.todos.findIndex((e) => e.todo_id === item.todo_id);
+            let checkedTodo = this.todos[itemIndex];
+            console.log(checkedTodo);
+            this.editTodoStore(checkedTodo);
+        }, 100),
     },
     computed: {
         ...mapState(useStore, ['getAllTodos']),
@@ -54,6 +62,7 @@ export default {
         setTimeout(async () => {
             this.todos = await this.getAllTodos();
             this.isLoading = false;
+            console.log(this.todos);
         }, 1000); // TODO QUITAR SET TIMEOUT
     },
 };
@@ -84,7 +93,7 @@ export default {
                             </div>
                         </div>
                         <div class="col-2 todo-controls">
-                            <input type="checkbox" :checked="item.completed == 1" style="transform: scale(1.6)" />
+                            <input type="checkbox" @click.stop :checked="item.completed == 1" @click="checkOrUncheck(item)" style="transform: scale(1.6)" />
                         </div>
                     </div>
                 </div>
@@ -211,6 +220,11 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
+}
+
+.todo-controls {
+    display: grid;
+    place-items: center;
 }
 
 @media (max-width: 575.98px) {

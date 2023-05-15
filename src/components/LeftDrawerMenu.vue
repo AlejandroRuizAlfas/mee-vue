@@ -21,6 +21,7 @@
                 <div class="separator"></div>
 
                 <div class="row p-4">
+                    <p class="section-title">Management</p>
                     <div class="col-12 menu-item d-flex align-items-center">
                         <img src="/src/assets/sidemenu/to-do-list.png" class="me-2 menu-icon" />
                         <router-link @click="closeDrawer" to="/todolist">TODO List</router-link>
@@ -42,6 +43,7 @@
                 <div class="separator"></div>
 
                 <div class="row p-4">
+                    <p class="section-title">General information</p>
                     <div class="col-12 menu-item d-flex align-items-center">
                         <img src="/src/assets/sidemenu/weather-app.png" class="me-2 menu-icon" />
                         <router-link @click="closeDrawer" to="/weather">Weather</router-link>
@@ -162,5 +164,11 @@ a:active {
 .user-data {
     display: grid;
     place-items: center;
+}
+
+.section-title {
+    font-size: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
 }
 </style>

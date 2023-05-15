@@ -6,24 +6,24 @@
         <div class="text">{{ text }}</div>
     </div>
 </template>
-  
+
 <script>
 export default {
-    name: "CircularImageWithText",
+    name: 'CircularImageWithText',
     props: {
         imageSrc: {
             type: String,
-            required: true
+            required: true,
         },
         text: {
             type: String,
-            required: true
-        }
-    }
+            required: true,
+        },
+    },
 };
 </script>
-  
-<style>
+
+<style scoped>
 .circular-image-with-text {
     display: flex;
     flex-direction: column;
@@ -50,4 +50,3 @@ export default {
     text-align: center;
 }
 </style>
-  

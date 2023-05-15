@@ -3,3 +3,7 @@ body {
     background-color: #233d4d;
     height: 100vh;
   }
+
+  .dialog{
+    background-color: white;
+  }

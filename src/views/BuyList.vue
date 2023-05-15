@@ -45,7 +45,7 @@ export default {
 </script>
 
 <template>
-    <div class="container" style="padding-top: 20px">
+    <div class="container mb-4" style="padding-top: 20px">
         <div v-if="isLoading">
             <Loading />
         </div>
