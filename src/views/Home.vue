@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
     <div class="home-page justify-content-center"></div>
 </template>
 
@@ -29,8 +29,8 @@ export default {
     display: grid;
     place-items: center;
 }
-</style> -->
-<template>
+</style>
+<!-- <template>
     <div class="home-page justify-content-center">
         <div class="tablon-de-madera">
             <h1>Tablón de Madera</h1>
@@ -78,7 +78,7 @@ export default {
         },
     },
 };
-</script>
+</script>-->
 
 <style scoped>
 .home-page {
@@ -86,7 +86,7 @@ export default {
     display: grid;
     place-items: center;
 }
-.tablon-de-madera {
+/* .tablon-de-madera {
     background-color: #f4f4f4;
     padding: 20px;
     border-radius: 10px;
@@ -210,5 +210,5 @@ button:hover {
 button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
-}
+} */
 </style>
