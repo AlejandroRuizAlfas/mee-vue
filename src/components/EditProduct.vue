@@ -12,13 +12,13 @@
                 <input type="text" class="form-control" placeholder="Enter product name..." v-model="product.name" name="prodName" id="prodName" />
             </div>
             <div class="row">
-                <div class="col-4">
+                <div class="col-md-4 col-12">
                     <div class="form-group">
                         <label for="prodQty">Quantity:</label>
                         <input type="number" class="form-control" v-model="product.quantity" name="prodQty" id="prodQty" />
                     </div>
                 </div>
-                <div class="col-8">
+                <div class="col-md-8 col-12">
                     <div class="form-group">
                         <label for="prodCat">Category:</label>
                         <select class="form-select" name="prodCat" id="prodCat" v-model="product.category">
@@ -117,5 +117,11 @@ export default {
 
 .close-dialog:focus {
     box-shadow: none;
+}
+
+@media only screen and (max-width: 550px) {
+    .dialog {
+        width: 90%;
+    }
 }
 </style>

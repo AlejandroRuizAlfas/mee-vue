@@ -143,4 +143,10 @@ label {
     font-size: 20px;
     padding-bottom: 5px;
 }
+
+@media only screen and (max-width: 550px) {
+    .dialog {
+        width: 90%;
+    }
+}
 </style>

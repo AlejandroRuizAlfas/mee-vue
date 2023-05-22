@@ -15,11 +15,29 @@ export default {
     methods: {
         swap() {
             const wrapper = document.querySelector('.translate-wrapper');
+            const langFrom = document.getElementById('select-from').value;
+            const langTo = document.getElementById('select-to').value;
+            const inputFrom = document.getElementById('input-from').textContent;
+            const inputTo = document.getElementById('input-to').textContent;
+            document.getElementById('select-from').value = langTo;
+            document.getElementById('select-to').value = langFrom;
+            document.getElementById('input-from').textContent = inputTo;
+            document.getElementById('input-to').textContent = inputFrom;
+
             if (this.mode == 0) {
-                wrapper.style.flexDirection = 'row-reverse';
+                if (window.innerWidth >= 800) {
+                    wrapper.style.flexDirection = 'row-reverse';
+                } else {
+                    wrapper.style.flexDirection = 'column-reverse';
+                }
+
                 this.mode = 1;
             } else {
-                wrapper.style.flexDirection = 'row';
+                if (window.innerWidth >= 800) {
+                    wrapper.style.flexDirection = 'row';
+                } else {
+                    wrapper.style.flexDirection = 'column';
+                }
                 this.mode = 0;
             }
         },
@@ -142,7 +160,7 @@ export default {
                     <button class="btn btn-primary mt-4" @click="handleTranslate">Translate</button>
                 </div>
             </div>
-            <button type="button" class="btn btn-primary" @click="swap"><i class="bi bi-arrow-repeat"></i></button>
+            <button type="button" class="btn btn-primary swap-btn" @click="swap"><i class="bi bi-arrow-repeat"></i></button>
             <div class="translate-to p-4">
                 <div class="row">
                     <div class="col-2">To:</div>
@@ -251,5 +269,23 @@ button {
     font-family: 'Poppins', sans-serif;
     color: white;
     font-size: 72px;
+}
+
+@media only screen and (max-width: 800px) {
+    .translate-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+    }
+    .swap-btn {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .translate-from,
+    .translate-to {
+        width: 95%;
+    }
 }
 </style>

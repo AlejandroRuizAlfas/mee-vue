@@ -102,6 +102,7 @@ export default {
 #note-board {
     display: grid;
     grid-template-columns: repeat(auto-fill, 200px);
+    place-content: center;
     padding: 24px;
     gap: 24px;
 }
@@ -172,5 +173,39 @@ export default {
     font-size: 24px;
     font-weight: bold;
     color: white;
+}
+
+@media only screen and (max-width: 495px) {
+    #note-board {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 175px);
+        padding: 24px;
+        gap: 24px;
+    }
+
+    .note,
+    .add-note {
+        width: 175px;
+        height: 175px;
+    }
+
+    .add-note {
+        font-size: 110px;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    #note-board {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 200px);
+        padding: 24px;
+        gap: 24px;
+    }
+
+    .note,
+    .add-note {
+        width: 200px;
+        height: 200px;
+    }
 }
 </style>

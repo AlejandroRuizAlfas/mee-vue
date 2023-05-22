@@ -138,4 +138,10 @@ export default {
 .hidden {
     display: none;
 }
+
+@media only screen and (max-width: 550px) {
+    .meectionary {
+        font-size: 52px;
+    }
+}
 </style>

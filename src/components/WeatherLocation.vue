@@ -116,4 +116,10 @@ export default {
     flex-direction: column;
     height: 100%;
 }
+
+@media only screen and (max-width: 550px) {
+    .dialog {
+        width: 90%;
+    }
+}
 </style>

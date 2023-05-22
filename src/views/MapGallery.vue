@@ -73,7 +73,7 @@ export default {
                 <button class="btn btn-primary w-100" @click="initGeolocation">Save my current location</button>
                 <div class="card-container m-4" v-if="locations.length > 0">
                     <div class="card" v-for="item in locations" :key="item.id">
-                        <iframe :src="'https://maps.google.com/maps?q=' + item.latitude + ',' + item.longitude + '&hl=es;z=14&amp;output=embed'" width="400" height="300" frameborder="0" style="border: 0" allowfullscreen="" aria-hidden="false" tabindex="0"> </iframe>
+                        <iframe class="frame-map" :src="'https://maps.google.com/maps?q=' + item.latitude + ',' + item.longitude + '&hl=es;z=14&amp;output=embed'" frameborder="0" style="border: 0" allowfullscreen="" aria-hidden="false" tabindex="0"> </iframe>
                         <div class="card-data p-4">
                             <div class="row">
                                 <div class="col-10">
@@ -130,7 +130,8 @@ export default {
 }
 
 .card {
-    width: 400px;
+    width: 410px;
+    border: 5px solid white;
 }
 .card-container {
     display: grid;
@@ -162,6 +163,26 @@ export default {
     font-size: 24px;
     font-weight: bold;
     color: white;
+}
+.frame-map {
+    width: 400px;
+    height: 300px;
+}
+
+* {
+    border: 1px solid red;
+}
+
+@media only screen and (max-width: 550px) {
+    .frame-map {
+        width: 100%;
+        height: 300px;
+        margin: 0px;
+    }
+
+    .card {
+        width: 310px;
+    }
 }
 
 /* @media only screen and (max-width: 600px) {

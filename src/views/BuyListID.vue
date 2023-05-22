@@ -104,6 +104,7 @@ export default {
         setTimeout(async () => {
             this.currentList = await this.getBuylistID(this.$route.params.id);
             this.products = JSON.parse(this.currentList[0].elements);
+            this.products.products = this.sortByBought(this.products.products);
             this.isLoading = false;
         }, 1000); // TODO QUITAR SET TIMEOUT
     },
@@ -118,26 +119,26 @@ export default {
         <div v-else>
             <div class="buyList py-4">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6 col-12">
                         <h2 class="mx-4 px-4">{{ currentList[0].name }}</h2>
                     </div>
-                    <div class="col-6">
-                        <button class="btn btn-primary mx-4" @click="showAddProd" style="float: right"><i class="bi bi-plus-circle-fill"></i> Add product</button>
-                        <button class="btn btn-success mx-1" @click="checkaAll" style="float: right"><i class="bi bi-check2-square"></i> Check all</button>
-                        <button class="btn btn-danger mx-1" @click="uncheckaAll" style="float: right"><i class="bi bi-square"></i> Uncheck all</button>
+                    <div class="col-md-6 col-12 text-center mt-1">
+                        <button class="btn action-buttons btn-primary mx-1" @click="showAddProd"><i class="bi bi-plus-circle-fill"></i> Add product</button>
+                        <button class="btn action-buttons btn-success mx-1" @click="checkaAll"><i class="bi bi-check2-square"></i> Check all</button>
+                        <button class="btn action-buttons btn-danger mx-1" @click="uncheckaAll"><i class="bi bi-square"></i> Uncheck all</button>
                     </div>
                 </div>
                 <hr class="hr" />
                 <div class="product-row" v-for="product in products.products" v-if="products.products">
                     <div class="row p-2">
-                        <div class="col-1 text-center">
+                        <div class="col-md-1 col-2 text-center">
                             <input type="checkbox" :checked="product.bought" @click="checkOrUncheck(product)" />
                         </div>
-                        <div class="col-6">
-                            <div class="mb-0">{{ product.name }}</div>
+                        <div class="col-md-6 col-4">
+                            <div class="mb-0 text-limit">{{ product.name }}</div>
                         </div>
-                        <div class="col-3 text-center">
-                            <div class="m-0">Quantity: {{ product.quantity }}</div>
+                        <div class="col-md-3 col-3 text-center">
+                            <div class="m-0">Qty: {{ product.quantity }}</div>
                         </div>
                         <div class="col-2 text-center row-icons">
                             <img :src="imgSrc + product.icon" class="mx-2" style="display: inline-block" />
@@ -176,6 +177,9 @@ export default {
 </template>
 
 <style scoped>
+/* * {
+    border: 1px solid red;
+} */
 .container-fluid {
     /* background-color: #233d4d;
     height: 100vh; */
@@ -226,5 +230,24 @@ export default {
     font-size: 24px;
     font-weight: bold;
     color: black;
+}
+
+@media only screen and (max-width: 550px) {
+    .buyList {
+        margin: 0px;
+    }
+    .text-limit {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 10ch;
+    }
+
+    .action-buttons {
+        width: 90%;
+        margin-top: 5px;
+        float: center;
+    }
 }
 </style>

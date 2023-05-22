@@ -92,10 +92,20 @@ export default {
                 priority: document.getElementById('priority').value,
                 earlyNotif: document.getElementById('earlyNotif').value,
             };
+            this.resetValues();
             this.$emit('finishAdd', todo);
         },
         handleClose() {
             this.$emit('closeDialog');
+            this.resetValues();
+        },
+        resetValues() {
+            document.getElementById('name').value = '';
+            document.getElementById('desc').value = '';
+            document.getElementById('alarmActivated').checked = false;
+            document.getElementById('limitDate').value = '';
+            document.getElementById('priority').value = '';
+            document.getElementById('earlyNotif').value = '';
         },
     },
 };
@@ -151,5 +161,11 @@ input[type='datetime-local'] {
 label {
     font-size: 20px;
     padding-bottom: 5px;
+}
+
+@media only screen and (max-width: 550px) {
+    .dialog {
+        width: 90%;
+    }
 }
 </style>

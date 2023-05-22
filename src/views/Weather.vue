@@ -123,23 +123,23 @@ export default {
     <div class="weather-wrapper" v-else>
         <div class="container-fluid" style="padding-top: 20px">
             <div class="row justify-content-center">
-                <div class="search-bar">
+                <div class="search-bar mt-5">
                     <input id="searchInput" type="text" v-model="cityString" placeholder="Search for the name of a city..." />
                     <datalist id="citiesList"></datalist>
                     <button type="submit" @click="searchCityInArray()"><i class="bi bi-search"></i></button>
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-9" id="main-info">
+                <div class="col-md-9 col-12" id="main-info">
                     <div class="today-forecast m-4 p-4">
-                        <h3 class="display-5 px-4">{{ printCurrentDateString() }}</h3>
+                        <h3 class="display-5 px-4 cur-date-hour">{{ printCurrentDateString() }}</h3>
 
                         <div class="row mt-5">
-                            <div class="col-8 mx-4">
+                            <div class="col-md-8 col-12 mx-md-4">
                                 <h1 class="display-1 place-name px-4">{{ place.name }}</h1>
                                 <h3 class="display-2 place-temp px-4">{{ currentWeather.temp_c }}ºC</h3>
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-3 col-12">
                                 <img v-if="currentWeather.condition" src="/src/assets/weather/sun.png" class="current-big-icon" width="250" height="250" />
                             </div>
                             <!-- <div class="col-2" v-if="forecast3days[0]">
@@ -208,7 +208,7 @@ export default {
             </div>
 
             <div class="row justify-content-center">
-                <div class="col-9">
+                <div class="col-md-9 col-12">
                     <div class="hourly-panel m-4 p-4">
                         <h3 class="mx-3 py-2" style="margin-bottom: 16px">Today's forecast</h3>
                         <div class="hourly-forecast-container mt-2">
@@ -220,7 +220,7 @@ export default {
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-md-3 col-12">
                     <div class="hourly-panel m-4 p-4">
                         <h3 class="mx-3 py-2" style="margin-bottom: 16px">Astro information</h3>
                         <div class="astro-info-container mt-2">
@@ -252,11 +252,11 @@ export default {
             </div>
 
             <div class="row justify-content-center">
-                <div class="col-9">
+                <div class="col-md-9 col-12">
                     <div class="conditions-panel m-4 p-4">
                         <h3 class="mx-3 py-2" style="margin-bottom: 16px">Air conditions</h3>
                         <div class="air-conditions-container mt-2 mb-4">
-                            <div class="row mx-5">
+                            <div class="row mx-md-5">
                                 <div class="col-6">
                                     <p class="mb-0 air-conditions-container-title"><span class="bi bi-thermometer-half"> Real feel</span></p>
                                     <div class="air-conditions-container-values">{{ currentWeather.feelslike_c }}º</div>
@@ -266,7 +266,7 @@ export default {
                                     <div class="air-conditions-container-values">{{ currentWeather.gust_kph }} km/h</div>
                                 </div>
                             </div>
-                            <div class="row mx-5 mt-2">
+                            <div class="row mx-md-5 mt-2">
                                 <div class="col-6">
                                     <p class="mb-0 air-conditions-container-title"><span class="bi bi-droplet-fill"> Rain</span></p>
                                     <div class="air-conditions-container-values">{{ currentWeather.precip_mm }} mm</div>
@@ -279,7 +279,7 @@ export default {
                         </div>
                     </div>
                 </div>
-                <div class="col-3"></div>
+                <div class="col-md-3 col-12"></div>
             </div>
         </div>
 
@@ -329,7 +329,7 @@ export default {
     flex: 1;
     height: 40px;
     padding: 10px 20px 10px 20px;
-    font-size: 16px;
+    font-size: 18px;
     border: none;
     border-radius: 20px 0 0 20px;
 }
@@ -454,5 +454,20 @@ h6,
 div {
     font-family: 'Rubik', sans-serif;
     color: #c4cad3;
+}
+
+@media only screen and (max-width: 550px) {
+    .cur-date-hour {
+        display: none;
+    }
+    .today-forecast {
+        text-align: center;
+    }
+    .air-conditions-container-values {
+        font-size: 24px;
+    }
+    .air-conditions-container {
+        text-align: center;
+    }
 }
 </style>

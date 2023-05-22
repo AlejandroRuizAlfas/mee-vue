@@ -70,6 +70,26 @@ export default {
             const container = document.getElementById('container');
             container.classList.add('right-panel-active');
         },
+        changeToRegisterMobile() {
+            const signUpButton = document.getElementById('signUp');
+            const signInButton = document.getElementById('signIn');
+            const container = document.getElementById('container');
+            container.classList.add('right-panel-active');
+            document.getElementById('sign-up-container').style.width = '100%';
+            document.getElementById('sign-up-container').style.transform = 'translateX(0%)';
+            document.querySelector('.mobile-swap-up').style.display = 'none';
+            document.querySelector('.mobile-swap-in').style.display = 'block';
+        },
+        changeToLoginMobile() {
+            const signUpButton = document.getElementById('signUp');
+            const signInButton = document.getElementById('signIn');
+            const container = document.getElementById('container');
+            container.classList.remove('right-panel-active');
+            document.getElementById('sign-up-container').style.width = '0%';
+            document.getElementById('sign-up-container').style.transform = 'translateX(100%)';
+            document.querySelector('.mobile-swap-up').style.display = 'block';
+            document.querySelector('.mobile-swap-in').style.display = 'none';
+        },
         resetForm() {
             this.userLogin = {};
         },
@@ -84,7 +104,7 @@ export default {
     <div class="container-fluid">
         <div class="login-wrapper">
             <div class="container" id="container">
-                <div class="form-container sign-up-container">
+                <div class="form-container sign-up-container" id="sign-up-container">
                     <Form :initial-values="newUser" @submit="onSubmitReg" :validation-schema="mySchemaReg" style="padding-top: 20px">
                         <h3 class="mb-2">Create Account</h3>
                         <fieldset>
@@ -108,7 +128,7 @@ export default {
                         </fieldset>
                     </Form>
                 </div>
-                <div class="form-container sign-in-container">
+                <div class="form-container sign-in-container" id="sign-in-container">
                     <Form :initial-values="userLogin" @submit="onSubmit" :validation-schema="mySchema">
                         <h1 class="mb-2">Sign In</h1>
                         <fieldset>
@@ -124,7 +144,7 @@ export default {
                         </fieldset>
                     </Form>
                 </div>
-                <div class="overlay-container">
+                <div class="overlay-container" id="overlay-container">
                     <div class="overlay">
                         <div class="overlay-panel overlay-left">
                             <h1>Already registered?</h1>
@@ -139,6 +159,8 @@ export default {
                     </div>
                 </div>
             </div>
+            <button class="ghost mobile-swap-up m-4" id="signUpMobile" @click="changeToRegisterMobile">Sign Up</button>
+            <button class="ghost mobile-swap-in m-4" id="signInMobile" @click="changeToLoginMobile">Sign In</button>
         </div>
     </div>
 </template>
@@ -158,8 +180,7 @@ export default {
     align-items: center;
     flex-direction: column;
     font-family: 'Montserrat', sans-serif;
-    height: 100vh;
-    margin: -20px 0 50px;
+    height: 95vh;
 }
 
 * {
@@ -213,7 +234,7 @@ button:focus {
 }
 
 button.ghost {
-    background-color: transparent;
+    background-color: #0b131e;
     border-color: #ffffff;
 }
 
@@ -375,18 +396,23 @@ input {
     width: 40px;
 }
 
-@media (max-width: 575.98px) {
+.mobile-swap-up {
+    display: none;
 }
 
-@media (min-width: 576px) and (max-width: 767.98px) {
+.mobile-swap-in {
+    display: none;
 }
 
-@media (min-width: 768px) and (max-width: 991.98px) {
-}
-
-@media (min-width: 992px) and (max-width: 1199.98px) {
-}
-
-@media (min-width: 1200px) {
+@media only screen and (max-width: 800px) {
+    .sign-in-container {
+        width: 100%;
+    }
+    .overlay {
+        display: none;
+    }
+    .mobile-swap-up {
+        display: block;
+    }
 }
 </style>
