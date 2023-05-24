@@ -77,7 +77,6 @@ export const useStore = defineStore('store', {
         },
         async deleteBuylisStore(list) {
             let response = await axios.delete(url + '/buylist/delete?id=' + list.buylist_id);
-            console.log(response.data);
             response ? notify({ type: 'error', text: 'Map location deleted!' }) : '';
             return response.data;
         },

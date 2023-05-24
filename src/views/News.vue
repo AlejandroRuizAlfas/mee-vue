@@ -31,7 +31,6 @@ export default {
                     let notic = response.data.articles;
                     this.news = notic;
                     notic.forEach((e) => this.news.push(e));
-                    console.log(this.news);
                 })
                 .catch((err) => alert(err));
         },

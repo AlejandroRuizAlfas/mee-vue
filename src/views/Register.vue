@@ -93,7 +93,6 @@ export default {
         ...mapActions(useStore, ['registerUser']),
         async onSubmit(values) {
             this.newUser = values;
-            console.log(await this.registerUser(this.newUser));
         },
         resetForm() {
             this.newUser = {};
@@ -110,7 +109,6 @@ export default {
                 <Form :initial-values="newUser" @submit="onSubmit" :validation-schema="mySchema" style="padding-top: 20px">
                     <fieldset>
                         <legend class="bg-dark text-white text-center">Register user</legend>
-                        <!-- Aquí los inputs y botones del form -->
                         <div class="form-group">
                             <label>Username:</label>
                             <Field name="username" type="text" class="form-control" />

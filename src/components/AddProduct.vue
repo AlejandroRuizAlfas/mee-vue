@@ -69,7 +69,13 @@ export default {
         handleClose() {
             this.$emit('closeDialog');
         },
+        resetForm() {
+            document.getElementById('prodName').value = '';
+            document.getElementById('prodQty').value = 1;
+            document.getElementById('prodCat').value = 'default';
+        },
     },
+    mount() {},
 };
 </script>
 

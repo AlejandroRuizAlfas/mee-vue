@@ -169,10 +169,6 @@ export default {
     height: 300px;
 }
 
-* {
-    border: 1px solid red;
-}
-
 @media only screen and (max-width: 550px) {
     .frame-map {
         width: 100%;

@@ -82,7 +82,6 @@ export default {
         },
         randomColor() {
             // return this.colors[Math.floor(Math.random() * colors.length)];
-            console.log(this.colors);
         },
         handleCloseDialog() {
             this.showDialog = false;

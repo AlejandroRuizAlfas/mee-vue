@@ -39,14 +39,13 @@ export default {
         ...mapActions(useStore, ['loginUser', 'registerUser']),
         async onSubmit(values) {
             this.credentials = values;
-            console.log('Loginin');
+
             let meeUser = await this.loginUser(this.credentials);
-            if (meeUser) {
+            if (meeUser.user_id) {
                 localStorage.setItem('mee_user', JSON.stringify(meeUser));
                 this.user.user_id = meeUser.user_id;
                 this.user.username = meeUser.username;
                 this.user.email = meeUser.email;
-                console.log(this.user);
                 document.getElementsByClassName('fixed-menu')[0].style.visibility = 'visible';
                 this.$notify({ type: 'success', text: 'Welcome, ' + this.user.username });
                 this.$router.push('/');
@@ -56,7 +55,6 @@ export default {
         },
         async onSubmitReg(values) {
             this.newUser = values;
-            console.log(await this.registerUser(this.newUser));
         },
         changeToLogin() {
             const signUpButton = document.getElementById('signUp');

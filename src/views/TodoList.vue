@@ -50,7 +50,6 @@ export default {
             item.completed == '1' ? (item.completed = '0') : (item.completed = '1');
             const itemIndex = this.todos.findIndex((e) => e.todo_id === item.todo_id);
             let checkedTodo = this.todos[itemIndex];
-            console.log(checkedTodo);
             this.editTodoStore(checkedTodo);
         }, 100),
     },
@@ -62,7 +61,6 @@ export default {
         setTimeout(async () => {
             this.todos = await this.getAllTodos();
             this.isLoading = false;
-            console.log(this.todos);
         }, 1000); // TODO QUITAR SET TIMEOUT
     },
 };

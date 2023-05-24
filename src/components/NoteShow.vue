@@ -215,4 +215,11 @@ textarea {
 .close-dialog:focus {
     box-shadow: none;
 }
+
+@media only screen and (max-width: 800px) {
+    .dialog {
+        width: 60%;
+        height: 40%;
+    }
+}
 </style>
