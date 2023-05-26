@@ -43,7 +43,7 @@ export default {
         },
         getLanguages() {
             axios
-                .get('/src/assets/languages.json')
+                .get('https://meedb.000webhostapp.com/languages.json')
                 .then((response) => {
                     this.langs = response.data.translation;
                 })

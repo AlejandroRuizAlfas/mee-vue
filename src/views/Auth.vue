@@ -15,7 +15,7 @@ export default {
             password: yup.string().required('Password is required'),
         });
         const mySchemaReg = yup.object({
-            username: yup.string().required('Username is required').min(5, 'Username lenght must be between 5 and 25 characters').max(25, 'Username lenght must be between 5 and 25 characters'),
+            username: yup.string().required('Username is required').min(3, 'Username lenght must be between 3 and 25 characters').max(25, 'Username lenght must be between 3 and 25 characters'),
             email: yup.string().required('Email is required').email('Enter a valid email address'),
             password: yup.string().required('Password is required'),
             passwordCopy: yup
@@ -55,6 +55,14 @@ export default {
         },
         async onSubmitReg(values) {
             this.newUser = values;
+            let response = await this.registerUser(this.newUser);
+            if (response) {
+                if (window.innerWidth >= 800) {
+                    this.changeToLogin();
+                } else {
+                    this.changeToLoginMobile();
+                }
+            }
         },
         changeToLogin() {
             const signUpButton = document.getElementById('signUp');
@@ -72,11 +80,13 @@ export default {
             const signUpButton = document.getElementById('signUp');
             const signInButton = document.getElementById('signIn');
             const container = document.getElementById('container');
+            const overlay = document.getElementById('overlay-container');
             container.classList.add('right-panel-active');
             document.getElementById('sign-up-container').style.width = '100%';
             document.getElementById('sign-up-container').style.transform = 'translateX(0%)';
             document.querySelector('.mobile-swap-up').style.display = 'none';
             document.querySelector('.mobile-swap-in').style.display = 'block';
+            document.getElementById('overlay-container').style.visibility = 'hidden';
         },
         changeToLoginMobile() {
             const signUpButton = document.getElementById('signUp');
@@ -87,6 +97,7 @@ export default {
             document.getElementById('sign-up-container').style.transform = 'translateX(100%)';
             document.querySelector('.mobile-swap-up').style.display = 'block';
             document.querySelector('.mobile-swap-in').style.display = 'none';
+            document.getElementById('overlay-container').style.visibility = 'visible';
         },
         resetForm() {
             this.userLogin = {};

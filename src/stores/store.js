@@ -30,8 +30,13 @@ export const useStore = defineStore('store', {
             this.meanings = response.data;
         },
         async registerUser(user) {
-            let response = await axios.post(url + '/auth/register', JSON.stringify(user));
-            return response.data;
+            try {
+                let response = await axios.post(url + '/auth/register', JSON.stringify(user));
+                notify({ type: 'success', text: 'You are now registered! Use your credentials to login!' });
+                return response.data;
+            } catch (err) {
+                notify({ type: 'error', text: 'Email is already registered!' });
+            }
         },
         async loginUser(user) {
             let response = await axios.post(url + '/auth/login', JSON.stringify(user));

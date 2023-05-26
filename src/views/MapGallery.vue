@@ -169,15 +169,53 @@ export default {
     height: 300px;
 }
 
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 999px) {
     .frame-map {
         width: 100%;
         height: 300px;
         margin: 0px;
     }
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        place-items: center;
+    }
 
     .card {
         width: 310px;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 20px;
+        place-items: center;
+    }
+    .card {
+        width: 350px;
+    }
+    .frame-map {
+        width: 340px;
+        height: 300px;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 20px;
+        place-items: center;
+    }
+
+    .card {
+        width: 400px;
+    }
+    .frame-map {
+        width: 390px;
+        height: 300px;
     }
 }
 

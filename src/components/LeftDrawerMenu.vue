@@ -84,7 +84,11 @@ export default {
             this.$router.push('/auth');
         },
         getUsername() {
-            return JSON.parse(localStorage.getItem('mee_user')).username;
+            try {
+                return JSON.parse(localStorage.getItem('mee_user')).username;
+            } catch (err) {
+                return 'No user';
+            }
         },
     },
 };

@@ -1,5 +1,89 @@
 <template>
-    <div class="home-page justify-content-center"></div>
+    <!-- <div class="home-page justify-content-center"></div> -->
+    <div class="container">
+        <div class="row feature-row">
+            <div class="col-md-4 col-12 pr-4 feature-icon-wrapper">
+                <img src="/src/assets/sidemenu/to-do-list.png" class="feature-img" />
+            </div>
+            <div class="col-md-8 col-12">
+                <h1>Todo-List</h1>
+                <h4>Stay organized and productive with interactive to-do list. Prioritize tasks, set due dates, and check off completed items. Never miss a beat again!</h4>
+                <button class="btn btn-success mt-2">Take me there!</button>
+            </div>
+        </div>
+        <hr class="hr" />
+
+        <div class="row feature-row">
+            <div class="col-md-8 col-12">
+                <h1>Notes</h1>
+                <h4>Create and manage your notes effortlessly. Write important information, ideas, or reminders. Save and access them anytime you need.</h4>
+                <button class="btn btn-success mt-2">Take me there!</button>
+            </div>
+            <div class="col-md-4 col-12 pr-4 feature-icon-wrapper">
+                <img src="/src/assets/sidemenu/note-icon.png" class="feature-img" />
+            </div>
+        </div>
+        <hr class="hr" />
+
+        <div class="row feature-row">
+            <div class="col-md-4 col-12 pr-4 feature-icon-wrapper">
+                <img src="/src/assets/sidemenu/shopping-list.png" class="feature-img" />
+            </div>
+            <div class="col-md-8 col-12">
+                <h1>Buylist</h1>
+                <h4>Keep track of your shopping needs with convenient buy list feature. Add items, manage quantities, and even mark them as purchased. Never forget your grocery list again!</h4>
+                <button class="btn btn-success mt-2">Take me there!</button>
+            </div>
+        </div>
+        <hr class="hr" />
+
+        <div class="row feature-row">
+            <div class="col-md-8 col-12">
+                <h1>Map Gallery</h1>
+                <h4>Save your favorite locations and never lose them again. Explore new places, mark your favorite spots, and access directions whenever you want. Adventure awaits!</h4>
+                <button class="btn btn-success mt-2">Take me there!</button>
+            </div>
+            <div class="col-md-4 col-12 pr-4 feature-icon-wrapper">
+                <img src="/src/assets/sidemenu/map.png" class="feature-img" />
+            </div>
+        </div>
+        <hr class="hr" />
+
+        <div class="row feature-row">
+            <div class="col-md-4 col-12 pr-4 feature-icon-wrapper">
+                <img src="/src/assets/sidemenu/weather-app.png" class="feature-img" />
+            </div>
+            <div class="col-md-8 col-12">
+                <h1>Weather</h1>
+                <h4>Stay informed about the latest weather conditions. Get real-time updates, forecasts, and temperature details for your current location or any city around the world.</h4>
+                <button class="btn btn-success mt-2">Take me there!</button>
+            </div>
+        </div>
+        <hr class="hr" />
+
+        <div class="row feature-row">
+            <div class="col-md-8 col-12">
+                <h1>News</h1>
+                <h4>Stay up to date with the latest headlines and breaking news. Search for news articles, browse different categories, and read the news that matters to you.</h4>
+                <button class="btn btn-success mt-2">Take me there!</button>
+            </div>
+            <div class="col-md-4 col-12 pr-4 feature-icon-wrapper">
+                <img src="/src/assets/sidemenu/newspaper.png" class="feature-img" />
+            </div>
+        </div>
+        <hr class="hr" />
+
+        <div class="row feature-row">
+            <div class="col-md-4 col-12 pr-4 feature-icon-wrapper">
+                <img src="/src/assets/sidemenu/puzzle.png" class="feature-img" />
+            </div>
+            <div class="col-md-8 col-12">
+                <h1>Translation & Dictionary</h1>
+                <h4>Break down language barriers with translation and dictionary tools. Translate text between multiple languages, expand your vocabulary, and enhance your language skills.</h4>
+                <button class="btn btn-success mt-2">Take me there!</button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -9,206 +93,66 @@ export default {
     data() {
         return {
             clickedMenu: false,
+            features: [
+                { id: 0, image: '/src/assets/sidemenu/to-do-list.png', name: 'To-Do List', desc: 'Stay organized and productive with interactive to-do list. Prioritize tasks, set due dates, and check off completed items. Never miss a beat again!' },
+                { id: 1, image: '/src/assets/sidemenu/note-icon.png', name: 'Notes', desc: 'Create and manage your notes effortlessly. Write important information, ideas, or reminders. Save and access them anytime you need.' },
+                { id: 2, image: '/src/assets/sidemenu/shopping-list.png', name: 'Buylist', desc: 'Keep track of your shopping needs with convenient buy list feature. Add items, manage quantities, and even mark them as purchased. Never forget your grocery list again!' },
+                { id: 3, image: '/src/assets/sidemenu/map.png', name: 'Map Gallery', desc: 'Save your favorite locations and never lose them again. Explore new places, mark your favorite spots, and access directions whenever you want. Adventure awaits!' },
+                { id: 4, image: '/src/assets/sidemenu/weather-app.png', name: 'Weather', desc: 'Stay informed about the latest weather conditions. Get real-time updates, forecasts, and temperature details for your current location or any city around the world.' },
+                { id: 5, image: '/src/assets/sidemenu/newspaper.png', name: 'News', desc: 'Stay up to date with the latest headlines and breaking news. Search for news articles, browse different categories, and read the news that matters to you.' },
+                { id: 6, image: '/src/assets/sidemenu/puzzle.png', name: 'Translation & Dictionary', desc: 'Break down language barriers with translation and dictionary tools. Translate text between multiple languages, expand your vocabulary, and enhance your language skills.' },
+            ],
         };
     },
     methods: {
         ...mapActions(useStore, []),
+        goTo(action) {
+            this.$router.push('/' + action);
+        },
     },
     mounted() {
-        if (!localStorage.mee_user) {
-            this.$router.push('/auth');
-        }
+        // if (!localStorage.mee_user) {
+        //     this.$router.push('/auth');
+        // }
+        document.getElementsByClassName('fixed-menu')[0].style.visibility = 'visible';
     },
 };
 </script>
 
 <style scoped>
-@import url('https://fonts.cdnfonts.com/css/sf-transrobotics-2');
 .home-page {
     height: 100vh;
     display: grid;
     place-items: center;
 }
-</style>
-<!-- <template>
-    <div class="home-page justify-content-center">
-        <div class="tablon-de-madera">
-            <h1>Tablón de Madera</h1>
-            <div class="notas">
-                <div v-for="nota in notas" :key="nota.id" class="nota">
-                    <a :href="nota.url" target="_blank">
-                        <img :src="nota.logo" alt="Logo de la web" class="logo-web" />
-                        <p class="nombre-web">{{ nota.nombre }}</p>
-                    </a>
-                </div>
-            </div>
-            <div class="agregar-nota">
-                <input type="text" v-model="nuevaNota.nombre" placeholder="Nombre de la web" />
-                <input type="text" v-model="nuevaNota.logo" placeholder="URL del logo" />
-                <input type="text" v-model="nuevaNota.url" placeholder="URL de la web" />
-                <button @click="agregarNota">Agregar nota</button>
-            </div>
-        </div>
-    </div>
-</template>
 
-<script>
-export default {
-    data() {
-        return {
-            notas: [
-                { id: 1, nombre: 'Google', logo: 'https://example.com/google-logo.png', url: 'https://www.google.com' },
-                { id: 2, nombre: 'Facebook', logo: 'https://example.com/facebook-logo.png', url: 'https://www.facebook.com' },
-                // Agrega más notas de ejemplo o elimina las existentes y agrega nuevas
-            ],
-            nuevaNota: { nombre: '', logo: '', url: '' },
-        };
-    },
-    methods: {
-        agregarNota() {
-            // Validar que se hayan ingresado todos los datos
-            if (this.nuevaNota.nombre && this.nuevaNota.logo && this.nuevaNota.url) {
-                // Generar un ID único para la nueva nota
-                const nuevoId = Math.max(...this.notas.map((nota) => nota.id), 0) + 1;
-                // Agregar la nueva nota al arreglo de notas
-                this.notas.push({ id: nuevoId, nombre: this.nuevaNota.nombre, logo: this.nuevaNota.logo, url: this.nuevaNota.url });
-                // Limpiar los campos del formulario
-                this.nuevaNota = { nombre: '', logo: '', url: '' };
-            }
-        },
-    },
-};
-</script>-->
-
-<style scoped>
-.home-page {
-    height: 100vh;
-    display: grid;
-    place-items: center;
-}
-/* .tablon-de-madera {
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 800px;
-    margin: 0 auto;
-    position: relative;
-    border: 10px solid #8b4513;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    background-image: url('https://example.com/cork-texture.png');
-}
-
-.tablon-de-madera:before {
-    content: '';
-    position: absolute;
-    top: -20px;
-    left: -20px;
-    right: -20px;
-    bottom: -20px;
-    background-color: rgba(0, 0, 0, 0.1);
-    z-index: -1;
-}
-
-.hanging-board {
-    position: relative;
-    overflow: hidden;
-    margin-top: 20px;
-}
-
-.hanging-board:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -10px;
-    right: -10px;
-    bottom: 0;
-    background-color: #8b4513;
-    transform: skew(-10deg);
-}
-
-.hanging-board:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #8b4513;
-    transform: skew(-20deg);
-}
-
-h1 {
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #fff;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-}
-
-h1 {
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.notas {
+.feature-row {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.nota {
-    width: 180px;
-    background-color: #fff;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.logo-web {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    margin-bottom: 10px;
-}
-
-.nombre-web {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.agregar-nota {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+.feature-img {
+    width: 200px;
+    height: 200px;
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+h1,
+h4 {
+    color: white;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bolder;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
-input {
-    margin-right: 10px;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+.feature-icon-wrapper {
+    display: grid;
+    place-items: center;
 }
 
-button {
-    padding: 8px 16px;
-    border-radius: 4px;
-    border: none;
-    background-color: #4caf50;
-    color: #fff;
-    cursor: pointer;
+.hr {
+    color: white;
 }
-
-button:hover {
-    background-color: #45a049;
-}
-
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-} */
 </style>
