@@ -140,7 +140,8 @@ export default {
                                 <h3 class="display-2 place-temp px-4">{{ currentWeather.temp_c }}ºC</h3>
                             </div>
                             <div class="col-md-3 col-12">
-                                <img v-if="currentWeather.condition" src="/src/assets/weather/sun.png" class="current-big-icon" width="250" height="250" />
+                                <!-- <img v-if="currentWeather.condition" src="/src/assets/weather/sun.png" class="current-big-icon" width="250" height="250" /> -->
+                                <img v-if="currentWeather.condition" :src="currentWeather.condition.icon" class="current-big-icon" width="250" height="250" />
                             </div>
                             <!-- <div class="col-2" v-if="forecast3days[0]">
                             <img :src="currentWeather.condition.icon" class="current-big-icon" />
@@ -443,7 +444,10 @@ export default {
     display: grid;
     place-items: center;
 }
-
+.current-big-icon {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
 p,
 h1,
 h2,

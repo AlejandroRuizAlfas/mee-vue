@@ -8,7 +8,7 @@
             <div class="col-md-8 col-12">
                 <h1>Todo-List</h1>
                 <h4>Stay organized and productive with interactive to-do list. Prioritize tasks, set due dates, and check off completed items. Never miss a beat again!</h4>
-                <button class="btn btn-success mt-2">Take me there!</button>
+                <button class="btn btn-success mt-2" @click="goTo('todolist')">Take me there!</button>
             </div>
         </div>
         <hr class="hr" />
@@ -17,7 +17,7 @@
             <div class="col-md-8 col-12">
                 <h1>Notes</h1>
                 <h4>Create and manage your notes effortlessly. Write important information, ideas, or reminders. Save and access them anytime you need.</h4>
-                <button class="btn btn-success mt-2">Take me there!</button>
+                <button class="btn btn-success mt-2" @click="goTo('notes')">Take me there!</button>
             </div>
             <div class="col-md-4 col-12 pr-4 feature-icon-wrapper">
                 <img src="/src/assets/sidemenu/note-icon.png" class="feature-img" />
@@ -32,7 +32,7 @@
             <div class="col-md-8 col-12">
                 <h1>Buylist</h1>
                 <h4>Keep track of your shopping needs with convenient buy list feature. Add items, manage quantities, and even mark them as purchased. Never forget your grocery list again!</h4>
-                <button class="btn btn-success mt-2">Take me there!</button>
+                <button class="btn btn-success mt-2" @click="goTo('buyList')">Take me there!</button>
             </div>
         </div>
         <hr class="hr" />
@@ -41,7 +41,7 @@
             <div class="col-md-8 col-12">
                 <h1>Map Gallery</h1>
                 <h4>Save your favorite locations and never lose them again. Explore new places, mark your favorite spots, and access directions whenever you want. Adventure awaits!</h4>
-                <button class="btn btn-success mt-2">Take me there!</button>
+                <button class="btn btn-success mt-2" @click="goTo('maps')">Take me there!</button>
             </div>
             <div class="col-md-4 col-12 pr-4 feature-icon-wrapper">
                 <img src="/src/assets/sidemenu/map.png" class="feature-img" />
@@ -56,7 +56,7 @@
             <div class="col-md-8 col-12">
                 <h1>Weather</h1>
                 <h4>Stay informed about the latest weather conditions. Get real-time updates, forecasts, and temperature details for your current location or any city around the world.</h4>
-                <button class="btn btn-success mt-2">Take me there!</button>
+                <button class="btn btn-success mt-2" @click="goTo('weather')">Take me there!</button>
             </div>
         </div>
         <hr class="hr" />
@@ -65,7 +65,7 @@
             <div class="col-md-8 col-12">
                 <h1>News</h1>
                 <h4>Stay up to date with the latest headlines and breaking news. Search for news articles, browse different categories, and read the news that matters to you.</h4>
-                <button class="btn btn-success mt-2">Take me there!</button>
+                <button class="btn btn-success mt-2" @click="goTo('news')">Take me there!</button>
             </div>
             <div class="col-md-4 col-12 pr-4 feature-icon-wrapper">
                 <img src="/src/assets/sidemenu/newspaper.png" class="feature-img" />
@@ -80,7 +80,7 @@
             <div class="col-md-8 col-12">
                 <h1>Translation & Dictionary</h1>
                 <h4>Break down language barriers with translation and dictionary tools. Translate text between multiple languages, expand your vocabulary, and enhance your language skills.</h4>
-                <button class="btn btn-success mt-2">Take me there!</button>
+                <button class="btn btn-success mt-2" @click="goTo('words')">Take me there!</button>
             </div>
         </div>
     </div>
