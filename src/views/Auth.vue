@@ -105,6 +105,13 @@ export default {
     },
     mounted() {
         document.getElementsByClassName('fixed-menu')[0].style.visibility = 'hidden';
+        if (this.$route.params.action) {
+            if (window.innerWidth >= 800) {
+                this.changeToRegister();
+            } else {
+                this.changeToRegisterMobile();
+            }
+        }
     },
 };
 </script>

@@ -26,6 +26,11 @@ const router = createRouter({
             component: Auth,
         },
         {
+            path: '/auth:action',
+            name: 'authRegister',
+            component: Auth,
+        },
+        {
             path: '/notes',
             name: 'notes',
             component: Notes,
