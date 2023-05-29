@@ -11,6 +11,7 @@ export const useStore = defineStore('store', {
             isOpen: false,
             word: '',
             meanings: [],
+            isAxiosLoading: false,
         };
     },
 
@@ -31,15 +32,20 @@ export const useStore = defineStore('store', {
         },
         async registerUser(user) {
             try {
+                this.isAxiosLoading = true;
                 let response = await axios.post(url + '/auth/register', JSON.stringify(user));
                 notify({ type: 'success', text: 'You are now registered! Use your credentials to login!' });
                 return response.data;
             } catch (err) {
                 notify({ type: 'error', text: 'Email is already registered!' });
+            } finally {
+                this.isAxiosLoading = false;
             }
         },
         async loginUser(user) {
+            this.isAxiosLoading = true;
             let response = await axios.post(url + '/auth/login', JSON.stringify(user));
+            this.isAxiosLoading = false;
             return response.data;
         },
         async addNoteStore() {
@@ -118,6 +124,10 @@ export const useStore = defineStore('store', {
             let response = await axios.delete(url + '/todos/delete?id=' + todo.todo_id);
             response ? notify({ type: 'error', text: 'Todo deleted!' }) : '';
             return response.data;
+        },
+
+        stopAxiosLoading() {
+            this.isAxiosLoading = false;
         },
     },
     getters: {

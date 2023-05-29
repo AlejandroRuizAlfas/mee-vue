@@ -1,12 +1,14 @@
 <script>
 import AppMenu from './views/AppMenu.vue';
 import DrawerMenu from './views/DrawerMenu.vue';
+import Loading from './components/Loading.vue';
 import { useStore } from './stores/store.js';
 import { mapState, mapActions } from 'pinia';
 export default {
     components: {
         AppMenu,
         DrawerMenu,
+        Loading,
     },
     methods: {
         ...mapActions(useStore, []),
@@ -15,18 +17,22 @@ export default {
         },
     },
     computed: {
-        ...mapState(useStore, ['user']),
+        ...mapState(useStore, ['user', 'isAxiosLoading']),
     },
     mounted() {},
 };
 </script>
 
 <template>
-    <app-menu class="fixed-menu"></app-menu>
-    <drawer-menu class="fixed-drawer"></drawer-menu>
-    <app-messages></app-messages>
-    <router-view class="router-view"></router-view>
-    <notifications classes="my-notification" position="bottom right" />
+    <div v-if="isAxiosLoading">
+        <loading></loading>
+    </div>
+    <div v-else>
+        <app-menu class="fixed-menu"></app-menu>
+        <drawer-menu class="fixed-drawer"></drawer-menu>
+        <router-view class="router-view"></router-view>
+        <notifications classes="my-notification" position="bottom right" />
+    </div>
 </template>
 
 <style>

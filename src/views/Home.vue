@@ -5,7 +5,7 @@
             <div class="col-lg-6 col-12 top-header-column">
                 <h1 class="top-banner-main-title">Organize your life much better with Mee!</h1>
                 <h5 class="top-banner-sub-title mt-2">Mee is a friendly robot that will help you organize everything much easier. Be productive and forget about everything else!</h5>
-                <div class="header-buttons mt-5 pt-2">
+                <div class="header-buttons mt-5 pt-2" v-if="!user">
                     <button class="header-auth-btn" @click="goTo('auth')">Login</button>
                     <p class="or-text">or</p>
                     <button class="header-auth-btn" @click="goToRegister()">Register</button>
@@ -125,6 +125,7 @@ export default {
     data() {
         return {
             clickedMenu: false,
+            user: false,
             features: [
                 { id: 0, image: '/src/assets/sidemenu/to-do-list.png', name: 'To-Do List', desc: 'Stay organized and productive with interactive to-do list. Prioritize tasks, set due dates, and check off completed items. Never miss a beat again!' },
                 { id: 1, image: '/src/assets/sidemenu/note-icon.png', name: 'Notes', desc: 'Create and manage your notes effortlessly. Write important information, ideas, or reminders. Save and access them anytime you need.' },
@@ -149,6 +150,7 @@ export default {
         // if (!localStorage.mee_user) {
         //     this.$router.push('/auth');
         // }
+        this.user = localStorage.getItem('mee_user');
         document.getElementsByClassName('fixed-menu')[0].style.visibility = 'visible';
     },
 };
