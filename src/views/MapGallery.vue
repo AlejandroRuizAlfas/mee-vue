@@ -106,11 +106,6 @@ export default {
 </template>
 
 <style scoped>
-.container-fluid {
-    /* background-color: #233d4d;
-    height: 100vh; */
-}
-
 .map-item {
     background-color: white;
 }
@@ -218,17 +213,4 @@ export default {
         height: 300px;
     }
 }
-
-/* @media only screen and (max-width: 600px) {
-    .card-container {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-    }
-}
-@media only screen and (min-width: 768px) {
-    .card-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-    }
-} */
 </style>

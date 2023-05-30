@@ -80,9 +80,6 @@ export default {
             this.currentNote = note;
             this.showDialog = true;
         },
-        randomColor() {
-            // return this.colors[Math.floor(Math.random() * colors.length)];
-        },
         handleCloseDialog() {
             this.showDialog = false;
         },
@@ -94,10 +91,6 @@ export default {
 </script>
 
 <style scoped>
-.container-fluid {
-    /* background-color: #233d4d;
-    height: 100vh; */
-}
 #note-board {
     display: grid;
     grid-template-columns: repeat(auto-fill, 200px);

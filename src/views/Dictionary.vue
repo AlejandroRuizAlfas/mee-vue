@@ -67,8 +67,6 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&display=swap');
 .container-fluid {
-    /* background-color: #233d4d;
-    height: 100vh; */
     overflow: auto;
 }
 .search-wrapper {

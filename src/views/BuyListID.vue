@@ -143,8 +143,6 @@ export default {
                         <div class="col-2 text-center row-icons">
                             <img :src="imgSrc + product.icon" class="mx-2" style="display: inline-block" />
                             <span><i class="bi bi-pencil-fill" @click="showEditProd(product)"></i></span>
-                            <!-- <img src="/src/assets/buylist/delete.png" class="mx-2" style="display: inline-block" @click="deleteItemFromList(product)" /> -->
-                            <!-- <img src="/src/assets/buylist/edit.png" class="mx-2" style="display: inline-block" /> -->
                         </div>
                     </div>
                 </div>
@@ -177,14 +175,6 @@ export default {
 </template>
 
 <style scoped>
-/* * {
-    border: 1px solid red;
-} */
-.container-fluid {
-    /* background-color: #233d4d;
-    height: 100vh; */
-}
-
 .backdrop {
     position: fixed;
     top: 0;

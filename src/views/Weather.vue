@@ -140,12 +140,8 @@ export default {
                                 <h3 class="display-2 place-temp px-4">{{ currentWeather.temp_c }}ºC</h3>
                             </div>
                             <div class="col-md-3 col-12">
-                                <!-- <img v-if="currentWeather.condition" src="/src/assets/weather/sun.png" class="current-big-icon" width="250" height="250" /> -->
                                 <img v-if="currentWeather.condition" :src="currentWeather.condition.icon" class="current-big-icon" width="250" height="250" />
                             </div>
-                            <!-- <div class="col-2" v-if="forecast3days[0]">
-                            <img :src="currentWeather.condition.icon" class="current-big-icon" />
-                        </div> -->
                         </div>
                     </div>
                 </div>
@@ -253,7 +249,7 @@ export default {
             </div>
 
             <div class="row justify-content-center">
-                <div class="col-md-9 col-12">
+                <div class="col-md-12 col-12">
                     <div class="conditions-panel m-4 p-4">
                         <h3 class="mx-3 py-2" style="margin-bottom: 16px">Air conditions</h3>
                         <div class="air-conditions-container mt-2 mb-4">
@@ -299,7 +295,6 @@ export default {
 
 .container-fluid {
     background-color: #0b131e;
-    /* height: 100vh; */
 }
 .weather-card {
     background-color: azure;
@@ -386,23 +381,6 @@ export default {
     font-family: 'Rubik', sans-serif;
     font-weight: bolder;
 }
-
-/* .hourly-forecast {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-}
-
-.hourly-forecast:hover {
-    overflow-x: auto;
-}
-
-.hourly-forecast > div {
-    flex: 0 0 auto;
-    margin-right: 20px;
-    margin-left: 20px;
-} */
 
 .hourly-forecast-container {
     display: flex;

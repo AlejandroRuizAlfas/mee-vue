@@ -82,10 +82,6 @@ export default {
 </template>
 
 <style scoped>
-.container {
-    /* background-color: #233d4d;
-    height: 100vh; */
-}
 .buycard {
     background-color: antiquewhite;
     border-radius: 20px;
@@ -108,9 +104,6 @@ export default {
     border-radius: 40px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: bold;
-}
-
-.button-wrapper {
 }
 
 button {

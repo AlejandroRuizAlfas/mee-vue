@@ -33,8 +33,25 @@ export default {
             this.currentTodo = item;
             this.editDialog = true;
         },
+        getPriorityString(item) {
+            let strings = ['No priority', 'Low priority', 'Medium priority', 'High priority'];
+            return strings[item];
+        },
+        openMoreDetails() {
+            if (event.currentTarget.children[1].children[2].style.display === 'block') {
+                event.currentTarget.style.transition = 'height 0.5s';
+                event.currentTarget.style.height = '100px';
+                event.currentTarget.children[1].children[2].style.display = 'none';
+            } else {
+                event.currentTarget.style.transition = 'height 0.5s';
+                let curTarg = event.currentTarget;
+                curTarg.style.height = '280px';
+                setTimeout(function () {
+                    curTarg.children[1].children[2].style.display = 'block';
+                }, 500);
+            }
+        },
         async saveData(newTodo) {
-            // let newTodo = { name: 'New todo', completed: 0, desc: 'Empty description', alarmActivated: 0, notifActivated: 0, limitDate: new Date().toLocaleString().replaceAll('PM', ' ').replaceAll(' ', '').replace(',', ' ').replaceAll('/', '-'), priority: 1, earlyNotif: 0 };
             let response = await this.addTodoStore(newTodo);
             !this.todos ? (this.todos = []) : '';
             this.todos.push(response);
@@ -77,7 +94,7 @@ export default {
                     <button class="btn btn-primary btn-add-todo" @click="handleCreateTodo">New To-Do</button>
                 </div>
                 <div class="item-list" v-if="todos.length > 0">
-                    <div class="todo-item m-3" v-for="item in todos" :key="item.todo_id" @click="handleEditTodo(item)">
+                    <div class="todo-item m-3" v-for="item in todos" :key="item.todo_id" @click="openMoreDetails">
                         <div v-if="item.priority == 3" class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-high"></div>
                         <div v-else-if="item.priority == 2" class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-medium"></div>
                         <div v-else-if="item.priority == 1" class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-low"></div>
@@ -88,6 +105,15 @@ export default {
                             </div>
                             <div class="row">
                                 <p class="my-0 mt-1">{{ item.limitDate }}</p>
+                            </div>
+                            <div class="row more-info-todo mt-4">
+                                <div class="col-12">
+                                    <h5 class="m-0">Description:</h5>
+                                    <p class="m-0 mb-1">{{ item.desc }}</p>
+                                    <h5 class="m-0">Priority:</h5>
+                                    <p>{{ getPriorityString(item.priority) }}</p>
+                                    <button class="btn btn-warning w-100" @click="handleEditTodo(item)">Edit To-Do</button>
+                                </div>
                             </div>
                         </div>
                         <div class="col-2 todo-controls">
@@ -126,10 +152,7 @@ export default {
 .container-fluid {
     display: grid;
     place-items: center;
-    /* background-color: #233d4d; */
     height: 100vh;
-}
-.item-list {
 }
 
 .todo-bg {
@@ -139,8 +162,8 @@ export default {
     border-radius: 40px;
     border: 5px solid #966f33;
     overflow-x: hidden;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 .todo-bg::-webkit-scrollbar {
     display: none;
@@ -151,7 +174,7 @@ export default {
     height: 100px;
     border-radius: 20px;
     display: flex;
-    align-items: center; /* center vertically */
+    align-items: center;
 }
 
 .todo-prior-bar {
@@ -225,6 +248,10 @@ export default {
     place-items: center;
 }
 
+.more-info-todo {
+    display: none;
+}
+
 @media (max-width: 575.98px) {
     .todo-bg {
         background-color: #353640;
@@ -233,8 +260,8 @@ export default {
         border-radius: 40px;
         border: 5px solid #966f33;
         overflow-x: hidden;
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
 }
 

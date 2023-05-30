@@ -21,11 +21,6 @@ export default {
 </script>
 
 <template>
-    <!-- <div class="container-fluid top-bar pt-1">
-        <span class="navbar-brand">
-            <i class="bi bi-list h2" @click="toggleMenu"></i>
-        </span>
-    </div> -->
     <button class="open-list-btn" @click="toggleMenu">
         <i class="bi bi-list" style="font-size: 2rem"></i>
     </button>
