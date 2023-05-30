@@ -12,9 +12,6 @@ export default {
     },
     methods: {
         ...mapActions(useStore, []),
-        showList() {
-            // Add logic to show the list here
-        },
     },
     computed: {
         ...mapState(useStore, ['user', 'isAxiosLoading']),
@@ -79,9 +76,4 @@ export default {
     background: #e54d42;
     border-left-color: #b82e24;
 }
-
-/* .router-view {
-    margin-top: 50px;
-    z-index: 0;
-} */
 </style>

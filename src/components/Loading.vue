@@ -90,9 +90,6 @@ export default {
 </script>
 
 <style>
-/* * {
-    border: 1px solid red;
-} */
 @-webkit-keyframes v-syncStretchDelay {
     33% {
         -webkit-transform: translateY(10px);

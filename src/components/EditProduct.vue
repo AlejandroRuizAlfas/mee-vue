@@ -6,7 +6,6 @@
             </button>
         </div>
         <div class="dialog-content">
-            <!-- <form> -->
             <div class="form-group">
                 <label for="prodName">Name:</label>
                 <input type="text" class="form-control" placeholder="Enter product name..." v-model="product.name" name="prodName" id="prodName" />
@@ -42,7 +41,6 @@
                     </div>
                 </div>
             </div>
-            <!-- </form> -->
         </div>
     </div>
 </template>

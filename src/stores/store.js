@@ -2,7 +2,6 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 import { notify } from '@kyvg/vue3-notification';
 const url = 'https://meedb.000webhostapp.com/api';
-// const url = import.meta.env.VITE_URL;
 
 export const useStore = defineStore('store', {
     state() {
@@ -16,12 +15,6 @@ export const useStore = defineStore('store', {
     },
 
     actions: {
-        // loadData() {
-        //     axios
-        //         .get(url + "/todos")
-        //         .then((response) => (this.todos = response.data))
-        //         .catch((err) => this.messages.push(err));
-        // },
         toggleMenu() {
             this.isOpen = !this.isOpen;
         },
@@ -73,7 +66,6 @@ export const useStore = defineStore('store', {
             response ? notify({ type: 'error', text: 'Note deleted!' }) : '';
             return response.data;
         },
-
         async addBuylistStore() {
             let prods = `{"products": []}`;
             let list = { name: 'New list', elements: prods, count: 0, owner: this.user.user_id };
@@ -91,7 +83,6 @@ export const useStore = defineStore('store', {
             response ? notify({ type: 'error', text: 'Map location deleted!' }) : '';
             return response.data;
         },
-
         async addMapStore(loc) {
             loc.owner = this.user.user_id;
             let response = await axios.post(url + '/maps/add', JSON.stringify(loc));
@@ -108,7 +99,6 @@ export const useStore = defineStore('store', {
             response ? notify({ type: 'error', text: 'Map location deleted!' }) : '';
             return response.data;
         },
-
         async addTodoStore(todo) {
             todo.owner = this.user.user_id;
             let response = await axios.post(url + '/todos/add', JSON.stringify(todo));
@@ -125,7 +115,6 @@ export const useStore = defineStore('store', {
             response ? notify({ type: 'error', text: 'Todo deleted!' }) : '';
             return response.data;
         },
-
         stopAxiosLoading() {
             this.isAxiosLoading = false;
         },

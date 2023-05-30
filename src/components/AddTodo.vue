@@ -14,7 +14,6 @@
         </div>
         <hr class="hr" />
         <div class="dialog-content">
-            <!-- <form> -->
             <div class="form-group my-2">
                 <label for="name">Name</label>
                 <input id="name" name="name" type="text" class="form-control" />
@@ -64,7 +63,6 @@
             <div class="form-group mt-4" style="float: right">
                 <button name="submit" type="submit" class="btn btn-success" @click="handleFinishAdd">Create To-Do</button>
             </div>
-            <!-- </form> -->
         </div>
     </div>
 </template>

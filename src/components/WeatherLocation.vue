@@ -67,8 +67,8 @@ export default {
 .locationList {
     max-height: 450px;
     overflow: hidden;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .locationList::-webkit-scrollbar {

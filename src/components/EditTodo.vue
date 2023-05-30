@@ -14,7 +14,6 @@
         </div>
         <hr class="hr" />
         <div class="dialog-content">
-            <!-- <form> -->
             <div class="form-group my-2">
                 <label for="name">Name</label>
                 <input id="name" name="name" type="text" class="form-control" v-model="todo.name" />
@@ -61,10 +60,10 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group mt-4" style="float: right">
-                <button name="submit" type="submit" class="btn btn-warning" @click="handleFinishEdit">Edit To-Do</button>
+            <div class="form-group mt-4">
+                <button name="submit" type="submit" class="btn btn-danger" style="float: left" @click="handleDeleteTodo">Delete To-Do</button>
+                <button name="submit" type="submit" class="btn btn-warning" style="float: right" @click="handleFinishEdit">Edit To-Do</button>
             </div>
-            <!-- </form> -->
         </div>
     </div>
 </template>
@@ -84,6 +83,9 @@ export default {
     methods: {
         handleFinishEdit() {
             this.$emit('finishEdit', this.todo);
+        },
+        handleDeleteTodo() {
+            alert('Are you sure you want to delete this To-Do?'); //TODO Delete todos
         },
         handleClose() {
             this.$emit('closeDialog');

@@ -6,7 +6,6 @@
             </button>
         </div>
         <div class="dialog-content">
-            <!-- <form> -->
             <div class="form-group">
                 <label for="prodName">Name:</label>
                 <input type="text" class="form-control" placeholder="Enter product name..." name="prodName" id="prodName" />
@@ -39,7 +38,6 @@
                     <button type="submit" class="btn btn-success" @click="handleFinishAdd">Add</button>
                 </div>
             </div>
-            <!-- </form> -->
         </div>
     </div>
 </template>
