@@ -12,8 +12,6 @@ import Auth from '../views/Auth.vue';
 import TodoList from '../views/TodoList.vue';
 import Home from '../views/Home.vue';
 
-import Calendar from '../views/Calendar.vue';
-
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
@@ -96,12 +94,6 @@ const router = createRouter({
 			path: '/todoList',
 			name: 'todoList',
 			component: TodoList,
-			beforeEnter: requireAuth,
-		},
-		{
-			path: '/calendar',
-			name: 'calendar',
-			component: Calendar,
 			beforeEnter: requireAuth,
 		},
 	],
