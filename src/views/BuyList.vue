@@ -28,7 +28,12 @@ export default {
             let response = await this.editBuylistStore(item);
         },
         async handleDeleteList(item) {
-            await this.deleteBuylisStore(item);
+            if (window.confirm('Are you sure you want to delete this list?')) {
+                let response = await this.deleteBuylisStore(item);
+                this.$router.go('/buyList');
+                this.handleClose();
+            }
+
         },
     },
     computed: {
@@ -53,10 +58,12 @@ export default {
             <div class="button-wrapper text-center m-4">
                 <button class="btn btn-success w-100" @click="handleCreateList">Create new list!</button>
             </div>
-            <div class="buycard p-4 m-4" @click="handleShowList(item.buylist_id)" v-for="item in lists" v-if="lists.length > 0">
+            <div class="buycard p-4 m-4" @click="handleShowList(item.buylist_id)" v-for="item in lists"
+                v-if="lists.length > 0">
                 <div class="row">
                     <div class="col-7 p-3">
-                        <div class="list-name" contenteditable="true" spellcheck="false" @click.stop @blur="handleChangeTitle(item, $event.target.textContent)">{{ item.name }}</div>
+                        <div class="list-name" contenteditable="true" spellcheck="false" @click.stop
+                            @blur="handleChangeTitle(item, $event.target.textContent)">{{ item.name }}</div>
                         <div class="item-chip p-2 text-center">
                             <p>{{ item.count }} items</p>
                         </div>
@@ -65,7 +72,8 @@ export default {
                         <img class="buy-image-right" src="/src/assets/compraEmpty.png" />
                     </div>
                     <div class="col-1">
-                        <span><i class="bi bi-trash" @click="handleDeleteList(item)" @click.stop style="color: #dc3545; font-size: 24px; float: right"></i></span>
+                        <span><i class="bi bi-trash" @click="handleDeleteList(item)" @click.stop
+                                style="color: #dc3545; font-size: 24px; float: right"></i></span>
                     </div>
                 </div>
             </div>
@@ -129,6 +137,7 @@ button {
     justify-content: center;
     align-items: center;
 }
+
 .empty-text {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 24px;

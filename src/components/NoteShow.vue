@@ -21,7 +21,8 @@
                         <i class="icon bi bi-palette-fill">Color</i>
                     </button>
                     <div class="dropdown-content" v-if="isDropdownOpen">
-                        <div v-for="(color, index) in colors" :key="index" class="color-circle" :style="{ backgroundColor: color }" @click="changeNoteColor(color)"></div>
+                        <div v-for="(color, index) in colors" :key="index" class="color-circle"
+                            :style="{ backgroundColor: color }" @click="changeNoteColor(color)"></div>
                     </div>
                 </div>
                 <button class="button bg-danger" @click="deleteNote">
@@ -63,8 +64,11 @@ export default {
             this.$router.push('/notes');
         },
         async deleteNote(note) {
-            let response = await this.deleteNoteStore(this.note);
-            this.$router.push('/notes');
+            if (window.confirm('Are you sure you want to delete this note?')) {
+                let response = await this.deleteNoteStore(this.note);
+                this.$router.go('/notes');
+                this.handleClose();
+            }
         },
         handleClose() {
             this.$emit('closeDialog');
@@ -138,6 +142,7 @@ textarea {
     position: relative;
     display: inline-block;
 }
+
 .dropdown-content {
     position: absolute;
     top: 0;
@@ -148,6 +153,7 @@ textarea {
     border: 1px solid #ccc;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
+
 .color-circle {
     display: inline-block;
     width: 20px;
@@ -157,30 +163,37 @@ textarea {
     transition: transform 0.2s ease-in-out;
     border: 2px solid black;
 }
+
 .color-circle:hover {
     transform: scale(1.2);
 }
+
 .dropdown-enter-active {
     animation: dropdown-in 0.3s ease-out forwards;
 }
+
 .dropdown-leave-active {
     animation: dropdown-out 0.3s ease-out forwards;
 }
+
 @keyframes dropdown-in {
     from {
         opacity: 0;
         transform: translateX(20px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
     }
 }
+
 @keyframes dropdown-out {
     from {
         opacity: 1;
         transform: translateX(0);
     }
+
     to {
         opacity: 0;
         transform: translateX(20px);

@@ -15,114 +15,114 @@ import Home from '../views/Home.vue';
 import Calendar from '../views/Calendar.vue';
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
-    routes: [
-        {
-            path: '/',
-            name: 'home',
-            component: Home,
-        },
-        {
-            path: '/auth',
-            name: 'auth',
-            component: Auth,
-        },
-        {
-            path: '/auth:action',
-            name: 'authRegister',
-            component: Auth,
-        },
-        {
-            path: '/notes',
-            name: 'notes',
-            component: Notes,
-            beforeEnter: requireAuth,
-        },
-        {
-            path: '/maps',
-            name: 'maps',
-            component: MapGallery,
-            beforeEnter: requireAuth,
-        },
-        {
-            path: '/buyList',
-            name: 'buyList',
-            component: BuyList,
-            beforeEnter: requireAuth,
-        },
-        {
-            path: '/buyList/:id',
-            name: 'buyListID',
-            component: BuyListID,
-            beforeEnter: requireAuth,
-        },
-        {
-            path: '/news',
-            name: 'news',
-            component: News,
-            beforeEnter: requireAuth,
-        },
-        {
-            path: '/news/:category',
-            name: 'newsCat',
-            component: News,
-            beforeEnter: requireAuth,
-        },
-        {
-            path: '/weather',
-            name: 'weather',
-            component: Weather,
-            beforeEnter: requireAuth,
-        },
-        {
-            path: '/dictionary',
-            name: 'dictionary',
-            component: Dictionary,
-            beforeEnter: requireAuth,
-        },
-        {
-            path: '/translator',
-            name: 'translator',
-            component: Translator,
-            beforeEnter: requireAuth,
-        },
-        {
-            path: '/words',
-            name: 'words',
-            component: Words,
-            beforeEnter: requireAuth,
-        },
-        {
-            path: '/todoList',
-            name: 'todoList',
-            component: TodoList,
-            beforeEnter: requireAuth,
-        },
-        // {
-        //     path: '/calendar',
-        //     name: 'calendar',
-        //     component: Calendar,
-        //     beforeEnter: requireAuth,
-        // },
-    ],
+	history: createWebHistory(import.meta.env.BASE_URL),
+	routes: [
+		{
+			path: '/',
+			name: 'home',
+			component: Home,
+		},
+		{
+			path: '/auth',
+			name: 'auth',
+			component: Auth,
+		},
+		{
+			path: '/auth:action',
+			name: 'authRegister',
+			component: Auth,
+		},
+		{
+			path: '/notes',
+			name: 'notes',
+			component: Notes,
+			beforeEnter: requireAuth,
+		},
+		{
+			path: '/maps',
+			name: 'maps',
+			component: MapGallery,
+			beforeEnter: requireAuth,
+		},
+		{
+			path: '/buyList',
+			name: 'buyList',
+			component: BuyList,
+			beforeEnter: requireAuth,
+		},
+		{
+			path: '/buyList/:id',
+			name: 'buyListID',
+			component: BuyListID,
+			beforeEnter: requireAuth,
+		},
+		{
+			path: '/news',
+			name: 'news',
+			component: News,
+			beforeEnter: requireAuth,
+		},
+		{
+			path: '/news/:category',
+			name: 'newsCat',
+			component: News,
+			beforeEnter: requireAuth,
+		},
+		{
+			path: '/weather',
+			name: 'weather',
+			component: Weather,
+			beforeEnter: requireAuth,
+		},
+		{
+			path: '/dictionary',
+			name: 'dictionary',
+			component: Dictionary,
+			beforeEnter: requireAuth,
+		},
+		{
+			path: '/translator',
+			name: 'translator',
+			component: Translator,
+			beforeEnter: requireAuth,
+		},
+		{
+			path: '/words',
+			name: 'words',
+			component: Words,
+			beforeEnter: requireAuth,
+		},
+		{
+			path: '/todoList',
+			name: 'todoList',
+			component: TodoList,
+			beforeEnter: requireAuth,
+		},
+		{
+			path: '/calendar',
+			name: 'calendar',
+			component: Calendar,
+			beforeEnter: requireAuth,
+		},
+	],
 });
 function requireAuth(to, from, next) {
-    if (!isLoggedIn()) {
-        next({
-            path: '/auth',
-            query: { redirect: to.fullPath },
-        });
-    } else {
-        next();
-    }
+	if (!isLoggedIn()) {
+		next({
+			path: '/auth',
+			query: { redirect: to.fullPath },
+		});
+	} else {
+		next();
+	}
 }
 
 function isLoggedIn() {
-    if (localStorage.mee_user) {
-        return true;
-    } else {
-        return false;
-    }
+	if (localStorage.mee_user) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 export default router;

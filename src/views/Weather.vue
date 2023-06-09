@@ -39,6 +39,7 @@ export default {
                             this.filteredHours.push(e);
                         }
                     });
+                    console.log(this.currentWeather);
                 })
                 .catch((err) => alert(err));
         },
@@ -124,7 +125,8 @@ export default {
         <div class="container-fluid" style="padding-top: 20px">
             <div class="row justify-content-center">
                 <div class="search-bar mt-5">
-                    <input id="searchInput" type="text" v-model="cityString" placeholder="Search for the name of a city..." />
+                    <input id="searchInput" type="text" v-model="cityString"
+                        placeholder="Search for the name of a city..." />
                     <datalist id="citiesList"></datalist>
                     <button type="submit" @click="searchCityInArray()"><i class="bi bi-search"></i></button>
                 </div>
@@ -140,7 +142,8 @@ export default {
                                 <h3 class="display-2 place-temp px-4">{{ currentWeather.temp_c }}ºC</h3>
                             </div>
                             <div class="col-md-3 col-12">
-                                <img v-if="currentWeather.condition" :src="currentWeather.condition.icon" class="current-big-icon" width="250" height="250" />
+                                <img v-if="currentWeather.condition" :src="currentWeather.condition.icon"
+                                    class="current-big-icon" width="250" height="250" />
                             </div>
                         </div>
                     </div>
@@ -223,7 +226,8 @@ export default {
                         <div class="astro-info-container mt-2">
                             <div class="row">
                                 <div class="col-4">
-                                    <img v-if="currentWeather.condition" src="/src/assets/weather/sun.png" class="current-big-icon" width="100" height="100" style="float: left" />
+                                    <img v-if="currentWeather.condition" src="/src/assets/weather/sun.png"
+                                        class="current-big-icon" width="100" height="100" style="float: left" />
                                 </div>
                                 <div class="col-8">
                                     <div v-if="forecast.astro" class="w-100">Sunrise: {{ forecast.astro.sunrise }}</div>
@@ -236,11 +240,14 @@ export default {
                                 <div class="col-8">
                                     <div v-if="forecast.astro" class="w-100">Moonrise: {{ forecast.astro.moonrise }}</div>
                                     <div v-if="forecast.astro" class="w-100">Moonset: {{ forecast.astro.moonset }}</div>
-                                    <div v-if="forecast.astro" class="w-100">Moon Phase: {{ forecast.astro.moon_phase }}</div>
-                                    <div v-if="forecast.astro" class="w-100">Moon Illumination: {{ forecast.astro.moon_illumination }}%</div>
+                                    <div v-if="forecast.astro" class="w-100">Moon Phase: {{ forecast.astro.moon_phase }}
+                                    </div>
+                                    <div v-if="forecast.astro" class="w-100">Moon Illumination: {{
+                                        forecast.astro.moon_illumination }}%</div>
                                 </div>
                                 <div class="col-4">
-                                    <img v-if="currentWeather.condition" src="/src/assets/weather/moon.png" class="current-big-icon" width="100" height="100" style="float: left" />
+                                    <img v-if="currentWeather.condition" src="/src/assets/weather/moon.png"
+                                        class="current-big-icon" width="100" height="100" style="float: left" />
                                 </div>
                             </div>
                         </div>
@@ -255,7 +262,8 @@ export default {
                         <div class="air-conditions-container mt-2 mb-4">
                             <div class="row mx-md-5">
                                 <div class="col-6">
-                                    <p class="mb-0 air-conditions-container-title"><span class="bi bi-thermometer-half"> Real feel</span></p>
+                                    <p class="mb-0 air-conditions-container-title"><span class="bi bi-thermometer-half">
+                                            Real feel</span></p>
                                     <div class="air-conditions-container-values">{{ currentWeather.feelslike_c }}º</div>
                                 </div>
                                 <div class="col-6">
@@ -265,11 +273,13 @@ export default {
                             </div>
                             <div class="row mx-md-5 mt-2">
                                 <div class="col-6">
-                                    <p class="mb-0 air-conditions-container-title"><span class="bi bi-droplet-fill"> Rain</span></p>
+                                    <p class="mb-0 air-conditions-container-title"><span class="bi bi-droplet-fill">
+                                            Rain</span></p>
                                     <div class="air-conditions-container-values">{{ currentWeather.precip_mm }} mm</div>
                                 </div>
                                 <div class="col-6">
-                                    <p class="mb-0 air-conditions-container-title"><span class="bi bi-sun-fill"> UV Index</span></p>
+                                    <p class="mb-0 air-conditions-container-title"><span class="bi bi-sun-fill"> UV
+                                            Index</span></p>
                                     <div class="air-conditions-container-values">{{ currentWeather.uv }}</div>
                                 </div>
                             </div>
@@ -296,12 +306,14 @@ export default {
 .container-fluid {
     background-color: #0b131e;
 }
+
 .weather-card {
     background-color: azure;
     width: 60%;
     height: 200px;
     border-radius: 40px;
 }
+
 .weather-card-image {
     width: 200px;
     height: auto;
@@ -376,6 +388,7 @@ export default {
     height: auto;
     color: white;
 }
+
 .place-name,
 .place-temp {
     font-family: 'Rubik', sans-serif;
@@ -387,6 +400,7 @@ export default {
     overflow-x: hidden;
     scroll-behavior: smooth;
 }
+
 .hourly-forecast-container:hover {
     overflow-x: auto;
 }
@@ -411,6 +425,7 @@ export default {
     font-weight: bolder;
     font-size: 20px;
 }
+
 .air-conditions-container-values {
     font-family: 'Rubik', sans-serif;
     font-weight: bolder;
@@ -422,10 +437,12 @@ export default {
     display: grid;
     place-items: center;
 }
+
 .current-big-icon {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
 }
+
 p,
 h1,
 h2,
@@ -442,12 +459,15 @@ div {
     .cur-date-hour {
         display: none;
     }
+
     .today-forecast {
         text-align: center;
     }
+
     .air-conditions-container-values {
         font-size: 24px;
     }
+
     .air-conditions-container {
         text-align: center;
     }

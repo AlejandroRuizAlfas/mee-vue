@@ -22,12 +22,7 @@
                         <label for="prodCat">Category:</label>
                         <select class="form-select" name="prodCat" id="prodCat">
                             <option value="default" selected disabled>Select a category...</option>
-                            <option value="food">General</option>
-                            <option value="health">Health & Care</option>
-                            <option value="fruits">Fruits and Vegetables</option>
-                            <option value="drinks">Drinks</option>
-                            <option value="meat">Meat</option>
-                            <option value="bread">Bread</option>
+                            <option :value="item.code" v-for="item in categories" :key="item.id">{{ item.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -51,7 +46,12 @@ export default {
         message: String,
     },
     data() {
-        return {};
+        return {
+            categories: [],
+        };
+    },
+    computed: {
+        ...mapState(useStore, ['getAllCategories']),
     },
     methods: {
         handleFinishAdd() {
@@ -73,7 +73,9 @@ export default {
             document.getElementById('prodCat').value = 'default';
         },
     },
-    mount() {},
+    async mounted() {
+        this.categories = await this.getAllCategories();
+    },
 };
 </script>
 

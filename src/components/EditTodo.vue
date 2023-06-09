@@ -26,7 +26,8 @@
                 <div>
                     <div class="custom-controls-stacked">
                         <div class="custom-control">
-                            <input id="alarmActivated" name="alarmActivated" type="checkbox" class="custom-control-input" value="alarmActivated" v-model="todo.alarmActivated" />
+                            <input id="alarmActivated" name="alarmActivated" type="checkbox" class="custom-control-input"
+                                value="alarmActivated" v-model="todo.alarmActivated" />
                             <label for="checkbox_0" class="custom-control-label mx-2">Notify with alarm?</label>
                         </div>
                     </div>
@@ -61,8 +62,10 @@
                 </div>
             </div>
             <div class="form-group mt-4">
-                <button name="submit" type="submit" class="btn btn-danger" style="float: left" @click="handleDeleteTodo">Delete To-Do</button>
-                <button name="submit" type="submit" class="btn btn-warning" style="float: right" @click="handleFinishEdit">Edit To-Do</button>
+                <button name="submit" type="submit" class="btn btn-danger" style="float: left"
+                    @click="handleDeleteTodo">Delete To-Do</button>
+                <button name="submit" type="submit" class="btn btn-warning" style="float: right"
+                    @click="handleFinishEdit">Edit To-Do</button>
             </div>
         </div>
     </div>
@@ -81,11 +84,16 @@ export default {
         return {};
     },
     methods: {
+        ...mapActions(useStore, ['deleteTodoStore']),
         handleFinishEdit() {
             this.$emit('finishEdit', this.todo);
         },
-        handleDeleteTodo() {
-            alert('Are you sure you want to delete this To-Do?'); //TODO Delete todos
+        async handleDeleteTodo() {
+            if (window.confirm('Are you sure you want to delete this todo?')) {
+                let response = await this.deleteTodoStore(this.todo);
+                this.$router.go('/todos');
+                this.handleClose();
+            }
         },
         handleClose() {
             this.$emit('closeDialog');

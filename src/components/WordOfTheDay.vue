@@ -17,7 +17,7 @@ export default {
         },
         loadWotd() {
             axios
-                .get(this.url + '&apiKey=c279ca20e57f4c47a810032b6b52a48f')
+                .get(this.url)
                 .then((response) => {
                     this.wotd = response.data;
                 })
@@ -71,15 +71,19 @@ h3 {
         transform: translateX(0);
         opacity: 0;
     }
+
     25% {
         transform: translateX(-5px);
     }
+
     50% {
         transform: translateX(5px);
     }
+
     75% {
         transform: translateX(-5px);
     }
+
     100% {
         transform: translateX(0);
         opacity: 1;

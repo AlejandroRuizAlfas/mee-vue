@@ -6,7 +6,9 @@
         <div v-else>
             <div id="note-board">
                 <div class="add-note text-center" type="button" @click="addNote">+</div>
-                <textarea v-for="note in notes" :key="note.note_id" spellcheck="false" class="note" :style="{ backgroundColor: note.color }" :value="note.content" placeholder="Empty Sticky Note" @change="updateNote(note, $event.target.value)" @dblclick="showNote(note)"> </textarea>
+                <textarea v-for="note in notes" :key="note.note_id" spellcheck="false" class="note"
+                    :style="{ backgroundColor: note.color }" :value="note.content" placeholder="Empty Sticky Note"
+                    @change="updateNote(note, $event.target.value)" @dblclick="showNote(note)"> </textarea>
                 <div v-if="showDialog" class="backdrop">
                     <div class="dialog-wrapper">
                         <teleport to="body">
@@ -56,7 +58,7 @@ export default {
     },
     methods: {
         ...mapActions(useStore, ['addNoteStore', 'editNoteStore']),
-        saveNotes(notes) {},
+        saveNotes(notes) { },
         createNoteElement(id, content) {
             return {
                 id: id,
@@ -72,7 +74,7 @@ export default {
             note.content = newContent;
             let response = await this.editNoteStore(note);
         },
-        deleteNote(id) {
+        async deleteNote(id) {
             this.notes = this.notes.filter((note) => note.id != id);
             this.saveNotes(this.notes);
         },
@@ -111,6 +113,7 @@ export default {
     font-size: 16px;
     overflow: hidden;
 }
+
 .note:hover {
     overflow: auto;
 }
@@ -160,6 +163,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
 .empty-text {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 24px;
@@ -199,5 +203,4 @@ export default {
         width: 200px;
         height: 200px;
     }
-}
-</style>
+}</style>

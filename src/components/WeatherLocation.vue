@@ -80,6 +80,7 @@ export default {
     line-height: 40px;
     width: 100%;
 }
+
 .location-row:hover {
     background-color: #1a2433;
     cursor: pointer;

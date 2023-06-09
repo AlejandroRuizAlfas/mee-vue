@@ -48,8 +48,11 @@ export default {
             map.title = newContent;
             let response = await this.editMapStore(map);
         },
-        handleDeleteMap(map) {
-            this.deleteMapStore(map);
+        async handleDeleteMap(map) {
+            if (window.confirm('Are you sure you want to delete this map?')) {
+                let response = await this.deleteMapStore(map);
+                this.$router.go('/maps');
+            }
         },
     },
     computed: {
@@ -73,20 +76,23 @@ export default {
                 <button class="btn btn-primary w-100" @click="initGeolocation">Save my current location</button>
                 <div class="card-container m-4" v-if="locations.length > 0">
                     <div class="card" v-for="item in locations" :key="item.id">
-                        <iframe class="frame-map" :src="'https://maps.google.com/maps?q=' + item.latitude + ',' + item.longitude + '&hl=es;z=14&amp;output=embed'" frameborder="0" style="border: 0" allowfullscreen="" aria-hidden="false" tabindex="0"> </iframe>
+                        <iframe class="frame-map"
+                            :src="'https://maps.google.com/maps?q=' + item.latitude + ',' + item.longitude + '&hl=es;z=14&amp;output=embed'"
+                            frameborder="0" style="border: 0" allowfullscreen="" aria-hidden="false" tabindex="0"> </iframe>
                         <div class="card-data p-4">
                             <div class="row">
                                 <div class="col-10">
-                                    <div id="loc-title" class="location-title" contenteditable="true" spellcheck="false" @blur="handleChangeTitle(item, $event.target.textContent)">{{ item.title }}</div>
+                                    <div id="loc-title" class="location-title" contenteditable="true" spellcheck="false"
+                                        @blur="handleChangeTitle(item, $event.target.textContent)">{{ item.title }}</div>
                                 </div>
                                 <div class="col-2">
-                                    <span><i class="bi bi-trash" @click="handleDeleteMap(item)" style="color: #dc3545; font-size: 24px; float: right"></i></span>
+                                    <span><i class="bi bi-trash" @click="handleDeleteMap(item)"
+                                            style="color: #dc3545; font-size: 24px; float: right"></i></span>
                                 </div>
                             </div>
-                            <span class="text-span"><i class="bi bi-geo-alt-fill icon-text"></i>{{ item.address }}</span
-                            ><br />
-                            <span class="text-span"><i class="bi bi-flag-fill icon-text"></i>{{ item.info }}</span
-                            ><br />
+                            <span class="text-span"><i class="bi bi-geo-alt-fill icon-text"></i>{{ item.address
+                            }}</span><br />
+                            <span class="text-span"><i class="bi bi-flag-fill icon-text"></i>{{ item.info }}</span><br />
                             <span class="text-span"><i class="bi bi-clock icon-text"></i>{{ item.createdAt }}</span>
                         </div>
                     </div>
@@ -113,6 +119,7 @@ export default {
 .icon-text {
     margin-right: 10px;
 }
+
 .text-span {
     font-size: 18px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -128,6 +135,7 @@ export default {
     width: 410px;
     border: 5px solid white;
 }
+
 .card-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -153,12 +161,14 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
 .empty-text {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 24px;
     font-weight: bold;
     color: white;
 }
+
 .frame-map {
     width: 400px;
     height: 300px;
@@ -170,6 +180,7 @@ export default {
         height: 300px;
         margin: 0px;
     }
+
     .card-container {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
@@ -188,9 +199,11 @@ export default {
         grid-gap: 20px;
         place-items: center;
     }
+
     .card {
         width: 350px;
     }
+
     .frame-map {
         width: 340px;
         height: 300px;
@@ -208,6 +221,7 @@ export default {
     .card {
         width: 400px;
     }
+
     .frame-map {
         width: 390px;
         height: 300px;

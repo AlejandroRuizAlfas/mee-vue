@@ -8,7 +8,8 @@
         <div class="dialog-content">
             <div class="form-group">
                 <label for="prodName">Name:</label>
-                <input type="text" class="form-control" placeholder="Enter product name..." v-model="product.name" name="prodName" id="prodName" />
+                <input type="text" class="form-control" placeholder="Enter product name..." v-model="product.name"
+                    name="prodName" id="prodName" />
             </div>
             <div class="row">
                 <div class="col-md-4 col-12">
@@ -22,12 +23,7 @@
                         <label for="prodCat">Category:</label>
                         <select class="form-select" name="prodCat" id="prodCat" v-model="product.category">
                             <option value="default" selected disabled>Select a category...</option>
-                            <option value="food">General</option>
-                            <option value="health">Health & Care</option>
-                            <option value="fruits">Fruits and Vegetables</option>
-                            <option value="drinks">Drinks</option>
-                            <option value="meat">Meat</option>
-                            <option value="bread">Bread</option>
+                            <option :value="item.code" v-for="item in categories" :key="item.id">{{ item.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -59,6 +55,9 @@ export default {
             product: { name: '', quantity: 0, category: 'default', icon: 'default', bought: false },
         };
     },
+    computed: {
+        ...mapState(useStore, ['getAllCategories']),
+    },
     methods: {
         handleFinishEdit() {
             let prod = {
@@ -74,7 +73,8 @@ export default {
             this.$emit('closeDialog');
         },
     },
-    mounted() {
+    async mounted() {
+        this.categories = await this.getAllCategories();
         this.product = this.prod;
     },
 };
@@ -93,6 +93,7 @@ export default {
     width: 512px;
     height: auto;
 }
+
 .close-dialog {
     position: absolute;
     top: 0.5rem;
