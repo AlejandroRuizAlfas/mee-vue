@@ -30,7 +30,7 @@
             </div>
             <div class="footer-dialog">
                 <div class="actions mt-3">
-                    <button class="btn btn-danger"><i class="bi bi-trash"></i> Delete?</button>
+                    <!-- TODO delete btn <button class="btn btn-danger"><i class="bi bi-trash"></i> Delete?</button> -->
                     <div style="float: right">
                         <button type="cancel" class="btn btn-danger mx-2" @click="handleClose">Cancel</button>
                         <button type="submit" class="btn btn-warning" @click="handleFinishEdit">Edit</button>
