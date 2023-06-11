@@ -123,9 +123,12 @@ export default {
                         <h2 class="mx-4 px-4">{{ currentList[0].name }}</h2>
                     </div>
                     <div class="col-md-6 col-12 text-center mt-1">
-                        <button class="btn action-buttons btn-primary mx-1" @click="showAddProd"><i class="bi bi-plus-circle-fill"></i> Add product</button>
-                        <button class="btn action-buttons btn-success mx-1" @click="checkaAll"><i class="bi bi-check2-square"></i> Check all</button>
-                        <button class="btn action-buttons btn-danger mx-1" @click="uncheckaAll"><i class="bi bi-square"></i> Uncheck all</button>
+                        <button class="btn action-buttons btn-primary mx-1" @click="showAddProd"><i
+                                class="bi bi-plus-circle-fill"></i> Add product</button>
+                        <button class="btn action-buttons btn-success mx-1" @click="checkaAll"><i
+                                class="bi bi-check2-square"></i> Check all</button>
+                        <button class="btn action-buttons btn-danger mx-1" @click="uncheckaAll"><i class="bi bi-square"></i>
+                            Uncheck all</button>
                     </div>
                 </div>
                 <hr class="hr" />
@@ -172,6 +175,18 @@ export default {
             </div>
         </div>
     </div>
+    <div class="import-images d-none">
+        <img src="/src/assets/buylist/bread.png" />
+        <img src="/src/assets/buylist//default.png" />
+        <img src="/src/assets/buylist/delete.png" />
+        <img src="/src/assets/buylist/drinks.png" />
+        <img src="/src/assets/buylist/edit.png" />
+        <img src="/src/assets/buylist/food.png" />
+        <img src="/src/assets/buylist/food.png" />
+        <img src="/src/assets/buylist/fruits.png" />
+        <img src="/src/assets/buylist/health.png" />
+        <img src="/src/assets/buylist/meat.png" />
+    </div>
 </template>
 
 <style scoped>
@@ -193,6 +208,7 @@ export default {
     transform: translate(-50%, -50%);
     z-index: 10;
 }
+
 .buyList {
     background-color: white;
     border-radius: 40px;
@@ -215,6 +231,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
 .empty-text {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 24px;
@@ -222,10 +239,15 @@ export default {
     color: black;
 }
 
+.import-images {
+    display: none;
+}
+
 @media only screen and (max-width: 550px) {
     .buyList {
         margin: 0px;
     }
+
     .text-limit {
         display: inline-block;
         white-space: nowrap;
@@ -239,5 +261,4 @@ export default {
         margin-top: 5px;
         float: center;
     }
-}
-</style>
+}</style>
