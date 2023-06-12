@@ -78,7 +78,7 @@ export default {
         setTimeout(async () => {
             this.todos = await this.getAllTodos();
             this.isLoading = false;
-        }, 1000); // TODO QUITAR SET TIMEOUT
+        }, 1000);
     },
 };
 </script>
@@ -96,7 +96,8 @@ export default {
                 <div class="item-list" v-if="todos.length > 0">
                     <div class="todo-item m-3" v-for="item in todos" :key="item.todo_id" @click="openMoreDetails">
                         <div v-if="item.priority == 3" class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-high"></div>
-                        <div v-else-if="item.priority == 2" class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-medium"></div>
+                        <div v-else-if="item.priority == 2" class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-medium">
+                        </div>
                         <div v-else-if="item.priority == 1" class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-low"></div>
                         <div v-else class="col-1 todo-prior-bar m-1 mx-2 todo-prior-bar-nothing"></div>
                         <div class="col-9 todo-content">
@@ -117,7 +118,8 @@ export default {
                             </div>
                         </div>
                         <div class="col-2 todo-controls">
-                            <input type="checkbox" @click.stop :checked="item.completed == 1" @click="checkOrUncheck(item)" style="transform: scale(1.6)" />
+                            <input type="checkbox" @click.stop :checked="item.completed == 1" @click="checkOrUncheck(item)"
+                                style="transform: scale(1.6)" />
                         </div>
                     </div>
                 </div>
@@ -165,6 +167,7 @@ export default {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
 .todo-bg::-webkit-scrollbar {
     display: none;
 }
@@ -207,6 +210,7 @@ export default {
     border-radius: 20px;
     width: 100%;
 }
+
 .empty-img {
     width: 20rem;
     height: auto;
@@ -217,6 +221,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
+
 .empty-text {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 24px;
@@ -265,15 +270,11 @@ export default {
     }
 }
 
-@media (min-width: 576px) and (max-width: 767.98px) {
-}
+@media (min-width: 576px) and (max-width: 767.98px) {}
 
-@media (min-width: 768px) and (max-width: 991.98px) {
-}
+@media (min-width: 768px) and (max-width: 991.98px) {}
 
-@media (min-width: 992px) and (max-width: 1199.98px) {
-}
+@media (min-width: 992px) and (max-width: 1199.98px) {}
 
-@media (min-width: 1200px) {
-}
+@media (min-width: 1200px) {}
 </style>

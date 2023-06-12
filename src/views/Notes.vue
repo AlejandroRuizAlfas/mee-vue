@@ -54,7 +54,7 @@ export default {
         setTimeout(async () => {
             this.notes = await this.getAllNotes();
             this.isLoading = false;
-        }, 1000); // TODO QUITAR SET TIMEOUT
+        }, 1000);
     },
     methods: {
         ...mapActions(useStore, ['addNoteStore', 'editNoteStore']),
@@ -203,4 +203,5 @@ export default {
         width: 200px;
         height: 200px;
     }
-}</style>
+}
+</style>

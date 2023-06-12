@@ -106,7 +106,7 @@ export default {
             this.products = JSON.parse(this.currentList[0].elements);
             this.products.products = this.sortByBought(this.products.products);
             this.isLoading = false;
-        }, 1000); // TODO QUITAR SET TIMEOUT
+        }, 1000);
     },
 };
 </script>
@@ -261,4 +261,5 @@ export default {
         margin-top: 5px;
         float: center;
     }
-}</style>
+}
+</style>

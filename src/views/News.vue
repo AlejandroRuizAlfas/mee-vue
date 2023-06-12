@@ -62,7 +62,7 @@ export default {
         setTimeout(async () => {
             this.loadNews();
             this.isLoading = false;
-        }, 1000); // TODO QUITAR SET TIMEOUT
+        }, 1000);
     },
 };
 </script>

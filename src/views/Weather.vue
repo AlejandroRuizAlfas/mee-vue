@@ -112,7 +112,7 @@ export default {
             this.getAllCities();
             await this.getTodayForecast('40.417975083297925', '-3.6980873676940718');
             this.isLoading = false;
-        }, 1000); // TODO QUITAR SET TIMEOUT
+        }, 1000);
     },
 };
 </script>
