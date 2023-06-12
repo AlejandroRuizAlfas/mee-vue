@@ -28,7 +28,7 @@ export default {
                 .then((response) => {
                     let notic = response.data.articles;
                     this.news = notic;
-                    notic.forEach((e) => this.news.push(e));
+                    // notic.forEach((e) => this.news.push(e));
                 })
                 .catch((err) => alert(err));
         },
@@ -71,7 +71,8 @@ export default {
     <div class="container justify-content-center" style="padding-top: 20px">
         <div class="row">
             <div class="md-chips text-center">
-                <div class="md-chip md-chip-clickable bg-primary text-white" @click="changeCategory('general')">General</div>
+                <div class="md-chip md-chip-clickable bg-primary text-white" @click="changeCategory('general')">General
+                </div>
                 <div class="md-chip md-chip-clickable" @click="changeCategory('sports')">Sports</div>
                 <div class="md-chip md-chip-clickable" @click="changeCategory('technology')">Technology</div>
                 <div class="md-chip md-chip-clickable" @click="changeCategory('science')">Science</div>
@@ -88,10 +89,11 @@ export default {
                 <div class="col-lg-3 col-md-6 col-12 mx-auto news-feed" v-for="item in news" :key="news.id">
                     <figure class="snip1237">
                         <div class="image">
-                            <img :src="imageUrl(item.image)" alt="No image available" /><i class="ion-ios-clock-outline"></i>
+                            <img :src="imageUrl(item.image)" alt="No image available" /><i
+                                class="ion-ios-clock-outline"></i>
                             <div class="date">
-                                <span class="day">{{ calculateDay(item.publishedAt) }}</span
-                                ><span class="month">{{ calculateMonth(item.publishedAt) }}</span>
+                                <span class="day">{{ calculateDay(item.publishedAt) }}</span><span class="month">{{
+                                    calculateMonth(item.publishedAt) }}</span>
                             </div>
                         </div>
                         <figcaption>
@@ -110,6 +112,7 @@ export default {
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,500);
 @import url(https://fonts.googleapis.com/css?family=Roboto);
+
 figure.snip1237 {
     font-family: 'Raleway', Arial, sans-serif;
     position: relative;
@@ -125,19 +128,23 @@ figure.snip1237 {
     background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
     background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
 }
+
 figure.snip1237 * {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     -webkit-transition: all 0.35s ease-in-out;
     transition: all 0.35s ease-in-out;
 }
+
 figure.snip1237 .image {
     position: relative;
 }
+
 figure.snip1237 img {
     max-width: 100%;
     vertical-align: top;
 }
+
 figure.snip1237 i {
     position: absolute;
     top: 7px;
@@ -148,13 +155,16 @@ figure.snip1237 i {
     -webkit-transition-delay: 0;
     transition-delay: 0;
 }
+
 figure.snip1237 h3 {
     margin: 0 0 10px;
     font-weight: 500;
 }
+
 figure.snip1237 p {
     margin: 0;
 }
+
 figure.snip1237:before,
 figure.snip1237:after {
     width: 120px;
@@ -172,18 +182,21 @@ figure.snip1237:after {
     -webkit-transition-delay: 0.2s;
     transition-delay: 0.2s;
 }
+
 figure.snip1237:before {
     background-color: #20638f;
     -webkit-transform: skew(-45deg) translateX(-150%);
     transform: skew(-45deg) translateX(-150%);
     border-right: 1px solid #20638f;
 }
+
 figure.snip1237:after {
     background-color: #962d22;
     -webkit-transform: skew(-45deg) translateX(-175%);
     transform: skew(-45deg) translateX(-175%);
     border-right: 1px solid #962d22;
 }
+
 figure.snip1237 figcaption {
     padding: 25px;
     background-color: #ffffff;
@@ -191,9 +204,11 @@ figure.snip1237 figcaption {
     position: relative;
     font-size: 0.9em;
 }
+
 figure.snip1237 figcaption p {
     margin-bottom: 15px;
 }
+
 figure.snip1237 figcaption:before {
     width: 100px;
     height: 100px;
@@ -208,6 +223,7 @@ figure.snip1237 figcaption:before {
     transform: skew(-45deg) translateX(50%);
     border-right: 1px solid #20638f;
 }
+
 figure.snip1237 .read-more {
     display: inline-block;
     width: auto;
@@ -220,10 +236,12 @@ figure.snip1237 .read-more {
     text-transform: uppercase;
     cursor: pointer;
 }
+
 figure.snip1237 .read-more:hover {
     background-color: #20638f;
     color: #ffffff;
 }
+
 figure.snip1237 .date {
     position: absolute;
     right: 10px;
@@ -237,19 +255,23 @@ figure.snip1237 .date {
     text-transform: uppercase;
     z-index: 1;
 }
+
 figure.snip1237 .date span {
     display: block;
     line-height: 24px;
 }
+
 figure.snip1237 .date .month {
     font-size: 14px;
 }
+
 figure.snip1237:hover i,
 figure.snip1237.hover i {
     opacity: 0.7;
     -webkit-transition-delay: 0.3s;
     transition-delay: 0.3s;
 }
+
 figure.snip1237:hover:before,
 figure.snip1237.hover:before {
     -webkit-transition-delay: 0s;
@@ -257,6 +279,7 @@ figure.snip1237.hover:before {
     -webkit-transform: skew(-45deg) translateX(-50%);
     transform: skew(-45deg) translateX(-50%);
 }
+
 figure.snip1237:hover:after,
 figure.snip1237.hover:after {
     -webkit-transition-delay: 0.1s;
@@ -264,6 +287,7 @@ figure.snip1237.hover:after {
     -webkit-transform: skew(-45deg) translateX(-75%);
     transform: skew(-45deg) translateX(-75%);
 }
+
 .md-chip {
     display: inline-block;
     background: white;
@@ -272,20 +296,25 @@ figure.snip1237.hover:after {
     font-size: 20px;
     font-weight: bold;
 }
+
 .md-chips {
     padding: 20px 0;
 }
+
 .md-chip.md-chip-hover:hover {
     background: #ccc;
 }
+
 .md-chip-clickable {
     cursor: pointer;
 }
+
 .md-chip,
 .md-chip-icon {
     height: 32px;
     line-height: 32px;
 }
+
 .md-chip-icon {
     display: block;
     float: left;
@@ -296,6 +325,7 @@ figure.snip1237.hover:after {
     color: white;
     margin: 0 8px 0 -12px;
 }
+
 .md-chip-remove {
     display: inline-block;
     background: #aaa;
@@ -309,13 +339,16 @@ figure.snip1237.hover:after {
     font: inherit;
     line-height: 20px;
 }
+
 .md-chip-remove:after {
     color: #e0e0e0;
     content: 'x';
 }
+
 .md-chip-remove:hover {
     background: #999;
 }
+
 .md-chip-remove:active {
     background: #777;
 }
@@ -323,6 +356,7 @@ figure.snip1237.hover:after {
 .md-chips .md-chip {
     margin: 0 5px 3px 0;
 }
+
 .md-chip-raised {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
